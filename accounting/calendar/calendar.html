@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>캘린더와 사이드바</title>
+    <link rel="stylesheet" href="calendar.css" />
+  </head>
+  <body>
+    <aside>
+      <nav>
+        <a href="#">메뉴 1</a>
+        <div class="menu-item">
+          <a href="#">메뉴 2</a>
+          <div class="submenu">
+            <a href="#">서브메뉴 1</a>
+            <a href="#">서브메뉴 2</a>
+          </div>
+        </div>
+        <a href="#">메뉴 3</a>
+      </nav>
+    </aside>
+    <div class="content">
+      <div id="calendar-header">
+        <button id="prev" onclick="changeMonth(-1)">◀</button>
+        <div id="month-year" class="month-year">2025년 1월</div>
+        <button id="next" onclick="changeMonth(1)">▶</button>
+      </div>
+      <div id="calendar"></div>
+    </div>
+    <footer>모든 권리 보유.</footer>
+    <script src="calendar.js"></script>
+  </body>
+</html>
