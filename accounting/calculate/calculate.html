@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>손익계산서</title>
+    <link rel="stylesheet" href="calculate.css" />
+  </head>
+  <body>
+    <aside>
+      <div>
+        <a href="#">메뉴 1</a>
+        <div class="menu-item">
+          <a href="#">메뉴 2</a>
+          <div class="submenu">
+            <a href="#">서브메뉴 1</a>
+            <a href="#">서브메뉴 2</a>
+          </div>
+        </div>
+        <a href="#">메뉴 3</a>
+      </div>
+      <footer>Footer Text</footer>
+    </aside>
+    <div class="content">
+      <div id="tableheader" style="text-align: center; font-weight: bold; font-size: 2em; margin-bottom: 20px">
+        월 손익계산서
+      </div>
+      <table id="financialTable">
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th>금액 (당월)</th>
+            <th>금액 (전월)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="category">
+            <td>I. 매출액</td>
+            <td id="salesCurrent">15,142,000</td>
+            <td id="salesPrevious" class="previous-data">0</td>
+          </tr>
+          <tr class="category">
+            <td>II. 매출원가</td>
+            <td id="costOfSalesCurrent">5,738,100</td>
+            <td id="costOfSalesPrevious" class="previous-data">0</td>
+          </tr>
+          <tr>
+            <td>상품매출원가 (자동)</td>
+            <td id="productCostAuto" class="amount-auto">5,738,100</td>
+            <td id="productCostAutoPrev" class="previous-data">0</td>
+          </tr>
+          <tr>
+            <td>상품매출원가</td>
+            <td class="amount"><input type="text" id="productCostManual" value="0" /></td>
+            <td id="productCostManualPrev" class="previous-data">0</td>
+          </tr>
+          <tr>
+            <td>기초상품재고액</td>
+            <td class="amount"><input type="text" id="beginningInventory" value="0" /></td>
+            <td id="beginningInventoryPrev" class="previous-data">0</td>
+          </tr>
+          <tr>
+            <td>월말상품재고액</td>
+            <td class="amount"><input type="text" id="endingInventory" value="0" /></td>
+            <td id="endingInventoryPrev" class="previous-data">0</td>
+          </tr>
+          <tr class="category">
+            <td>III. 매출총이익</td>
+            <td id="grossProfitCurrent">9,403,900</td>
+            <td id="grossProfitPrevious" class="previous-data">0</td>
+          </tr>
+          <tr class="category">
+            <td>IV. 판매비와 관리비</td>
+            <td id="sgAndACurrent">4,255,000</td>
+            <td id="sgAndAPrevious" class="previous-data">0</td>
+          </tr>
+          <tr>
+            <td>급여</td>
+            <td class="amount"><input type="text" id="salary" value="3,000,000" /></td>
+            <td id="salaryPrevious" class="previous-data">0</td>
+          </tr>
+          <tr>
+            <td>운반비</td>
+            <td class="amount"><input type="text" id="freight" value="500,000" /></td>
+            <td id="freightPrevious" class="previous-data">0</td>
+          </tr>
+          <tr>
+            <td>사무용품비</td>
+            <td class="amount"><input type="text" id="officeSupplies" value="50,000" /></td>
+            <td id="officeSuppliesPrevious" class="previous-data">0</td>
+          </tr>
+          <tr>
+            <td>지급임차료</td>
+            <td class="amount"><input type="text" id="rent" value="1,200,000" /></td>
+            <td id="rentPrevious" class="previous-data">0</td>
+          </tr>
+          <tr class="category">
+            <td>V. 영업이익</td>
+            <td id="operatingIncomeCurrent">4,653,900</td>
+            <td id="operatingIncomePrevious" class="previous-data">0</td>
+          </tr>
+          <tr class="category">
+            <td>VI. 영업외수익</td>
+            <td id="nonOperatingIncomeCurrent">0</td>
+            <td id="nonOperatingIncomePrevious" class="previous-data">0</td>
+          </tr>
+          <tr class="category">
+            <td>VII. 영업외비용</td>
+            <td id="nonOperatingExpenseCurrent">350,000</td>
+            <td id="nonOperatingExpensePrevious" class="previous-data">0</td>
+          </tr>
+          <tr class="category">
+            <td>VIII. 법인세비용차감전순이익</td>
+            <td id="preTaxIncomeCurrent">4,303,900</td>
+            <td id="preTaxIncomePrevious" class="previous-data">0</td>
+          </tr>
+          <tr class="category">
+            <td>IX. 법인세비용</td>
+            <td id="taxExpenseCurrent">0</td>
+            <td id="taxExpensePrevious" class="previous-data">0</td>
+          </tr>
+          <tr class="category">
+            <td>X. 당기순이익</td>
+            <td id="netIncomeCurrent">4,303,900</td>
+            <td id="netIncomePrevious" class="previous-data">0</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <script src="calculate.js"></script>
+  </body>
+</html>

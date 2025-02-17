@@ -1,0 +1,92 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  display: flex;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+aside {
+  width: 200px;
+  background: #222;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  justify-content: space-between;
+  position: fixed;
+  height: 100vh;
+}
+aside a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 0;
+  display: block;
+}
+aside a:hover {
+  background: #444;
+}
+.submenu {
+  display: none;
+  padding-left: 20px;
+}
+.menu-item:hover .submenu {
+  display: block;
+}
+.content {
+  flex-grow: 1;
+  padding: 20px;
+  margin-left: 220px;
+}
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 200px;
+  width: calc(100% - 200px);
+  background: black;
+  color: white;
+  text-align: right;
+  padding: 10px;
+  font-size: 14px;
+}
+table {
+  width: 50%; /* 표의 너비를 절반으로 줄임 */
+  border-collapse: collapse;
+  table-layout: fixed; /* 열 너비를 동일하게 설정 */
+  margin: 0 auto; /* 표를 중앙 정렬 */
+}
+th,
+td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: right; /* 모든 셀 오른쪽 정렬 */
+}
+th {
+  background-color: #f2f2f2;
+  text-align: center; /* 헤딩 중앙 정렬 */
+}
+td:first-child {
+  text-align: center; /* 첫 번째 열 중앙 정렬 */
+}
+.category {
+  font-weight: bold;
+}
+.amount {
+  color: red;
+  text-align: right;
+}
+.amount input {
+  border: none;
+  width: 100%;
+  text-align: right;
+  color: red;
+}
+.amount-auto {
+  color: lightgray;
+  text-align: right;
+}
+.previous-data {
+  color: black;
+}
