@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script th:inline="javascript">
+        $(() => {
+            const msg = [[${msg}]]
+            if (msg != null) {
+                alert(msg)
+            }
+        })
+    </script>
+</head>
+<body>
+<div th:replace="~{fragments::adminHeader}"></div>
+<h2>notice</h2>
+<form action="/admin/notice" method="post">
+    <div class="notice-form-group">
+        <input type="text" name="notice_title" id="notice_title" placeholder="제목">
+    </div>
+
+    <div class="notice-form-group">
+        <textarea name="notice_contents" id="notice_contents" rows="15" placeholder="공지사항 작성"></textarea>
+    </div>
+
+    <div class="notice-form-group">
+        <label for="deadline">게시기간</label>
+        <input type="date" name="deadline" id="deadline">
+    </div>
+
+    <button id="noticeBtn" class="notice-btn">작성</button>
+</form>
+<script>
+    const deadline = $('#deadline')
+    //오늘 날짜를 ISO 형식으로 나타내고 T를 기준으로 첫번째 배열만 추출
+    const today = new Date().toISOString().split('T')[0]
+    console.log(today)
+    deadline.attr('min',today) //만료일을 오늘 이전 날짜로 설정할 수 없게함
+
+    $('#noticeBtn').click(() => {
+        if ($('#notice_title').val()=='' || $('#notice_contents').val()==''){
+            alert('제목과 내용을 입력하세요.')
+            return false
+        }
+    })
+</script>
+</body>
+</html>

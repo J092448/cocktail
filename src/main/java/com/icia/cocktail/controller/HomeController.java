@@ -10,6 +10,10 @@ import java.security.Principal;
 public class HomeController {
     @GetMapping("/")
     public String home() {
-        return "index";
+        return "/index";
+    }
+    @GetMapping("/showNotice")
+    public String showNotice() {
+        return "/showNotice";
     }
 }

@@ -6,8 +6,26 @@
         insert into admin (username, password, email, tel, status, role)
         values (#{username}, #{password}, #{email}, #{tel}, default, default);
     </insert>
+
+    <insert id="noticeWrite">
+        insert into notice values
+        <choose>
+            <when test="deadline != null">
+                (null,#{notice_title},#{notice_contents},default,default,#{deadline},default)
+            </when>
+            <otherwise>
+                (null,#{notice_title},#{notice_contents},default,default,default,default)
+            </otherwise>
+        </choose>
+    </insert>
+
     <select id="findByUsername" resultType="com.icia.cocktail.dto.AdminDto">
         select * from admin where username = #{username}
+    </select>
+
+    <select id="getActiveNotice" resultType="com.icia.cocktail.dto.NoticeDto">
+        select * from notice
+        where status = 'ACTIVE' and (deadline is null or deadline >= current_date)
     </select>
 
 </mapper>

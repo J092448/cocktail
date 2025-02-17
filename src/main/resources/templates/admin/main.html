@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script th:inline="javascript">
+        $(() => {
+            const msg = [[${msg}]]
+            if (msg != null) {
+                alert(msg)
+            }
+        })
+    </script>
 </head>
 <body>
 <div th:replace="~{fragments::adminHeader}"></div>
