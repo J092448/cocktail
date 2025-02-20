@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비밀번호 찾기</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <style>
+        .content {
+            background-color: #f7f7f7; /* 배경색 추가 */
+            border-radius: 8px; /* 모서리 둥글게 */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            flex-grow: 1;
+            display: flex;
+            justify-content: center; /* 중앙 정렬 */
+            align-items: center; /* 세로 중앙 정렬 */
+            padding: 20px;
+            margin-left: 220px; /* aside와의 간격 */
+
+        }
+        .form-container {
+            background-color: #ffffff; /* 배경색 */
+            border-radius: 8px; /* 모서리 둥글게 */
+            padding: 30px; /* 내부 여백 */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+            max-width: 400px; /* 최대 너비 */
+            width: 100%; /* 전체 너비 */
+            margin: 0 auto; /* 중앙 정렬 */
+        }
+
+        h1 {
+            margin-bottom: 20px; /* 제목 아래 여백 */
+            text-align: center; /* 중앙 정렬 */
+        }
+
+        label {
+            display: block; /* 블록 요소로 설정 */
+            margin-bottom: 5px; /* 아래 여백 */
+            font-weight: bold; /* 글씨 두껍게 */
+        }
+
+        input[type="text"], input[type="email"] {
+            width: 100%; /* 기본적으로 전체 너비 */
+            padding: 10px; /* 내부 여백 */
+            margin-bottom: 15px; /* 아래 여백 */
+            border: 1px solid #007bff; /* 테두리 색상 */
+            border-radius: 4px; /* 모서리 둥글게 */
+            transition: border-color 0.3s; /* 테두리 색상 변화 효과 */
+            box-sizing: border-box; /* 패딩과 테두리를 포함한 크기 계산 */
+        }
+
+        .small-input {
+            width: calc(70% - 10px); /* 전화번호 및 코드 입력 필드 크기 조정 */
+        }
+
+        .button-container {
+            display: flex; /* 플렉스 박스를 사용하여 버튼을 나란히 배치 */
+            align-items: center; /* 수직 정렬 */
+            margin-bottom: 15px; /* 아래 여백 */
+        }
+
+        button {
+            width: 30%; /* 버튼 크기를 줄이기 위해 30%로 설정 */
+            margin-left: 10px; /* 버튼과 입력 필드 사이의 여백 */
+            margin-bottom: 10px; /* 버튼 위치 10px 위로 조정 */
+            padding: 10px; /* 내부 여백 */
+            background-color: #ff8c00; /* 버튼 색상 */
+            color: white; /* 글씨 색상 */
+            border: none; /* 테두리 없음 */
+            border-radius: 4px; /* 모서리 둥글게 */
+            font-size: 16px; /* 글씨 크기 */
+            cursor: pointer; /* 커서 포인터 */
+        }
+
+        button:hover {
+            background-color: #e07b00; /* 버튼 hover 색상 */
+        }
+
+        .full-width-button {
+            width: 100%; /* 전체 너비 */
+            margin-top: 10px; /* 위쪽 여백 */
+        }
+    </style>
+</head>
+<body>
+
+<aside>
+    <div style="margin-top: auto;">
+        <a href="/login">로그인</a>
+    </div>
+</aside>
+
+<div class="content">
+    <div class="form-container">
+        <h1>비밀번호 찾기</h1>
+        <form th:action="@{/findPw}" method="post">
+            <label for="username">아이디:</label>
+            <input type="text" id="username" name="username" required />
+
+            <label for="name">이름:</label>
+            <input type="text" id="name" name="name" required />
+
+            <label for="businessNumber">사업자 번호:</label>
+            <input type="text" id="businessNumber" name="businessNumber" required />
+
+            <label for="phoneNumber">전화번호:</label>
+            <div class="button-container">
+                <input type="text" id="phoneNumber" name="phoneNumber" class="small-input" required />
+                <button type="button">전송</button> <!-- 인증 전송 버튼 -->
+            </div>
+
+            <label for="code">코드 입력:</label>
+            <div class="button-container">
+                <input type="text" id="code" name="code" class="small-input" required />
+                <button type="button">인증</button> <!-- 인증 버튼 -->
+            </div>
+
+            <button type="submit" class="full-width-button">비밀번호 찾기</button> <!-- 비밀번호 찾기 버튼 -->
+        </form>
+        <div th:text="${msg}"></div>
+    </div>
+</div>
+
+</body>
+</html>

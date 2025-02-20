@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ontherocks.cocktail.mapper.UserMapper">
+
+    <!-- 사용자 등록 쿼리 -->
+    <insert id="registerUser" parameterType="com.ontherocks.cocktail.entity.User">
+        INSERT INTO users (username, password, name, company_name, phone_number, secondary_phone_number, business_number, email)
+        VALUES (#{username}, #{password}, #{name}, #{companyName}, #{phoneNumber}, #{secondaryPhoneNumber}, #{businessNumber}, #{email})
+    </insert>
+
+    <!-- 사용자 이름으로 사용자 조회 쿼리 -->
+    <select id="getUser" parameterType="String" resultType="com.ontherocks.cocktail.entity.User">
+        SELECT * FROM users WHERE username = #{username}
+    </select>
+
+    <!-- 아이디 중복 확인 쿼리 -->
+    <select id="existsByUsername" parameterType="String" resultType="boolean">
+        SELECT COUNT(*) > 0 FROM users WHERE username = #{username}
+    </select>
+
+    <!-- 이름, 전화번호, 사업자 번호로 사용자 찾기 쿼리 -->
+    <select id="findByDetails" parameterType="map" resultType="com.ontherocks.cocktail.entity.User">
+        SELECT * FROM users
+        WHERE name = #{name}
+          AND phone_number = #{phoneNumber}
+          AND business_number = #{businessNumber}
+    </select>
+
+    <!-- 비밀번호 업데이트 쿼리 -->
+    <update id="updateUserPassword" parameterType="com.ontherocks.cocktail.entity.User">
+        UPDATE users
+        SET password = #{password}
+        WHERE username = #{username}
+    </update>
+
+    <!-- 사용자 정보 업데이트 쿼리 -->
+    <update id="updateUser" parameterType="com.ontherocks.cocktail.entity.User">
+        UPDATE users
+        SET name = #{name},
+            company_name = #{companyName},
+            phone_number = #{phoneNumber},
+            secondary_phone_number = #{secondaryPhoneNumber},
+            business_number = #{businessNumber},
+            email = #{email}
+        WHERE username = #{username}
+    </update>
+
+</mapper>
