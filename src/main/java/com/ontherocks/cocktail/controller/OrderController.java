@@ -5,25 +5,29 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class OrderController {
+    @GetMapping("/")
+    public String index() {
+        return "index";
+    }
 
-    @GetMapping("/pages/menuOrder")
+    @GetMapping("/csPages/menuOrder")
     public String menuOrderPage() {
-        return "menuOrder";
+        return "/csPages/menuOrder";
     }
 
-    @GetMapping("/pages/menuDetail")
+    @GetMapping("/csPages/menuDetail")
     public String menuDetailPage() {
-        return "menuDetail";
+        return "/csPages/menuDetail";
     }
 
-    @GetMapping("/pages/cart")
+    @GetMapping("/csPages/cart")
     public String cartPage() {
-        return "cart";
+        return "/csPages/cart";
     }
 
-    @GetMapping("/pages/orderList")
+    @GetMapping("/csPages/orderList")
     public String orderListPage() {
-        return "orderList";
+        return "/csPages/orderList";
     }
 
 }

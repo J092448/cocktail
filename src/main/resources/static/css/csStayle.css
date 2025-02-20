@@ -1,0 +1,113 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.store-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.store-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.order-button {
+    background-color: #ff9f00;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.recommendation {
+    margin-bottom: 20px;
+}
+
+.cocktail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cocktail-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.cocktail-name, .cocktail-price {
+    font-size: 16px;
+    color: #333;
+}
+
+.menu {
+    margin-top: 20px;
+}
+
+.menu-item {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.menu-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.menu-info {
+    flex: 1;
+}
+
+.menu-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.menu-description {
+    font-size: 14px;
+    color: #555;
+    margin-top: 5px;
+}
+
+.menu-price {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.add-to-cart {
+    background-color: #ff9f00;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
