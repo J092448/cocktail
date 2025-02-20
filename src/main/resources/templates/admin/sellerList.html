@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        a{
+            text-decoration: none;
+        }
+        .container {
+            width: 60%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+        }
+        .search-area{
+            margin-bottom: 10px;
+        }
+        search-area {
+            display: flex; /* 요소들을 가로로 배치 */
+            align-items: center; /* 요소들을 세로 방향으로 가운데 정렬 */
+            width: 300px; /* 검색창 너비 조절 */
+            border: 1px solid #ccc; /* 테두리 설정 */
+            padding: 5px; /* 내부 여백 설정 */
+        }
+
+        .search {
+            border-color: #e1e1e1;
+            padding: 5px; /* 내부 여백 설정 */
+            margin-right: 5px; /* 다른 요소와의 간격 설정 */
+        }
+
+        .search-btn {
+            background-color: #5a5a5a; /* 배경색 설정 */
+            color: #e3e3e3; /* 글자색 설정 */
+            border: none; /* 테두리 제거 */
+            padding: 5px 10px; /* 내부 여백 설정 */
+            cursor: pointer; /* 마우스 커서 모양 변경 */
+        }
+        .title-row {
+            display: flex;
+            background-color: #2c2060;
+            color: white;
+            font-weight: bold;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .data-row {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .data-row .row {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .uUsername, .uName, .uCompanyName, .uRegistrationDate {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .row:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .paging {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .pno {
+            margin: 5px;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments::adminHeader}"></div>
+<div class="container">
+<h2>업체 목록</h2>
+    <div class="search-area">
+<select name="colName" id="colName" class="search">
+    <option value="username">아이디</option>
+    <option value="company_name">매장명</option>
+</select>
+<input type="text" id="keyword" class="search">
+<button id="searchBtn" class="search-btn">검색</button>
+    </div>
+
+<div class="title-row">
+    <div class="uUsername">아이디</div>
+    <div class="uName">이름</div>
+    <div class="uCompanyName">매장명</div>
+    <div class="uRegistrationDate">가입일</div>
+</div>
+
+    <div class="data-row">
+<th:block th:if="${#lists.isEmpty(uList)}">
+    <div class="row">
+        <div style="flex: 3; text-align: center;">등록된 업체가 없습니다.</div>
+    </div>
+</th:block>
+
+<th:block th:if="${uList}">
+    <th:block th:each="user : ${uList}">
+        <div class="row">
+        <a th:href="@{/admin/detailInfo(username=${user.username})}" th:text="${user.username}" th:style="${user.suspended_at}!=null?'color:red':''" class="uUsername"></a>
+        <div th:text="${user.name}" th:style="${user.suspended_at}!=null?'color:red':''" class="uName"></div>
+        <div th:text="${user.company_name}" th:style="${user.suspended_at}!=null?'color:red':''" class="uCompanyName"></div>
+        <div th:text="${#temporals.format(user.registration_date, 'yyyy.MM.dd')}" th:style="${user.suspended_at}!=null?'color:red':''" class="uRegistrationDate"></div>
+        <div th:text="${user.suspended_at}" style="display: none"></div>
+        </div>
+    </th:block>
+</th:block>
+    </div>
+</div>
+<div th:utext="${pageHtml}" class="paging"></div>
+
+<script>
+    $('#searchBtn').click(() => {
+        const keyword = $('#keyword').val()
+        if (keyword === ''){
+            alert('검색어를 입력하세요.')
+        }
+        const colName = $('#colName').val()
+        if (colName === null) return
+        location.href = '/admin/sellerList?colName=' + colName + '&keyword='
+                        + keyword + '&pageNum=1'
+    })
+</script>
+</body>
+</html>

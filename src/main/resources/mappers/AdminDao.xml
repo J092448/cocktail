@@ -7,7 +7,7 @@
         values (#{username}, #{password}, #{email}, #{tel}, default, default);
     </insert>
 
-    <insert id="noticeWrite">
+    <insert id="noticeWrite" useGeneratedKeys="true" keyProperty="notice_num">
         insert into notice values
         <choose>
             <when test="deadline != null">
@@ -18,6 +18,16 @@
             </otherwise>
         </choose>
     </insert>
+    <insert id="suspendUser">
+        insert into suspended_users(username, suspended_at) values (#{username}, default)
+    </insert>
+
+    <update id="updateInfo">
+        update admin set email = #{email}, tel = #{tel} where username = #{username}
+    </update>
+    <delete id="activateUser">
+        delete from suspended_users where username = #{username}
+    </delete>
 
     <select id="findByUsername" resultType="com.icia.cocktail.dto.AdminDto">
         select * from admin where username = #{username}
@@ -26,6 +36,28 @@
     <select id="getActiveNotice" resultType="com.icia.cocktail.dto.NoticeDto">
         select * from notice
         where status = 'ACTIVE' and (deadline is null or deadline >= current_date)
+    </select>
+    <select id="getUserList" resultType="com.icia.cocktail.dto.Suspended_usersDto">
+        select users.username, name, company_name, registration_date, suspended_at
+        from users left join suspended_users on users.username = suspended_users.username
+        <choose>
+            <when test="keyword != null and keyword != ''">
+                where users.${colName} like concat('%',#{keyword},'%')
+                order by registration_date desc limit #{startIdx}, #{listCnt}
+            </when>
+            <otherwise>
+                order by registration_date desc limit #{startIdx}, #{listCnt}
+            </otherwise>
+        </choose>
+    </select>
+    <select id="getUserCnt" resultType="java.lang.Integer">
+        select count(*) from users
+        <if test="colName != null and colName != ''">
+            where ${colName} like concat('%', #{keyword}, '%')
+        </if>
+    </select>
+    <select id="isSuspendedUser" resultType="java.lang.Boolean">
+        select count(*) from suspended_users where username = #{username}
     </select>
 
 </mapper>

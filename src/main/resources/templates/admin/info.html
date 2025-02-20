@@ -4,9 +4,112 @@
   <meta charset="UTF-8">
   <title>Title</title>
    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
+<script th:inline="javascript">
+    $(() => {
+        const msg = [[${msg}]]
+        if (msg != null) {
+            alert(msg)
+        }
+    })
+</script>
+<style>
+    .info-container {
+        width: 400px;
+        margin: 70px auto;
+        padding: 30px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+
+    .info-group {
+        margin-bottom: 20px;
+    }
+
+    .info-label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 8px;
+        color: #666;
+    }
+    .info-input {
+        width: calc(100% - 16px);
+        padding: 10px;
+        /*border: 1px solid #ced4da;*/
+        border-width: 0 0 1px;
+        border-radius: 5px;
+        box-sizing: border-box;
+        background-color: #f9f9f9;
+        outline: none;
+    }
+    .btn {
+        padding: 12px 24px;
+        margin: 0 8px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 500;
+    }
+    label.error {
+        color: red;
+        display: block;
+        margin-top: 8px;
+    }
+</style>
 <body>
 <div th:replace="~{fragments::adminHeader}"></div>
-
+<div class="info-container">
+<h2>관리자 정보</h2>
+<form action="/admin/info" id="adminInfo" method="post">
+    <div class="info-group">
+    <label for="username" class="info-label">아이디</label>
+    <input type="text" id="username" name="username" class="info-input" th:value="${admin.username}" readonly>
+    </div>
+    <div class="info-group">
+    <label for="email" class="info-label">이메일</label>
+    <input type="text" id="email" name="email" class="info-input" th:value="${admin.email}" readonly>
+    </div>
+    <div class="info-group">
+    <label for="tel"  class="info-label">전화번호</label>
+    <input type="text" id="tel" name="tel" class="info-input" th:value="${tel}" readonly>
+    </div>
+    <input type="button" id="modifyBtn" class="btn" value="수정">
+    <input type="submit" id="updateBtn" class="btn" value="저장" style="display: none">
+</form>
+</div>
+<script>
+$('#modifyBtn').click(() => {
+    const emailVal = $('#email').val()
+    $('#modifyBtn').css('display','none')
+    $('#updateBtn').css('display','block')
+    $('#email').val('').removeAttr('readonly').focus().val(emailVal)
+    $('#tel').removeAttr('readonly')
+})
+const adminInfo = $('#adminInfo')
+adminInfo.validate({
+    rules: {
+        email: {
+            required: true,
+            email: true
+        },
+        tel: {
+            required: true,
+            digits: true
+        }
+    },//rules end
+    messages: {
+        email: {
+            required: '이메일을 입력하세요.',
+            email: '이메일 형식으로 입력하세요.'
+        },
+        tel: {
+            required: '전화번호를 입력하세요.',
+            digits: '전화번호를 입력하세요.'
+        }
+    }//messages end
+})//validate end
+</script>
 </body>
 </html>
