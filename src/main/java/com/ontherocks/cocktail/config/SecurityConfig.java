@@ -1,6 +1,6 @@
-package com.icia.cocktail.config;
+package com.ontherocks.cocktail.config;
 
-import com.icia.cocktail.Dao.AdminDao;
+import com.ontherocks.cocktail.Dao.AdminDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

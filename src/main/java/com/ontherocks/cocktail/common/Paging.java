@@ -1,4 +1,4 @@
-package com.icia.cocktail.common;
+package com.ontherocks.cocktail.common;
 
 import lombok.AllArgsConstructor;
 

@@ -1,10 +1,8 @@
-package com.icia.cocktail.dto;
+package com.ontherocks.cocktail.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.context.annotation.Role;
-import org.springframework.context.support.BeanDefinitionDsl;
 
 import java.time.LocalDateTime;
 

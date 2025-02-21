@@ -1,4 +1,4 @@
-package com.icia.cocktail.dto;
+package com.ontherocks.cocktail.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,4 +18,5 @@ public class NoticeDto {
     private LocalDateTime updated_at;
     private LocalDate deadline;
     private String status;
+    private LocalDateTime created_date;
 }

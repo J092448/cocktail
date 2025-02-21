@@ -1,14 +1,12 @@
-package com.icia.cocktail.controller;
+package com.ontherocks.cocktail.controller;
 
-import com.icia.cocktail.Dao.AdminDao;
-import com.icia.cocktail.Dao.UserDao;
-import com.icia.cocktail.dto.*;
-import com.icia.cocktail.service.AdminService;
+import com.ontherocks.cocktail.Dao.AdminDao;
+import com.ontherocks.cocktail.Dao.UserDao;
+import com.ontherocks.cocktail.dto.*;
+import com.ontherocks.cocktail.service.AdminService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Role;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,22 +57,6 @@ public class AdminController {
         return "redirect:/admin/info";
     }
 
-    @GetMapping("/notice") //공지사항 작성 페이지 이동
-    public String notice() {
-        return "admin/notice";
-    }
-    @PostMapping("/notice") //공지사항 작성
-    public String noticeWrite(NoticeDto notice, RedirectAttributes rttr) {
-        log.info("notice: {}", notice);
-        boolean result = aSer.noticeWrite(notice);
-        if(result){
-            rttr.addFlashAttribute("msg","공지사항을 작성했습니다.");
-            return "redirect:/admin/main";
-        }else {
-            rttr.addFlashAttribute("msg","공지사항 작성에 실패했습니다.");
-            return "redirect:/admin/notice";
-        }
-    }
     @GetMapping("/sellerList")
     public String sellerList(SearchDto search, Model model, HttpSession session) { //업체 목록
         if(search.getPageNum() == null || search.getPageNum() < 1){
@@ -133,5 +115,42 @@ public class AdminController {
             }
         }
         return "/admin/detailInfo";
+    }
+    @GetMapping("/noticeList") //공지사항 목록
+    public String noticeList(Model model, HttpSession session, SearchDto search) {
+        if(search.getPageNum() == null || search.getPageNum() < 1){search.setPageNum(1);}
+        if(search.getListCnt() == null){search.setListCnt(10);}
+        if (search.getStartIdx() == null) {search.setStartIdx(0);}
+        List<NoticeDto> nList = aSer.getNoticeList(search);
+        if (nList != null) {
+            String pageHtml = aSer.getNoticePaging(search);
+            if (search.getKeyword() != null) {
+                session.setAttribute("search", search);
+            }else {
+                session.removeAttribute("search");
+                session.setAttribute("pageNum", search.getPageNum());
+            }
+            model.addAttribute("nList", nList);
+            model.addAttribute("pageHtml", pageHtml);
+            return "admin/noticeList";
+        }
+
+        return "/admin/noticeList";
+    }
+    @GetMapping("/notice") //공지사항 작성 페이지 이동
+    public String notice() {
+        return "admin/notice";
+    }
+    @PostMapping("/notice") //공지사항 작성
+    public String noticeWrite(NoticeDto notice, RedirectAttributes rttr) {
+        log.info("notice: {}", notice);
+        boolean result = aSer.noticeWrite(notice);
+        if(result){
+            rttr.addFlashAttribute("msg","공지사항을 작성했습니다.");
+            return "redirect:/admin/noticeList";
+        }else {
+            rttr.addFlashAttribute("msg","공지사항 작성에 실패했습니다.");
+            return "redirect:/admin/notice";
+        }
     }
 }

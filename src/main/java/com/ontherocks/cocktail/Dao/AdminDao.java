@@ -1,6 +1,6 @@
-package com.icia.cocktail.Dao;
+package com.ontherocks.cocktail.Dao;
 
-import com.icia.cocktail.dto.*;
+import com.ontherocks.cocktail.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -26,6 +26,10 @@ public interface AdminDao {
     void suspendUser(String username);
     //정지 여부 확인
     boolean isSuspendedUser(String username);
-    //계정 정지 해
+    //계정 정지 해제
     void activateUser(String username);
+    //전체 공지 조회
+    List<NoticeDto> getNoticeList(SearchDto search);
+    //전체 공지 수 & 검색 결과로 나온 공지 수
+    int getNoticeCnt(SearchDto search);
 }

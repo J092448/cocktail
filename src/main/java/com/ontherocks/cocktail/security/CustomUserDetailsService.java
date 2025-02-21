@@ -1,9 +1,9 @@
-package com.icia.cocktail.security;
+package com.ontherocks.cocktail.security;
 
-import com.icia.cocktail.Dao.AdminDao;
-import com.icia.cocktail.Dao.UserDao;
-import com.icia.cocktail.dto.AdminDto;
-import com.icia.cocktail.dto.UserDto;
+import com.ontherocks.cocktail.Dao.AdminDao;
+import com.ontherocks.cocktail.Dao.UserDao;
+import com.ontherocks.cocktail.dto.AdminDto;
+import com.ontherocks.cocktail.dto.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.DisabledException;

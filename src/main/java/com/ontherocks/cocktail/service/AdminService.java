@@ -1,8 +1,8 @@
-package com.icia.cocktail.service;
+package com.ontherocks.cocktail.service;
 
-import com.icia.cocktail.Dao.AdminDao;
-import com.icia.cocktail.common.Paging;
-import com.icia.cocktail.dto.*;
+import com.ontherocks.cocktail.Dao.AdminDao;
+import com.ontherocks.cocktail.common.Paging;
+import com.ontherocks.cocktail.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -79,5 +79,23 @@ private final AdminDao aDao;
 
     public void activateUser(String username) {
         aDao.activateUser(username);//suspended_users 테이블에서 삭제
+    }
+
+    public List<NoticeDto> getNoticeList(SearchDto search) {
+        search.setStartIdx((search.getPageNum() - 1) * search.getListCnt());
+        return aDao.getNoticeList(search);
+    }
+
+    public String getNoticePaging(SearchDto search) {
+        int totalNum = aDao.getNoticeCnt(search);
+        String listUrl = null;
+        if (search.getColName() != null) {
+            listUrl = "admin/noticeList?colName=" + search.getColName()
+                    + "&keyword=" + search.getKeyword() + "&";
+        }else {
+            listUrl = "admin/noticeList?";
+        }
+        Paging paging = new Paging(totalNum, search.getPageNum(), search.getListCnt(), 10, listUrl);
+        return paging.makePaging();
     }
 }

@@ -1,10 +1,9 @@
-package com.icia.cocktail.controller;
+package com.ontherocks.cocktail.controller;
 
-import com.icia.cocktail.dto.NoticeDto;
-import com.icia.cocktail.service.AdminService;
+import com.ontherocks.cocktail.dto.NoticeDto;
+import com.ontherocks.cocktail.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

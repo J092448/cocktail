@@ -1,6 +1,6 @@
-package com.icia.cocktail.Dao;
+package com.ontherocks.cocktail.Dao;
 
-import com.icia.cocktail.dto.UserDto;
+import com.ontherocks.cocktail.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

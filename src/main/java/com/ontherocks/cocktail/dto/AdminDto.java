@@ -1,4 +1,4 @@
-package com.icia.cocktail.dto;
+package com.ontherocks.cocktail.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

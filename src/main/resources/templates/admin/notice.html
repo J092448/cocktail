@@ -12,26 +12,154 @@
             }
         })
     </script>
+    <style>
+        .notice-container {
+            width: 600px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            font-size: 22px;
+            color: #333;
+        }
+
+        .notice-form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+
+        textarea {
+            height: 150px;
+            resize: none;
+        }
+
+        .notice-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .notice-field {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notice-field input[type="date"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .notice-radio-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .notice-radio-group span {
+            font-weight: bold;
+        }
+
+        .notice-radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .notice-btn {
+            background: #d9534f;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+            align-self: flex-start;
+        }
+
+        .notice-btn:hover {
+            background: #c9302c;
+        }
+        input[type="date"]::-webkit-datetime-edit {
+            color: transparent;
+        }
+    </style>
+    <link rel="stylesheet" href="/adminHeader.css">
 </head>
 <body>
 <div th:replace="~{fragments::adminHeader}"></div>
-<h2>notice</h2>
-<form action="/admin/notice" method="post">
-    <div class="notice-form-group">
-        <input type="text" name="notice_title" id="notice_title" placeholder="제목">
-    </div>
+<div class="notice-container">
+    <h2>공지사항 작성</h2>
+    <form action="/admin/notice" method="post">
+        <div class="notice-form-group">
+            <label for="notice_title">제목</label>
+            <input type="text" name="notice_title" id="notice_title" placeholder="제목을 입력하세요">
+        </div>
 
-    <div class="notice-form-group">
-        <textarea name="notice_contents" id="notice_contents" rows="15" placeholder="공지사항 작성"></textarea>
-    </div>
+        <div class="notice-form-group">
+            <label for="notice_contents">내용</label>
+            <textarea name="notice_contents" id="notice_contents" placeholder="공지사항 내용을 입력하세요"></textarea>
+        </div>
 
-    <div class="notice-form-group">
-        <label for="deadline">게시기간</label>
-        <input type="date" name="deadline" id="deadline">
-    </div>
+        <div class="notice-footer">
+            <div class="notice-field">
+                <label for="deadline">📅 게시기간</label>
+                <input type="date" name="deadline" id="deadline">
+            </div>
 
-    <button id="noticeBtn" class="notice-btn">작성</button>
-</form>
+            <div class="notice-radio-group">
+                <span>팝업 상태:</span>
+                <label for="active">
+                    <input type="radio" name="status" id="active" value="ACTIVE" checked>
+                    활성화
+                </label>
+
+                <label for="expired">
+                    <input type="radio" name="status" id="expired" value="EXPIRED">
+                    비활성화
+                </label>
+            </div>
+
+            <button id="noticeBtn" class="notice-btn">작성</button>
+        </div>
+    </form>
+</div>
 <script>
     const deadline = $('#deadline')
     //오늘 날짜를 ISO 형식으로 나타내고 T를 기준으로 첫번째 배열만 추출

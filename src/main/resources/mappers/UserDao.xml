@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.icia.cocktail.Dao.UserDao">
+<mapper namespace="com.ontherocks.cocktail.Dao.UserDao">
     <insert id="join">
         insert into users (user_id, username, name, company_name, password, phone_number, secondary_phone_number,
                            business_number, email, account_non_locked, registration_date)
         values (null, #{username}, #{name}, #{company_name}, #{password}, #{phone_number}, #{secondary_phone_number},
                 #{business_number}, #{email}, default, default)
     </insert>
-    <select id="findByUsername" resultType="com.icia.cocktail.dto.UserDto">
+    <select id="findByUsername" resultType="com.ontherocks.cocktail.dto.UserDto">
         select * from users where username = #{username}
     </select>
 </mapper>

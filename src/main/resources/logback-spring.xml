@@ -8,7 +8,7 @@
 	</appender>
 	<!--  com.example 패키지 소속 클래스들의 로깅 레벨을 지정 -->
 	<!-- trace < debug < info < warn < error -->
-	<logger name="com.example" level="info" />
+	<logger name="com.ontherocks" level="info" />
 	
 	<!--  스프링의 로깅 레벨을 지정 , security 로깅출력 안될시 조정-->
 	<logger name="org.springframework" level="debug" />

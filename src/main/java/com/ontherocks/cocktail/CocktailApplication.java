@@ -1,4 +1,4 @@
-package com.icia.cocktail;
+package com.ontherocks.cocktail;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

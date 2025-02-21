@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org/">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <meta charset="UTF-8">
+  <title>Title</title>
+   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
         a{
             text-decoration: none;
@@ -61,7 +61,7 @@
             padding: 10px;
         }
 
-        .uUsername, .uName, .uCompanyName, .uRegistrationDate {
+        .nNum, .nTitle, .nDate, .nDeadline {
             flex: 1;
             padding: 10px;
             text-align: center;
@@ -69,6 +69,14 @@
 
         .row:nth-child(even) {
             background-color: #f9f9f9;
+        }
+        .write-btn{
+            background-color: #5a5a5a; /* 배경색 설정 */
+            color: #e3e3e3; /* 글자색 설정 */
+            border: none; /* 테두리 제거 */
+            padding: 5px 10px; /* 내부 여백 설정 */
+            margin-top: 20px;
+            cursor: pointer; /* 마우스 커서 모양 변경 */
         }
         .paging {
             text-align: center;
@@ -87,45 +95,44 @@
 <body>
 <div th:replace="~{fragments::adminHeader}"></div>
 <div class="container">
-<h2 onclick="location.href='/admin/sellerList'">업체 목록</h2>
+   <h2 onclick="location.href='/admin/noticeList'">공지사항</h2>
     <div class="search-area">
-<select name="colName" id="colName" class="search">
-    <option value="username">아이디</option>
-    <option value="company_name">매장명</option>
-</select>
-<input type="text" id="keyword" class="search">
-<button id="searchBtn" class="search-btn">검색</button>
+        <select name="colName" id="colName" class="search">
+            <option value="notice_title">제목</option>
+            <option value="notice_contents">내용</option>
+        </select>
+        <input type="text" id="keyword" class="search">
+        <button id="searchBtn" class="search-btn">검색</button>
     </div>
 
-<div class="title-row">
-    <div class="uUsername">아이디</div>
-    <div class="uName">이름</div>
-    <div class="uCompanyName">매장명</div>
-    <div class="uRegistrationDate">가입일</div>
-</div>
+    <div class="title-row">
+        <div class="nNum">번호</div>
+        <div class="nTitle">제목</div>
+        <div class="nDate">등록일</div>
+        <div class="nDeadline">만료기간</div>
+    </div>
 
     <div class="data-row">
-<th:block th:if="${#lists.isEmpty(uList)}">
-    <div class="row">
-        <div style="flex: 3; text-align: center;">등록된 업체가 없습니다.</div>
-    </div>
-</th:block>
+        <th:block th:if="${#lists.isEmpty(nList)}">
+            <div class="row">
+                <div style="flex: 3; text-align: center;">공지사항이 없습니다.</div>
+            </div>
+        </th:block>
 
-<th:block th:if="${uList}">
-    <th:block th:each="user : ${uList}">
-        <div class="row">
-        <a th:href="@{/admin/detailInfo(username=${user.username})}" th:text="${user.username}" th:style="${user.suspended_at}!=null?'color:red':''" class="uUsername"></a>
-        <div th:text="${user.name}" th:style="${user.suspended_at}!=null?'color:red':''" class="uName"></div>
-        <div th:text="${user.company_name}" th:style="${user.suspended_at}!=null?'color:red':''" class="uCompanyName"></div>
-        <div th:text="${#temporals.format(user.registration_date, 'yyyy.MM.dd')}" th:style="${user.suspended_at}!=null?'color:red':''" class="uRegistrationDate"></div>
-        <div th:text="${user.suspended_at}" style="display: none"></div>
-        </div>
-    </th:block>
-</th:block>
+        <th:block th:if="${nList}">
+            <th:block th:each="notice : ${nList}">
+                <div class="row">
+                    <div th:text="${notice.notice_num}"  class="nNum"></div>
+                    <a th:href="@{/admin/noticeDetail(notice_num=${notice.notice_num})}" th:text="${notice.notice_title}" class="nTitle"></a>
+                    <div th:text="${#temporals.format(notice.created_date, 'yyyy.MM.dd HH:mm')}" class="nDate"></div>
+                    <div th:text="${notice.deadline ?: '무기한'}" class="nDeadline"></div> <!--만료기간이 없으면 '무기한' 문자열 표시-->
+                </div>
+            </th:block>
+        </th:block>
     </div>
+    <input type="button" value="작성" onclick="location.href='/admin/notice'" class="write-btn">
 </div>
 <div th:utext="${pageHtml}" class="paging"></div>
-
 <script>
     $('#searchBtn').click(() => {
         const keyword = $('#keyword').val()
@@ -134,8 +141,8 @@
         }
         const colName = $('#colName').val()
         if (colName === null) return
-        location.href = '/admin/sellerList?colName=' + colName + '&keyword='
-                        + keyword + '&pageNum=1'
+        location.href = '/admin/noticeList?colName=' + colName + '&keyword='
+            + keyword + '&pageNum=1'
     })
 </script>
 </body>
