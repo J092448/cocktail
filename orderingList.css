@@ -1,0 +1,212 @@
+/* 기본 스타일 설정 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* body 태그 스타일 설정 */
+body {
+  display: flex; /* 플렉스 박스 사용 */
+  min-height: 100vh; /* 최소 높이를 100vh로 설정 */
+  font-family: Arial, sans-serif; /* 폰트 설정 */
+  margin: 0;
+  background-color: #000000; /* 배경색 검정으로 설정 */
+}
+
+/* aside 태그 스타일 설정 */
+aside {
+  width: 200px; /* 너비 설정 */
+  background: #222; /* 배경색 설정 */
+  color: white; /* 글자색 설정 */
+  display: flex; /* 플렉스 박스 사용 */
+  flex-direction: column; /* 세로 정렬 */
+  padding: 20px; /* 패딩 설정 */
+  justify-content: space-between; /* 콘텐츠 간 간격 조정 */
+  position: fixed; /* 고정 위치 설정 */
+  height: 100vh; /* 높이 100vh로 설정 */
+}
+
+/* aside 태그 안의 a 태그 스타일 설정 */
+aside a {
+  color: white; /* 글자색 설정 */
+  text-decoration: none; /* 밑줄 제거 */
+  padding: 10px 0; /* 패딩 설정 */
+  display: block; /* 블록 요소로 설정 */
+}
+
+/* a 태그 호버시 스타일 설정 */
+aside a:hover {
+  background: #444; /* 배경색 설정 */
+}
+
+/* 서브 메뉴 스타일 설정 */
+.submenu {
+  display: none; /* 기본적으로 숨김 */
+  padding-left: 20px; /* 왼쪽 패딩 추가 */
+}
+
+/* 메뉴 항목 호버시 서브 메뉴 보이기 */
+.menu-item:hover .submenu {
+  display: block; /* 서브 메뉴 보이기 */
+}
+
+/* 로그아웃 버튼 순서 설정 */
+.logout {
+  order: 1; /* 로그아웃을 아래로 */
+}
+
+/* 정보 수정 버튼 순서 및 간격 설정 */
+.info-edit {
+  order: 0; /* 정보 수정을 로그아웃 위로 */
+  margin-top: auto; /* 자동으로 위 간격 설정 */
+  margin-bottom: 20px; /* 아래쪽 간격 설정 */
+}
+
+/* footer 태그 스타일 설정 */
+footer {
+  position: fixed; /* 고정 위치 설정 */
+  bottom: 0; /* 하단에 위치 */
+  left: 200px; /* 왼쪽에서 200px 떨어짐 */
+  width: calc(100% - 200px); /* 너비 계산 */
+  background: black; /* 배경색 설정 */
+  color: white; /* 글자색 설정 */
+  text-align: right; /* 텍스트 오른쪽 정렬 */
+  padding: 10px; /* 패딩 설정 */
+  font-size: 14px; /* 폰트 크기 설정 */
+}
+
+/* 메인 컨텐츠 스타일 설정 */
+.main-content {
+  margin-left: 200px; /* 왼쪽 여백 설정 */
+  padding: 20px; /* 패딩 설정 */
+  background-color: #f8f9fa; /* 배경색 설정 */
+  flex-grow: 1; /* 플렉스 박스 크기 확장 */
+  display: flex; /* 플렉스 박스 사용 */
+  flex-direction: column; /* 세로 정렬 */
+  align-items: center; /* 중앙 정렬 추가 */
+}
+
+/* 중앙 정렬된 제목 스타일 설정 */
+.centered-title {
+  text-align: center; /* 중앙 정렬 */
+  margin-top: 0; /* 위쪽 여백 제거 */
+  margin-bottom: 20px; /* 아래쪽 간격 추가 */
+}
+
+/* h1 태그 스타일 설정 */
+h1 {
+  margin-top: 0; /* 위쪽 여백 제거 */
+}
+
+/* 테이블 스타일 설정 */
+table {
+  width: 70%; /* 테이블 너비 증가 */
+  border-collapse: separate; /* border-collapse 설정 변경 */
+  border-spacing: 0 20px; /* 행 사이 간격 추가 */
+  table-layout: fixed; /* 고정 레이아웃 사용 */
+  margin: 0 auto; /* 중앙 정렬 */
+}
+
+/* 테이블 헤더와 셀 스타일 설정 */
+th,
+td {
+  padding: 10px; /* 패딩 설정 */
+  text-align: center; /* 중앙 정렬 */
+  border: none; /* 경계선 제거 */
+}
+
+/* 테이블 헤더 스타일 설정 */
+th {
+  background-color: #e9ecef; /* 배경색 설정 */
+  text-align: center; /* 중앙 정렬 */
+}
+
+/* 테이블 첫 번째 헤더 셀 모서리 스타일 설정 */
+thead tr th:first-child {
+  border-top-left-radius: 10px; /* 첫 번째 셀 좌측 상단 모서리 둥글게 */
+  border-bottom-left-radius: 10px; /* 첫 번째 셀 좌측 하단 모서리 둥글게 */
+}
+
+/* 테이블 마지막 헤더 셀 모서리 스타일 설정 */
+thead tr th:last-child {
+  border-top-right-radius: 10px; /* 마지막 셀 우측 상단 모서리 둥글게 */
+  border-bottom-right-radius: 10px; /* 마지막 셀 우측 하단 모서리 둥글게 */
+}
+
+/* 테이블 행 스타일 설정 */
+tr {
+  background-color: #fff; /* 행 배경색 흰색 */
+  border-radius: 10px; /* 모서리 둥글게 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+  overflow: hidden; /* 넘침 숨김 */
+}
+
+/* 테이블 첫 번째 셀 모서리 스타일 설정 */
+tr td:first-child {
+  border-top-left-radius: 10px; /* 첫 번째 셀 좌측 상단 모서리 둥글게 */
+  border-bottom-left-radius: 10px; /* 첫 번째 셀 좌측 하단 모서리 둥글게 */
+}
+
+/* 테이블 마지막 셀 모서리 스타일 설정 */
+tr td:last-child {
+  border-top-right-radius: 10px; /* 마지막 셀 우측 상단 모서리 둥글게 */
+  border-bottom-right-radius: 10px; /* 마지막 셀 우측 하단 모서리 둥글게 */
+}
+
+/* 수령 버튼 스타일 설정 */
+.apply-order {
+  margin: 0 5px; /* 버튼 간격 설정 */
+  padding: 5px 10px; /* 패딩 설정 */
+  background-color: #eaeaea; /* 밝은 회색으로 배경색 설정 */
+  color: black; /* 텍스트 색상 설정 */
+  border: 1px solid #eaeaea; /* 경계선 색상 설정 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  cursor: pointer; /* 커서 변경 */
+}
+
+/* 수령 버튼 호버시 스타일 설정 */
+.apply-order:hover {
+  background-color: #a9a9a9; /* 배경색 변경 */
+  color: white; /* 호버시 텍스트 색상 변경 */
+}
+
+/* 연락처 스타일 설정 */
+.contact {
+  margin-top: 20px; /* 위쪽 간격 설정 */
+  text-align: right; /* 오른쪽 정렬 */
+  font-size: 12px; /* 폰트 크기 설정 */
+  color: #6c757d; /* 글자색 설정 */
+}
+
+/* 페이지네이션 버튼 스타일 설정 */
+#pagination button {
+  margin: 0 5px; /* 버튼 간격 설정 */
+  padding: 5px 10px; /* 패딩 설정 */
+  background-color: #eaeaea; /* 밝은 회색으로 배경색 설정 */
+  color: black; /* 텍스트 색상 설정 */
+  border: 1px solid #eaeaea; /* 경계선 색상 설정 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  cursor: pointer; /* 커서 변경 */
+}
+
+/* 페이지네이션 버튼 호버시 스타일 설정 */
+#pagination button:hover {
+  background-color: #a9a9a9; /* 호버시 배경색 변경 */
+  color: white; /* 호버시 텍스트 색상 변경 */
+}
+
+/* 페이지네이션 이전, 다음 버튼 스타일 설정 */
+#pagination .prev,
+#pagination .next,
+#pagination .apply-order {
+  font-weight: bold; /* 글자 굵게 */
+}
+/* 수령완료 상태의 텍스트 색상을 빨간색으로 변경 */
+.received-status {
+  color: red;
+}
+/* 신청완료 상태의 텍스트 색상을 파란색으로 변경 */
+.applied-status {
+  color: blue;
+}
