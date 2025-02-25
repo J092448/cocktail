@@ -1,16 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
-  // 데이터베이스에서 데이터 가져오기
-  function fetchDataFromDatabase() {
-    return fetch("/api/data")
-      .then((response) => response.json())
-      .then((data) => {
-        return data;
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }
-
+document.addEventListener("DOMContentLoaded", () => {
   // 숫자를 세 자리마다 쉼표로 포맷하는 함수
   function formatNumber(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -21,19 +9,21 @@ document.addEventListener("DOMContentLoaded", function () {
     Object.keys(data).forEach((key) => {
       const element = document.getElementById(key);
       if (element) {
-        element.textContent = formatNumber(data[key]);
+        element.textContent = formatNumber(data[key] || 0);
       }
     });
   }
 
-  // 데이터베이스에서 데이터 가져오기
-  const { currentData, previousData } = fetchDataFromDatabase();
+  // 데이터베이스에서 값을 가져와 HTML에 반영
+  fetch("/currentData")
+    .then((response) => response.json())
+    .then((data) => updateHTMLWithData(data))
+    .catch((error) => console.error("Error fetching current data:", error));
 
-  // 현재 데이터베이스에서 불러온 값을 HTML에 반영
-  updateHTMLWithData(currentData);
-
-  // 전월 데이터베이스에서 불러온 값을 HTML에 반영
-  updateHTMLWithData(previousData);
+  fetch("/previousData")
+    .then((response) => response.json())
+    .then((data) => updateHTMLWithData(data))
+    .catch((error) => console.error("Error fetching previous data:", error));
 
   // 사용자 입력 필드를 포함한 계산 함수
   function calculateFinancials() {
@@ -116,22 +106,38 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("netIncomePrevious").textContent = formatNumber(netIncomePrev);
   }
 
-  // 사용자 입력 필드 변경 시 모든 계산 재실행
-  document.getElementById("productCostManual").addEventListener("input", calculateFinancials);
-  document.getElementById("beginningInventory").addEventListener("input", calculateFinancials);
-  document.getElementById("endingInventory").addEventListener("input", calculateFinancials);
-  document.getElementById("salary").addEventListener("input", calculateFinancials);
-  document.getElementById("freight").addEventListener("input", calculateFinancials);
-  document.getElementById("officeSupplies").addEventListener("input", calculateFinancials);
-  document.getElementById("rent").addEventListener("input", calculateFinancials);
+  // 사용자 입력 필드에 세 자리마다 쉼표를 추가하는 함수
+  function formatNumberInput(input) {
+    const value = input.value.replace(/,/g, ""); // 기존 쉼표 제거
+    if (!isNaN(value) && value !== "") {
+      input.value = formatNumber(value); // 세 자리마다 쉼표 추가
+    } else {
+      input.value = "0"; // 입력값이 없으면 0으로 설정
+    }
+  }
+
+  // 사용자 입력 필드를 클릭하면 초기값 0 제거하는 이벤트
+  document.querySelectorAll(".amount input").forEach((input) => {
+    input.addEventListener("focus", function () {
+      if (input.value === "0") {
+        input.value = ""; // 클릭할 때 "0" 제거
+      }
+    });
+
+    input.addEventListener("blur", function () {
+      if (input.value === "") {
+        input.value = "0"; // 입력값이 없으면 0으로 설정
+      } else {
+        formatNumberInput(input); // 입력창에서 벗어나면 세 자리마다 쉼표 추가
+      }
+      calculateFinancials(); // 사용자 입력 후 계산 함수 호출
+    });
+
+    input.addEventListener("input", function () {
+      input.value = input.value.replace(/[^0-9]/g, ""); // 숫자만 입력 가능
+    });
+  });
 
   // 초기 계산 실행
   calculateFinancials();
-
-  // 사용자 입력 필드에 세 자리마다 쉼표를 추가하는 이벤트
-  document.querySelectorAll(".amount input").forEach((input) => {
-    input.addEventListener("input", function () {
-      input.value = formatNumber(input.value.replace(/,/g, ""));
-    });
-  });
 });

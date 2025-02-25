@@ -8,17 +8,31 @@
   </head>
   <body>
     <aside>
-      <nav>
-        <a href="#">메뉴 1</a>
+      <div>
+        <div class="menu-item"><a href="#">홈으로</a></div>
         <div class="menu-item">
-          <a href="#">메뉴 2</a>
+          <a href="#"></a>
+        </div>
+        <div class="menu-item">
+          <a href="#">대시보드</a>
+        </div>
+        <div class="menu-item">
+          <a href="#">인사관리</a>
+        </div>
+        <div class="menu-item">
+          <a href="#">판매</a>
+        </div>
+        <div class="menu-item">
+          <a href="#">회계</a>
           <div class="submenu">
-            <a href="#">서브메뉴 1</a>
-            <a href="#">서브메뉴 2</a>
+            <a href="#" onclick="window.location.reload();">매출</a>
+            <a href="../calculate/calculate.html">정산</a>
           </div>
         </div>
-        <a href="#">메뉴 3</a>
-      </nav>
+      </div>
+      <div class="menu-item info-edit"><a href="#">정보 수정</a></div>
+      <div class="menu-item logout"><a href="#">로그아웃</a></div>
+      <footer><div>문의사항: admin1@gmail.com</div></footer>
     </aside>
     <div class="content">
       <div id="calendar-header">

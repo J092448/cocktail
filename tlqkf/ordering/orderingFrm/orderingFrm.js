@@ -17,14 +17,22 @@ function setTodayDate() {
   document.getElementById("expectedDate").innerText = "예상 수령 일자: " + formattedExpectedDate;
 }
 
+// 순차적으로 번호를 자동 생성하는 함수
+function generateOrderNumber() {
+  var currentNumber = parseInt(localStorage.getItem("orderNumber") || "0");
+  return currentNumber.toString().padStart(6, "0");
+}
+
+// 발주가 저장될 때 번호를 증가시키는 함수
+function incrementOrderNumber() {
+  var currentNumber = parseInt(localStorage.getItem("orderNumber") || "0");
+  var nextNumber = currentNumber + 1;
+  localStorage.setItem("orderNumber", nextNumber);
+}
+
 // DB에서 데이터를 가져와서 항목을 업데이트하는 함수
 function fetchData() {
-  fetch("https://your-api-endpoint.com/orderNumber")
-    .then((response) => response.json())
-    .then((data) => {
-      document.getElementById("orderNumber").innerText = "no." + data.orderNumber;
-    })
-    .catch((error) => console.error("Error fetching order number:", error));
+  document.getElementById("orderNumber").innerText = "no." + generateOrderNumber();
 
   fetch("https://your-api-endpoint.com/categories")
     .then((response) => response.json())
@@ -95,15 +103,27 @@ function fetchUnitPrice(itemId) {
   fetch(`https://your-api-endpoint.com/unitPrice?itemId=${itemId}`)
     .then((response) => response.json())
     .then((data) => {
-      document.getElementById("unitPrice").value = data.unitPrice + " 원";
+      document.getElementById("unitPrice").value = data.unitPrice.toLocaleString("ko-KR") + " 원";
+      updateTotalAmount(); // 단가가 업데이트되면 총 발주 금액도 업데이트
     })
     .catch((error) => console.error("Error fetching unit price:", error));
+}
+
+// 총 발주 금액을 업데이트하는 함수
+function updateTotalAmount() {
+  var quantity = parseInt(document.getElementById("quantity").value) || 0; // 기본값 0으로 설정
+  var unitPrice = parseInt(document.getElementById("unitPrice").value.replace(/[^0-9]/g, "")) || 0; // 기본값 0으로 설정
+  var totalAmount = quantity * unitPrice;
+  document.getElementById("totalAmount").value = totalAmount.toLocaleString("ko-KR") + " 원";
 }
 
 // 페이지 로드 시 현재 날짜 설정 및 데이터 가져오기
 window.onload = function () {
   setTodayDate();
   fetchData();
+  document.getElementById("unitPrice").value = "0 원"; // 기본값 0으로 설정
+  document.getElementById("totalAmount").value = "0 원"; // 기본값 0으로 설정
+  updateTotalAmount();
 };
 
 document.getElementById("itemName").addEventListener("change", function () {
@@ -111,25 +131,22 @@ document.getElementById("itemName").addEventListener("change", function () {
   if (selectedItemId) {
     fetchUnitPrice(selectedItemId);
   } else {
-    document.getElementById("unitPrice").value = "";
+    document.getElementById("unitPrice").value = "0 원";
+    updateTotalAmount();
   }
 });
 
 document.getElementById("submitOrder").addEventListener("click", function () {
   alert("발주신청 되었습니다. 발주 목록 페이지로 이동합니다.");
+  incrementOrderNumber(); // 발주가 저장될 때 번호를 증가시킴
+  window.location.href = "../orderingList/orderingList.html"; // 발주 목록 페이지로 이동
 });
 
 document.getElementById("cancelOrder").addEventListener("click", function () {
-  alert("발주가 취소되었습니다. 발주 목록 페이지로 이동합니다.");
+  alert("발주가 취소되었습니다. 페이지를 새로고침합니다.");
+  location.reload(); // 페이지 새로고침
 });
 
 document.getElementById("quantity").addEventListener("input", function () {
-  var quantity = parseInt(this.value);
-  if (quantity < 1) {
-    this.value = 1;
-    quantity = 1;
-  }
-  var unitPrice = parseInt(document.getElementById("unitPrice").value.replace(/[^0-9]/g, ""));
-  var totalAmount = quantity * unitPrice;
-  document.getElementById("totalAmount").value = totalAmount.toLocaleString("ko-KR") + " 원";
+  updateTotalAmount();
 });
