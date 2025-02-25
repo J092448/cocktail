@@ -4,32 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메뉴 주문</title>
-    <link rel="stylesheet" href="/css/csStayle.css">
+    <link rel="stylesheet" type="text/css" href="/css/csStayle.css">
 </head>
 <body>
 <div class="container">
     <!-- 가게 이미지 및 상단 정보 -->
     <div class="header">
-        <img th:src="@{/images/cocktailbarimg.jpg}" alt="가게 사진">
-        <h1 class="store-name">우리 칵테일 가게</h1>
-        <button class="order-button">주문 내역 확인</button>
+        <img class="mainimg" th:src="@{/images/cocktailbarimg.jpg}" alt="가게 사진">
+        <button class="order-button">주문내역</button>
     </div>
+    <div class="subHeader">
+        <h1 class="store-name">온더락스 칵테일바</h1>
+        <h2 class="store-subname">아늑한 분위기와 맛있는 칵테일이 함께하는</h2>
+    </div>
+
+    <div class="horizontal-line"></div>
 
     <!-- 자동추천 칵테일 -->
     <div class="recommendation">
-        <h2>오늘의 추천 칵테일</h2>
-        <div class="cocktail">
-            <img class="cocktail-image" src="cocktail-image.jpg" alt="추천 칵테일">
-            <p class="cocktail-name">상큼한 칵테일</p>
-            <p class="cocktail-price">₩5000</p>
+        <img class="recomImg" src="/images/speaker.png" alt="확성기 아이콘">
+        <h2>오늘의 추천 칵테일 "모히또"</h2>
+        <img class="menu-image" src="#" alt="메뉴 이미지">
+        <div class="menu-info">
+            <h3 class="menu-name">모히또</h3>
+            <p class="menu-description">상큼한 민트향과 새콤달콤한 라임향의 조화!<br>
+                화이트럼 + 라임주스 + 애플민트 + 설탕 + 탄산수</p>
+            <p class="menu-price">12,000원</p>
         </div>
     </div>
 
+    <div class="horizontal-line"></div>
+
     <!-- 메뉴 리스트 -->
     <div class="menu">
-        <h2>메뉴</h2>
+        <h2>일반메뉴</h2>
         <div class="menu-item">
-            <img class="menu-image" src="menu-image.jpg" alt="메뉴 이미지">
+            <img class="menu-image" src="#" alt="메뉴 이미지">
             <div class="menu-info">
                 <h3 class="menu-name">칵테일 A</h3>
                 <p class="menu-description">상큼한 맛의 칵테일입니다.</p>
@@ -38,15 +48,55 @@
             </div>
         </div>
         <div class="menu-item">
-            <img class="menu-image" src="menu-image2.jpg" alt="메뉴 이미지">
+            <img class="menu-image" src="#" alt="메뉴 이미지">
             <div class="menu-info">
                 <h3 class="menu-name">칵테일 B</h3>
                 <p class="menu-description">달콤한 맛의 칵테일입니다.</p>
                 <p class="menu-price">₩7000</p>
-                <button class="add-to-cart">장바구니에 추가</button>
+
             </div>
         </div>
     </div>
+</div>
+<div class="menu">
+    <h2>메뉴</h2>
+    <div class="menu-item">
+        <img class="menu-image" src="#" alt="메뉴 이미지">
+        <div class="menu-info">
+            <h3 class="menu-name">칵테일 A</h3>
+            <p class="menu-description">상큼한 맛의 칵테일입니다.</p>
+            <p class="menu-price">₩6000</p>
+
+        </div>
+    </div>
+    <div class="menu-item">
+        <img class="menu-image" src="#" alt="메뉴 이미지">
+        <div class="menu-info">
+            <h3 class="menu-name">칵테일 B</h3>
+            <p class="menu-description">달콤한 맛의 칵테일입니다.</p>
+            <p class="menu-price">₩7000</p>
+
+        </div>
+    </div>
+    <div class="menu-item">
+        <img class="menu-image" src="#" alt="메뉴 이미지">
+        <div class="menu-info">
+            <h3 class="menu-name">칵테일 B</h3>
+            <p class="menu-description">달콤한 맛의 칵테일입니다.</p>
+            <p class="menu-price">₩7000</p>
+
+        </div>
+    </div>
+    <div class="menu-item">
+        <img class="menu-image" src="#" alt="메뉴 이미지">
+        <div class="menu-info">
+            <h3 class="menu-name">칵테일 B</h3>
+            <p class="menu-description">달콤한 맛의 칵테일입니다.</p>
+            <p class="menu-price">₩7000</p>
+
+        </div>
+    </div>
+</div>
 </div>
 
 <script src="/script/csScript.js"></script>
