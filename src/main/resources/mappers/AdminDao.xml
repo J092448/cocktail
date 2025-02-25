@@ -8,7 +8,7 @@
     </insert>
 
     <insert id="noticeWrite" useGeneratedKeys="true" keyProperty="notice_num">
-        insert into notice values(null,#{notice_title},#{notice_contents},default,default,#{deadline},default)
+        insert into notice values(null,#{notice_title},#{notice_contents},default,default,#{deadline},#{status})
     </insert>
     <insert id="suspendUser">
         insert into suspended_users(username, suspended_at) values (#{username}, default)
@@ -17,8 +17,16 @@
     <update id="updateInfo">
         update admin set email = #{email}, tel = #{tel} where username = #{username}
     </update>
+    <update id="updateNotice">
+        update notice set notice_title = #{notice_title}, notice_contents = #{notice_contents},
+        updated_at = current_timestamp, deadline = #{deadline}, status = #{status}
+        where notice_num = #{notice_num}
+    </update>
     <delete id="activateUser">
         delete from suspended_users where username = #{username}
+    </delete>
+    <delete id="deleteNotice">
+        delete from notice where notice_num = #{notice_num}
     </delete>
 
     <select id="findByUsername" resultType="com.ontherocks.cocktail.dto.AdminDto">
@@ -70,6 +78,9 @@
         <if test="colName != null and colName != ''">
             where ${colName} like concat('%', #{keyword}, '%')
         </if>
+    </select>
+    <select id="getDetailNotice" resultType="com.ontherocks.cocktail.dto.NoticeDto">
+        select * from notice where notice_num = #{notice_num}
     </select>
 
 </mapper>

@@ -19,6 +19,11 @@ public class AdminService {
 private final PasswordEncoder passwordEncoder;
 private final AdminDao aDao;
 
+    public AdminService(PasswordEncoder passwordEncoder, AdminDao aDao) {
+        this.passwordEncoder = passwordEncoder;
+        this.aDao = aDao;
+    }
+
     public void createAdmin() { //관리자 회원가입 구현 없이 db에 직접 계정 생성
     AdminDto admin = new AdminDto();
     admin.setUsername("admin"); //아이디

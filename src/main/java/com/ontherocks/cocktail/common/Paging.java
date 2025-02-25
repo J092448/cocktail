@@ -10,6 +10,53 @@ public class Paging {
     private int pageCnt; //페이지 그룹 당 페이지 개수 ex)1 2 ~ 9 10 [다음] 한 그룹 당 10개
     private  String listUrl; //리스트 종류 ex) localhost/admin/sellerList?pageNum=3
 
+    public int getTotalNum() {
+        return totalNum;
+    }
+
+    public void setTotalNum(int totalNum) {
+        this.totalNum = totalNum;
+    }
+
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public int getListCnt() {
+        return listCnt;
+    }
+
+    public void setListCnt(int listCnt) {
+        this.listCnt = listCnt;
+    }
+
+    public int getPageCnt() {
+        return pageCnt;
+    }
+
+    public void setPageCnt(int pageCnt) {
+        this.pageCnt = pageCnt;
+    }
+
+    public String getListUrl() {
+        return listUrl;
+    }
+
+    public void setListUrl(String listUrl) {
+        this.listUrl = listUrl;
+    }
+    public Paging(int totalNum, int pageNum, int listCnt, int pageCnt, String listUrl) {
+        this.totalNum = totalNum;
+        this.pageNum = pageNum;
+        this.listCnt = listCnt;
+        this.pageCnt = pageCnt;
+        this.listUrl = listUrl;
+    }
+
     public String makePaging() {
         //전체 페이지 개수             totalNum  listCnt
         //ex)리스트가 200개, 1p에 10개 씩일 때 200/10 20개

@@ -39,7 +39,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             return User.builder().username(user.getUsername())
                     .password(user.getPassword()).roles(role).build();
         }
-        log.error("유저를 찾을 수 없음: {}", username);
+//        log.error("유저를 찾을 수 없음: {}", username);
         throw new UsernameNotFoundException("유저를 찾을 수 없음" + username);
     }
 }

@@ -17,6 +17,10 @@ import java.util.List;
 public class AdminRestController {
     private final AdminService aSer;
 
+    public AdminRestController(AdminService aSer) {
+        this.aSer = aSer;
+    }
+
     @GetMapping("/showNotice")
     public List<NoticeDto> showNotice() {
         return aSer.getActiveNotice();

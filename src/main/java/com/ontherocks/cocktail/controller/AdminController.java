@@ -26,6 +26,12 @@ public class AdminController {
     private final UserDao uDao;
     private final AdminDao aDao;
 
+    public AdminController(AdminService aSer, UserDao uDao, AdminDao aDao) {
+        this.aSer = aSer;
+        this.uDao = uDao;
+        this.aDao = aDao;
+    }
+
     @GetMapping("/main")
     public String main(HttpSession session, Model model) {
         if (session.getAttribute("msg") != null) {
@@ -69,11 +75,11 @@ public class AdminController {
         if (search.getStartIdx() == null) {
             search.setStartIdx(0);
         } //시작인덱스 설정
-        log.info("=======search: " + search);
+//        log.info("=======search: " + search);
         List<Suspended_usersDto> uList = null;
         uList = aSer.getUserList(search); //전체 유저 조회(suspended_users 테이블과 조인해서 정지 여부까지 확인)
 
-        log.info("=======list: " + uList);
+//        log.info("=======list: " + uList);
         if (uList != null) { //리스트가 있으면 페이징
             String pageHtml = aSer.getUserPaging(search);
             if (search.getKeyword() != null) { //검색 중이면 세션에 검색 정보 저장
@@ -93,7 +99,7 @@ public class AdminController {
         UserDto user = uDao.findByUsername(username);
         boolean suspendedUser = aDao.isSuspendedUser(username);
         model.addAttribute("suspendedUser", suspendedUser);
-        log.info("user: {}", user);
+//        log.info("user: {}", user);
         // 번호에 - 추가 \\d{3}: 3자리 숫자 (...): 그룹 지정 $1: 첫번째 그룹 -: 하이픈
         String pn = user.getPhone_number()
                 .replaceFirst("(\\d{3})(\\d{4})(\\d{3})", "$1-$2-$3");
@@ -137,13 +143,37 @@ public class AdminController {
 
         return "/admin/noticeList";
     }
+    @GetMapping("/noticeDetail") //공지사항 상세보기
+    public String noticeDetail(Model model, int notice_num) {
+        NoticeDto notice =  aDao.getDetailNotice(notice_num);
+        model.addAttribute("notice", notice);
+        return "/admin/noticeDetail";
+    }
+    @GetMapping("/editNotice") //공지사항 수정 페이지
+    public String editNotice(Model model, int notice_num) {
+        NoticeDto notice =  aDao.getDetailNotice(notice_num);
+        model.addAttribute("notice", notice);
+        return "/admin/editNotice";
+    }
+    @PostMapping("/editNotice") //공지사항 수정
+    public String updateNotice(NoticeDto notice) {
+        aDao.updateNotice(notice);
+        int notice_num = notice.getNotice_num();
+        System.out.println("notice_num = " + notice_num);
+        return "redirect:/admin/noticeList";
+    }
+    @GetMapping("/deleteNotice")
+    public String deleteNotice(int notice_num) {
+        aDao.deleteNotice(notice_num);
+        return "redirect:/admin/noticeList";
+    }
     @GetMapping("/notice") //공지사항 작성 페이지 이동
     public String notice() {
         return "admin/notice";
     }
     @PostMapping("/notice") //공지사항 작성
     public String noticeWrite(NoticeDto notice, RedirectAttributes rttr) {
-        log.info("notice: {}", notice);
+//        log.info("notice: {}", notice);
         boolean result = aSer.noticeWrite(notice);
         if(result){
             rttr.addFlashAttribute("msg","공지사항을 작성했습니다.");

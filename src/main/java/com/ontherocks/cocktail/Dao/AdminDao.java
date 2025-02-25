@@ -32,4 +32,10 @@ public interface AdminDao {
     List<NoticeDto> getNoticeList(SearchDto search);
     //전체 공지 수 & 검색 결과로 나온 공지 수
     int getNoticeCnt(SearchDto search);
+    //공지 보기
+    NoticeDto getDetailNotice(int noticeNum);
+    //공지 수정
+    void updateNotice(NoticeDto notice);
+    //공지 삭제
+    void deleteNotice(int noticeNum);
 }

@@ -16,10 +16,15 @@ public class HomeController {
 private final PasswordEncoder passwordEncoder;
 private final UserDao uDao;
 
+    public HomeController(PasswordEncoder passwordEncoder, UserDao uDao) {
+        this.passwordEncoder = passwordEncoder;
+        this.uDao = uDao;
+    }
+
     @GetMapping("/")
     public String home(HttpSession session, Model model) {
         Object msg = session.getAttribute("msg");
-        log.info("홈 페이지에서 msg: {}", msg);
+//        log.info("홈 페이지에서 msg: {}", msg);
         if (session.getAttribute("msg") != null) {
             model.addAttribute("msg", session.getAttribute("msg"));
             session.removeAttribute("msg");
