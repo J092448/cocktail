@@ -13,6 +13,25 @@
     <insert id="suspendUser">
         insert into suspended_users(username, suspended_at) values (#{username}, default)
     </insert>
+    <insert id="saveLoginHistory">
+        insert into login_history(id, user_id, login_date)
+        values (null, #{username}, default)
+    </insert>
+    <insert id="save">
+        insert into daily_statistics(date, total_visitors, new_users)
+        values (#{date}, #{total_visitors}, #{new_users})
+        on duplicate key update total_visitors = #{total_visitors}, new_users = #{new_users}
+    </insert>
+    <insert id="missingdate">
+        insert into daily_statistics(date, total_visitors, new_users)
+        select missing_dates.date, 0, 0 from(
+            select date_sub(curdate(),interval seq day) as date from(
+                select 1 as seq union select 2 union select 3 union select 4
+                                union select 5 union select 6 union select 7) as seq_table
+            ) as missing_dates
+                left join daily_statistics as ds on missing_dates.date = ds.date
+                    where ds.date is null
+    </insert>
 
     <update id="updateInfo">
         update admin set email = #{email}, tel = #{tel} where username = #{username}
@@ -81,6 +100,33 @@
     </select>
     <select id="getDetailNotice" resultType="com.ontherocks.cocktail.dto.NoticeDto">
         select * from notice where notice_num = #{notice_num}
+    </select>
+    <select id="getTodayVisitor" resultType="java.lang.Integer">
+        select count(*) from login_history where date(login_date) = current_date
+    </select>
+    <select id="getTodaySignup" resultType="java.lang.Integer">
+        select count(*) from users where date(registration_date) = current_date
+    </select>
+    <select id="hasRecentLogin" resultType="java.lang.Boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM login_history
+            WHERE user_id = #{user_id}
+              AND login_date >= NOW() - INTERVAL 1 SECOND
+        )
+    </select>
+    <select id="getYesterdayVisitors" resultType="java.lang.Integer">
+        select count(*) from login_history
+        where date(login_date) = date_sub(curdate(), interval 1 day)
+    </select>
+    <select id="getYesterdaySignups" resultType="java.lang.Integer">
+        select count(*) from users
+        where date(registration_date) = date_sub(curdate(), interval 1 day)
+    </select>
+    <select id="getWeeklyStats" resultType="com.ontherocks.cocktail.dto.DailyStatisticsDto">
+         <![CDATA[
+        select * from daily_statistics
+        where date >= date_sub(curdate(),interval 7 day) and date < curdate()
+        ]]>
     </select>
 
 </mapper>

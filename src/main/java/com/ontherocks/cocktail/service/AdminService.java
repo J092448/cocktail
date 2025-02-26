@@ -1,15 +1,19 @@
 package com.ontherocks.cocktail.service;
 
 import com.ontherocks.cocktail.Dao.AdminDao;
+import com.ontherocks.cocktail.Dao.UserDao;
 import com.ontherocks.cocktail.common.Paging;
 import com.ontherocks.cocktail.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -18,10 +22,12 @@ import java.util.List;
 public class AdminService {
 private final PasswordEncoder passwordEncoder;
 private final AdminDao aDao;
+private final UserDao uDao;
 
-    public AdminService(PasswordEncoder passwordEncoder, AdminDao aDao) {
+    public AdminService(PasswordEncoder passwordEncoder, AdminDao aDao, UserDao uDao) {
         this.passwordEncoder = passwordEncoder;
         this.aDao = aDao;
+        this.uDao = uDao;
     }
 
     public void createAdmin() { //관리자 회원가입 구현 없이 db에 직접 계정 생성
@@ -103,4 +109,34 @@ private final AdminDao aDao;
         Paging paging = new Paging(totalNum, search.getPageNum(), search.getListCnt(), 10, listUrl);
         return paging.makePaging();
     }
+
+    @EventListener
+    public void onLoginSuccess(AuthenticationSuccessEvent event) {
+        //로그인에 성공하면 @EventListener 감지하여 이 메소드 실행
+        String username = event.getAuthentication().getName();
+        UserDto user = uDao.findByUsername(username);
+        AdminDto admin = aDao.findByUsername(username);
+        if (admin != null) {
+            return; //관리자 계정으로 로그인하면 저장하지 않음
+        }
+        int user_id = user.getUser_id();
+        if (user == null) { //users 테이블에 없으면 저장하지 않음
+            return;
+        }
+        // 최근 로그인 기록 확인 후 중복 저장 방지
+        if (!aDao.hasRecentLogin(user_id)) {
+            aDao.saveLoginHistory(user_id);
+        }
+    }
+    @EventListener(ApplicationReadyEvent.class)
+    public void runOnStartup() {
+        int yesterdayVisitors = aDao.getYesterdayVisitors(); //어제 방문자 수
+        int yesterdaySignups = aDao.getYesterdaySignups(); //어제 가입자 수
+        DailyStatisticsDto stats = new DailyStatisticsDto();
+        LocalDate yesterday = LocalDate.now().minusDays(1); //어제 날짜
+        stats.setDate(yesterday); stats.setTotal_visitors(yesterdayVisitors); stats.setNew_users(yesterdaySignups);
+        aDao.save(stats); //서버가 실행되면 테이블에 저장
+        aDao.missingdate(); //최근 7일 이내 누락된 날짜가 있으면 기본값(0) 넣기
+    }
+
 }

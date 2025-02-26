@@ -1,11 +1,15 @@
 package com.ontherocks.cocktail.config;
 
 import com.ontherocks.cocktail.Dao.AdminDao;
+import com.ontherocks.cocktail.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,16 +22,17 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity(securedEnabled = true)
 @Slf4j
 public class SecurityConfig {
-    @Autowired
-    private AdminDao aDao;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, ApplicationEventPublisher eventPublisher) throws Exception {
         http.csrf(csrf -> csrf.disable());
 
         http.formLogin(form -> form.loginPage("/")
                 .loginProcessingUrl("/login")
                 .successHandler((request, response, authentication) -> {
+                    //로그인에 성공하면 실행 -> 로그인 성공 이벤트(AuthenticationSuccessEvent) 발생
+                    //AdminService를 직접 주입받으면 순환참조 발생 @EventListener로 이벤트만 발생시키기
+                    eventPublisher.publishEvent(new AuthenticationSuccessEvent(authentication));
                     String role = authentication.getAuthorities().stream()
                             .findFirst().get().getAuthority(); //"ROLE_ADMIN" 형식
                     if ("ROLE_USER".equals(role)) {

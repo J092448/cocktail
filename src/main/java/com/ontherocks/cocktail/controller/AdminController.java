@@ -38,6 +38,13 @@ public class AdminController {
             model.addAttribute("msg", session.getAttribute("msg"));
             session.removeAttribute("msg");
         }
+        int visitor = aDao.getTodayVisitor(); //오늘의 방문자 수 조회
+        int singup = aDao.getTodaySignup(); //오늘의 가입자 수 조회
+        List<DailyStatisticsDto> weekly = aDao.getWeeklyStats();
+
+        model.addAttribute("weekly", weekly);
+        model.addAttribute("visitor", visitor);
+        model.addAttribute("singup", singup);
         return "admin/main";
     }
     @GetMapping("/info") //관리자 계정 정보 조회

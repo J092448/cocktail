@@ -38,4 +38,22 @@ public interface AdminDao {
     void updateNotice(NoticeDto notice);
     //공지 삭제
     void deleteNotice(int noticeNum);
+    //업체회원이 로그인 시 테이블에 저장
+    void saveLoginHistory(int user_id);
+    //오늘의 방문자 수 조회
+    int getTodayVisitor();
+    //오늘의 가입자 수 조회
+    int getTodaySignup();
+    //최근 로그인 기록 확인
+    boolean hasRecentLogin(int userId);
+    //어제의 방문자 수
+    int getYesterdayVisitors();
+    //어제의 가입자
+    int getYesterdaySignups();
+    //어제의 가입자, 방문자 수 저장
+    void save(DailyStatisticsDto stats);
+    //최근 7일 이내 누락된 날짜가 있으면 기본값(0) 넣기
+    void missingdate();
+    //일주일 간 가입자, 방문자 수 조회
+    List<DailyStatisticsDto> getWeeklyStats();
 }
