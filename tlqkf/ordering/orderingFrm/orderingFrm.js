@@ -148,5 +148,8 @@ document.getElementById("cancelOrder").addEventListener("click", function () {
 });
 
 document.getElementById("quantity").addEventListener("input", function () {
+  if (this.value < 0) {
+    this.value = 0;
+  }
   updateTotalAmount();
 });
