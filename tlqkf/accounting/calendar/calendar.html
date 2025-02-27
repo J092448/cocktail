@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>캘린더와 사이드바</title>
+    <link rel="stylesheet" href="calendar.css" />
+  </head>
+  <body>
+    <aside>
+      <div>
+        <div class="menu-item"><a href="#">홈으로</a></div>
+        <div class="menu-item">
+          <a href="#"></a>
+        </div>
+        <div class="menu-item">
+          <a href="#">대시보드</a>
+        </div>
+        <div class="menu-item">
+          <a href="#">인사관리</a>
+        </div>
+        <div class="menu-item">
+          <a href="#">판매</a>
+        </div>
+        <div class="menu-item">
+          <a href="#">회계</a>
+          <div class="submenu">
+            <a href="#" onclick="window.location.reload();">매출</a>
+            <a href="../calculate/calculate.html">정산</a>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item info-edit"><a href="#">정보 수정</a></div>
+      <div class="menu-item logout"><a href="#">로그아웃</a></div>
+      <footer><div>문의사항: admin1@gmail.com</div></footer>
+    </aside>
+    <div class="content">
+      <div id="calendar-header">
+        <button id="prev" onclick="changeMonth(-1)">◀</button>
+        <div id="month-year" class="month-year">2025년 1월</div>
+        <button id="next" onclick="changeMonth(1)">▶</button>
+      </div>
+      <div id="calendar"></div>
+    </div>
+    <footer>모든 권리 보유.</footer>
+    <script src="calendar.js"></script>
+  </body>
+</html>

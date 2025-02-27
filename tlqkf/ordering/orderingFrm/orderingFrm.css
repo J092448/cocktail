@@ -1,0 +1,205 @@
+/* 기본 스타일 설정 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* body 태그 스타일 설정 */
+body {
+  display: flex; /* 플렉스 박스 사용 */
+  min-height: 100vh; /* 최소 높이를 100vh로 설정 */
+  font-family: Arial, sans-serif; /* 폰트 설정 */
+  margin: 0;
+  background-color: #fff; /* 배경색 설정 */
+  padding: 0px 20px 20px 0px; /* 상단과 하단 패딩 추가 */
+}
+
+/* aside 태그 스타일 설정 */
+aside {
+  width: 200px; /* 너비 설정 */
+  background: #222; /* 배경색 설정 */
+  color: white; /* 글자색 설정 */
+  display: flex; /* 플렉스 박스 사용 */
+  flex-direction: column; /* 세로 정렬 */
+  padding: 20px; /* 패딩 설정 */
+  justify-content: space-between; /* 콘텐츠 간 간격 조정 */
+  position: fixed; /* 고정 위치 설정 */
+  height: 100vh; /* 높이 100vh로 설정 */
+}
+
+/* aside 태그 안의 a 태그 스타일 설정 */
+aside a {
+  color: white; /* 글자색 설정 */
+  text-decoration: none; /* 밑줄 제거 */
+  padding: 10px 0; /* 패딩 설정 */
+  display: block; /* 블록 요소로 설정 */
+}
+
+/* a 태그 호버시 스타일 설정 */
+aside a:hover {
+  background: #444; /* 배경색 설정 */
+}
+
+/* 서브 메뉴 스타일 설정 */
+.submenu {
+  display: none; /* 기본적으로 숨김 */
+  padding-left: 20px; /* 왼쪽 패딩 추가 */
+}
+
+/* 메뉴 항목 호버시 서브 메뉴 보이기 */
+.menu-item:hover .submenu {
+  display: block; /* 서브 메뉴 보이기 */
+}
+
+/* 로그아웃 버튼 순서 설정 */
+.logout {
+  order: 1; /* 로그아웃을 아래로 */
+}
+
+/* 정보 수정 버튼 순서 및 간격 설정 */
+.info-edit {
+  order: 0; /* 정보 수정을 로그아웃 위로 */
+  margin-top: auto; /* 자동으로 위 간격 설정 */
+  margin-bottom: 20px; /* 아래쪽 간격 설정 */
+}
+
+/* footer 태그 스타일 설정 */
+footer {
+  position: fixed; /* 고정 위치 설정 */
+  bottom: 0; /* 하단에 위치 */
+  left: 200px; /* 왼쪽에서 200px 떨어짐 */
+  width: calc(100% - 200px); /* 너비 계산 */
+  background: black; /* 배경색 설정 */
+  color: white; /* 글자색 설정 */
+  text-align: right; /* 텍스트 오른쪽 정렬 */
+  padding: 10px; /* 패딩 설정 */
+  font-size: 14px; /* 폰트 크기 설정 */
+}
+
+/* 발주 신청서 컨테이너 스타일 설정 */
+.container {
+  width: 600px;
+  margin: 40px auto; /* 상단과 하단 마진 추가 */
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* 발주 신청서 헤더 스타일 설정 */
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+/* 발주 신청서 제목 스타일 설정 */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative; /* 상대적 위치 설정 */
+}
+
+/* 작은 회색 글씨 스타일 설정 */
+.small-gray-text {
+  position: absolute; /* 절대적 위치 설정 */
+  right: 0; /* 오른쪽 정렬 */
+  bottom: -20px; /* 아래쪽 여백 설정 */
+  font-size: 12px; /* 폰트 크기 설정 */
+  color: gray; /* 글자색 설정 */
+}
+/* 작은 회색 줄 스타일 설정 */
+.small-gray-line {
+  position: absolute; /* 절대적 위치 설정 */
+  right: -10px; /* 오른쪽으로 더 옮기기 */
+  bottom: -25px; /* 아래쪽 여백 설정 */
+  width: 80px; /* 너비 설정 */
+  border-top: 1px solid gray; /* 선 스타일 설정 */
+  margin-top: 10px; /* 상단 여백 설정 */
+}
+
+/* 발주 신청서 폼 그룹 스타일 설정 */
+.form-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+/* 발주 신청서 폼 컨텐츠 스타일 설정 */
+.form-content {
+  margin-top: 30px; /* 상단 마진 추가 */
+}
+
+/* 구분선 스타일 설정 */
+.separator {
+  border-top: 1px solid #ccc;
+  margin: 10px 0;
+}
+
+/* 라벨 스타일 설정 */
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* 입력 필드와 선택 박스 스타일 설정 */
+input,
+select {
+  width: 70%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* 읽기 전용 입력 필드 스타일 설정 */
+input[readonly] {
+  background-color: #f9f9f9;
+}
+/* 수량 입력 필드에 화살표 표시 설정 */
+input[type="number"] {
+  appearance: textfield; /* 모든 브라우저에서 기본 화살표 표시 */
+  -moz-appearance: textfield; /* Firefox에서 기본 화살표 표시 */
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: inner-spin-button !important; /* WebKit 브라우저에서 화살표 항상 표시 */
+  opacity: 1; /* 화살표 투명도 설정 */
+}
+
+/* 발주 신청서 버튼 스타일 설정 */
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+/* 발주 신청서 버튼 스타일 설정 */
+.form-buttons {
+  display: flex;
+  justify-content: center; /* 중앙 정렬 */
+  margin-top: 20px; /* 상단 여백 추가 */
+}
+
+.form-buttons button {
+  padding: 10px 20px; /* 버튼 크기 조정 */
+  font-size: 16px; /* 폰트 크기 조정 */
+  margin: 0 10px; /* 버튼 간 간격 조정 */
+  border-radius: 5px; /* 버튼 테두리 둥글게 */
+  border: 1px solid #ccc; /* 버튼 테두리 추가 */
+  background-color: #f2f2f2; /* 버튼 배경색 */
+  cursor: pointer; /* 커서 모양 변경 */
+}
+
+.form-buttons button:hover {
+  background-color: #e6e6e6; /* 호버시 배경색 변경 */
+}
+/* 발주 물품 선택창 스타일 설정 */
+select#category,
+select#subcategory {
+  width: 40%; /* 선택창 너비 조정 */
+}
+
+select#itemName,
+select#company {
+  width: 70%; /* 선택창 너비 조정 */
+}
