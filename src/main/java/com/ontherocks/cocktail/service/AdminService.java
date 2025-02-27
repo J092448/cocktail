@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -61,7 +60,7 @@ private final UserDao uDao;
         aDao.updateInfo(admin);
     }
 
-    public List<Suspended_usersDto> getUserList(SearchDto search) {
+    public List<UserDto> getUserList(SearchDto search) {
         Integer pageNum = search.getPageNum(); //현재 페이지 번호
         //시작인덱스 = (현재 페이지 번호 - 1) * 페이지 당 글 개수
         search.setStartIdx((pageNum - 1) * search.getListCnt());
@@ -139,4 +138,11 @@ private final UserDao uDao;
         aDao.missingdate(); //최근 7일 이내 누락된 날짜가 있으면 기본값(0) 넣기
     }
 
+    public boolean isSuspended(String username) {
+        UserDto user = uDao.findByUsername(username);
+        if (user == null) {
+            return false;
+        } //users 테이블에 없으면 false 반환
+        return user.getAccount_non_locked() == 0; //값이 0(정지된 유저)이면 true 반환
+    }
 }

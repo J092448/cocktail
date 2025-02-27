@@ -83,7 +83,7 @@ public class AdminController {
             search.setStartIdx(0);
         } //시작인덱스 설정
 //        log.info("=======search: " + search);
-        List<Suspended_usersDto> uList = null;
+        List<UserDto> uList = null;
         uList = aSer.getUserList(search); //전체 유저 조회(suspended_users 테이블과 조인해서 정지 여부까지 확인)
 
 //        log.info("=======list: " + uList);

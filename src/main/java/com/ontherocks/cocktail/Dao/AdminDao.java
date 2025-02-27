@@ -19,7 +19,7 @@ public interface AdminDao {
     //관리자 정보 수
     void updateInfo(AdminDto admin);
     //전체 유저 목록 조회
-    List<Suspended_usersDto> getUserList(SearchDto search);
+    List<UserDto> getUserList(SearchDto search);
     //전체 업체 수 & 검색 결과로 나온 업체
     int getUserCnt(SearchDto search);
     //계정 정지

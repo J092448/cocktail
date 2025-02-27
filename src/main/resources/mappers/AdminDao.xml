@@ -10,9 +10,12 @@
     <insert id="noticeWrite" useGeneratedKeys="true" keyProperty="notice_num">
         insert into notice values(null,#{notice_title},#{notice_contents},default,default,#{deadline},#{status})
     </insert>
-    <insert id="suspendUser">
-        insert into suspended_users(username, suspended_at) values (#{username}, default)
-    </insert>
+<!--    <insert id="suspendUser">-->
+<!--        insert into suspended_users(username, suspended_at) values (#{username}, default)-->
+<!--    </insert>-->
+    <update id="suspendUser">
+        update users set account_non_locked = 0 where username = #{username}
+    </update>
     <insert id="saveLoginHistory">
         insert into login_history(id, user_id, login_date)
         values (null, #{username}, default)
@@ -41,9 +44,13 @@
         updated_at = current_timestamp, deadline = #{deadline}, status = #{status}
         where notice_num = #{notice_num}
     </update>
-    <delete id="activateUser">
-        delete from suspended_users where username = #{username}
-    </delete>
+    <update id="activateUser">
+        update users set account_non_locked = 1 where username = #{username}
+    </update>
+
+    <!--    <delete id="activateUser">-->
+<!--        delete from suspended_users where username = #{username}-->
+<!--    </delete>-->
     <delete id="deleteNotice">
         delete from notice where notice_num = #{notice_num}
     </delete>
@@ -56,9 +63,8 @@
         select * from notice
         where status = 'ACTIVE' and (deadline is null or deadline >= current_date)
     </select>
-    <select id="getUserList" resultType="com.ontherocks.cocktail.dto.Suspended_usersDto">
-        select users.username, name, company_name, registration_date, suspended_at
-        from users left join suspended_users on users.username = suspended_users.username
+    <select id="getUserList" resultType="com.ontherocks.cocktail.dto.UserDto">
+       select * from users
         <choose>
             <when test="keyword != null and keyword != ''">
                 where users.${colName} like concat('%',#{keyword},'%')

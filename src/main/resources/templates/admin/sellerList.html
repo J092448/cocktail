@@ -66,6 +66,12 @@
             padding: 10px;
             text-align: center;
         }
+        .uUsername:visited, .uUsername {
+            color: inherit;
+        }
+        .uUsername:hover{
+            color: blue !important;
+        }
 
         .row:nth-child(even) {
             background-color: #f9f9f9;
@@ -110,18 +116,21 @@
         <div style="flex: 3; text-align: center;">등록된 업체가 없습니다.</div>
     </div>
 </th:block>
+        <th:block th:if="${uList}">
+            <th:block th:each="user : ${uList}">
+                <div class="row">
+                <a th:href="@{/admin/detailInfo(username=${user.username})}" th:text="${user.username}"
+                   th:style="${user.account_non_locked}==0 ? 'color:red' : ''" class="uUsername"></a>
+                <div th:text="${user.name}"
+                     th:style="${user.account_non_locked}==0 ? 'color:red' : ''" class="uName"></div>
+                <div th:text="${user.company_name}"
+                     th:style="${user.account_non_locked}==0 ? 'color:red' : ''" class="uCompanyName"></div>
+                <div th:text="${#temporals.format(user.registration_date, 'yyyy.MM.dd')}"
+                     th:style="${user.account_non_locked}==0 ? 'color:red' : ''"class="uRegistrationDate"></div>
+                </div>
+            </th:block>
+        </th:block>
 
-<th:block th:if="${uList}">
-    <th:block th:each="user : ${uList}">
-        <div class="row">
-        <a th:href="@{/admin/detailInfo(username=${user.username})}" th:text="${user.username}" th:style="${user.suspended_at}!=null?'color:red':''" class="uUsername"></a>
-        <div th:text="${user.name}" th:style="${user.suspended_at}!=null?'color:red':''" class="uName"></div>
-        <div th:text="${user.company_name}" th:style="${user.suspended_at}!=null?'color:red':''" class="uCompanyName"></div>
-        <div th:text="${#temporals.format(user.registration_date, 'yyyy.MM.dd')}" th:style="${user.suspended_at}!=null?'color:red':''" class="uRegistrationDate"></div>
-        <div th:text="${user.suspended_at}" style="display: none"></div>
-        </div>
-    </th:block>
-</th:block>
     </div>
 </div>
 <div th:utext="${pageHtml}" class="paging"></div>

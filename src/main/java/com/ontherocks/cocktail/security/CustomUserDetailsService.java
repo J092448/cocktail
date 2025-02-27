@@ -4,6 +4,7 @@ import com.ontherocks.cocktail.Dao.AdminDao;
 import com.ontherocks.cocktail.Dao.UserDao;
 import com.ontherocks.cocktail.dto.AdminDto;
 import com.ontherocks.cocktail.dto.UserDto;
+import com.ontherocks.cocktail.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.DisabledException;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,6 +22,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     private AdminDao aDao;
     @Autowired
     private UserDao uDao;
+    @Autowired
+    private AdminService aSer;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -32,7 +36,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                     .password(admin.getPassword()).roles(role).build();
         }
         if (user != null) {
-            if (aDao.isSuspendedUser(username)) { //정지 여부 확인
+            if (aSer.isSuspended(username)) { //정지 여부 확인
                 throw new DisabledException("정지된 계정입니다."); //예외 발생시켜 로그인 차단
             }
             role = "USER";

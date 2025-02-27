@@ -79,10 +79,10 @@
     <label for="registration_date" class="info-label">가입일</label>
 <div th:text="${#temporals.format(user.registration_date, 'yyyy.MM.dd HH:mm:ss') }" id="registration_date" class="info-div"></div>
     </div>
-    <div th:unless="${suspendedUser}"> <!--suspended_users 테이블에 존재하면 표시 -->
+    <div th:if="${user.account_non_locked} == 1"> <!--값이 1이면 표시 -->
     <input type="button" id="suspend" value="계정 정지" class="btn">
     </div>
-    <div th:if="${suspendedUser}"><!--suspended_users 테이블에 존재하지 않으면 표시 -->
+    <div th:if="${user.account_non_locked} == 0"><!--값이 0이면 표시 -->
     <input type="button" id="activate" value="정지 해제" class="btn">
     </div>
     </div>
