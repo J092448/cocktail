@@ -7,6 +7,7 @@
     <style>
         a{
             text-decoration: none;
+            color: inherit;
         }
         .container {
             width: 60%;
@@ -66,11 +67,9 @@
             padding: 10px;
             text-align: center;
         }
-        .uUsername:visited, .uUsername {
-            color: inherit;
-        }
-        .uUsername:hover{
-            color: blue !important;
+
+        .uList-username:hover{
+           color: #c3b8b8!important;
         }
 
         .row:nth-child(even) {
@@ -120,7 +119,7 @@
             <th:block th:each="user : ${uList}">
                 <div class="row">
                 <a th:href="@{/admin/detailInfo(username=${user.username})}" th:text="${user.username}"
-                   th:style="${user.account_non_locked}==0 ? 'color:red' : ''" class="uUsername"></a>
+                   th:style="${user.account_non_locked}==0 ? 'color:red' : ''" class="uUsername uList-username"></a>
                 <div th:text="${user.name}"
                      th:style="${user.account_non_locked}==0 ? 'color:red' : ''" class="uName"></div>
                 <div th:text="${user.company_name}"
