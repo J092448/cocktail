@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        .info-container {
+            width: 400px;
+            margin: 70px auto;
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+
+        .info-group {
+            margin-bottom: 20px;
+        }
+
+        .info-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #666;
+            font-size: small;
+        }
+        .info-div {
+            width: calc(100% - 16px); /* input padding, border 값 고려 */
+            border-width: 0 0 1px;
+            border-style: solid;
+            padding: 10px;
+        }
+        .btn {
+            padding: 12px 24px;
+            margin: 0 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+    </style>
+    <link rel="stylesheet" href="/adminHeader.css">
+</head>
+<body>
+<div th:replace="~{fragments::adminHeader}"></div>
+
+<div class="info-container">
+    <h2>[[${user.username}]]회원의 정보</h2>
+<div class="info-group">
+<label for="username" class="info-label">아이디</label>
+<div th:text="${user.username}" id="username" class="info-div"></div>
+</div>
+    <div class="info-group">
+    <label for="name" class="info-label">이름</label>
+<div th:text="${user.name}" id="name" class="info-div"></div>
+    </div>
+    <div class="info-group">
+    <label for="company_name" class="info-label">매장명</label>
+<div th:text="${user.company_name}" id="company_name" class="info-div"></div>
+    </div>
+    <div class="info-group">
+    <label for="phone_number" class="info-label">전화번호</label>
+<div th:text="${pn}" id="phone_number" class="info-div"></div>
+    </div>
+    <div class="info-group">
+    <label for="secondary_phone_number" class="info-label">매장 전화번호</label>
+<div th:text="${sPn}" id="secondary_phone_number" class="info-div"></div>
+    </div>
+    <div class="info-group">
+    <label for="business_number" class="info-label">사업자번호</label>
+<div th:text="${bin}" id="business_number" class="info-div"></div>
+    </div>
+    <div class="info-group">
+    <label for="email" class="info-label">이메일</label>
+<div th:text="${user.email}" id="email" class="info-div"></div>
+    </div>
+    <div class="info-group">
+    <label for="registration_date" class="info-label">가입일</label>
+<div th:text="${#temporals.format(user.registration_date, 'yyyy.MM.dd HH:mm:ss') }" id="registration_date" class="info-div"></div>
+    </div>
+    <div th:if="${user.account_non_locked} == 1"> <!--값이 1이면 표시 -->
+    <input type="button" id="suspend" value="계정 정지" class="btn">
+    </div>
+    <div th:if="${user.account_non_locked} == 0"><!--값이 0이면 표시 -->
+    <input type="button" id="activate" value="정지 해제" class="btn">
+    </div>
+    </div>
+<script>
+    $('#suspend').click(() => {
+        let username = $('#username').text()
+        if (confirm(username + '회원을 정지하겠습니까?')){
+            $.ajax({
+                url: '/admin/suspendUser',
+                type: 'post',
+                data: {username:username}
+            }).done(() => {
+                alert('계정을 정지했습니다.')
+                location.reload()
+            }).fail((err) => console.log('err: ', err))
+        }
+    })
+    $('#activate').click(() => {
+        let username = $('#username').text()
+        if (confirm(username + '회원의 정지를 해제하겠습니까?')){
+            $.ajax({
+                url: '/admin/activateUser',
+                type: 'post',
+                data: {username:username}
+            }).done(() => {
+                alert('정지가 해체되었습니다.')
+                location.reload()
+            }).fail((err) => console.log('err: ', err))
+        }
+    })
+</script>
+</body>
+</html>

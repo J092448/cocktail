@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ontherocks.cocktail.Dao.AdminDao">
+
+    <insert id="insertAdmin">
+        insert into admin (username, password, email, tel, status, role)
+        values (#{username}, #{password}, #{email}, #{tel}, default, default);
+    </insert>
+
+    <insert id="noticeWrite" useGeneratedKeys="true" keyProperty="notice_num">
+        insert into notice values(null,#{notice_title},#{notice_contents},default,default,#{deadline},#{status})
+    </insert>
+<!--    <insert id="suspendUser">-->
+<!--        insert into suspended_users(username, suspended_at) values (#{username}, default)-->
+<!--    </insert>-->
+    <update id="suspendUser">
+        update users set account_non_locked = 0 where username = #{username}
+    </update>
+    <insert id="saveLoginHistory">
+        insert into login_history(id, user_id, login_date)
+        values (null, #{username}, default)
+    </insert>
+    <insert id="save">
+        insert into daily_statistics(date, total_visitors, new_users)
+        values (#{date}, #{total_visitors}, #{new_users})
+        on duplicate key update total_visitors = #{total_visitors}, new_users = #{new_users}
+    </insert>
+    <insert id="missingdate">
+        insert into daily_statistics(date, total_visitors, new_users)
+        select missing_dates.date, 0, 0 from(
+            select date_sub(curdate(),interval seq day) as date from(
+                select 1 as seq union select 2 union select 3 union select 4
+                                union select 5 union select 6 union select 7) as seq_table
+            ) as missing_dates
+                left join daily_statistics as ds on missing_dates.date = ds.date
+                    where ds.date is null
+    </insert>
+
+    <update id="updateInfo">
+        update admin set email = #{email}, tel = #{tel} where username = #{username}
+    </update>
+    <update id="updateNotice">
+        update notice set notice_title = #{notice_title}, notice_contents = #{notice_contents},
+        updated_at = current_timestamp, deadline = #{deadline}, status = #{status}
+        where notice_num = #{notice_num}
+    </update>
+    <update id="activateUser">
+        update users set account_non_locked = 1 where username = #{username}
+    </update>
+
+    <!--    <delete id="activateUser">-->
+<!--        delete from suspended_users where username = #{username}-->
+<!--    </delete>-->
+    <delete id="deleteNotice">
+        delete from notice where notice_num = #{notice_num}
+    </delete>
+
+    <select id="findByUsername" resultType="com.ontherocks.cocktail.dto.AdminDto">
+        select * from admin where username = #{username}
+    </select>
+
+    <select id="getActiveNotice" resultType="com.ontherocks.cocktail.dto.NoticeDto">
+        select * from notice
+        where status = 'ACTIVE' and (deadline is null or deadline >= current_date)
+    </select>
+    <select id="getUserList" resultType="com.ontherocks.cocktail.dto.UserDto">
+       select * from users
+        <choose>
+            <when test="keyword != null and keyword != ''">
+                where users.${colName} like concat('%',#{keyword},'%')
+                order by registration_date desc limit #{startIdx}, #{listCnt}
+            </when>
+            <otherwise>
+                order by registration_date desc limit #{startIdx}, #{listCnt}
+            </otherwise>
+        </choose>
+    </select>
+    <select id="getUserCnt" resultType="java.lang.Integer">
+        select count(*) from users
+        <if test="colName != null and colName != ''">
+            where ${colName} like concat('%', #{keyword}, '%')
+        </if>
+    </select>
+    <select id="isSuspendedUser" resultType="java.lang.Boolean">
+        select count(*) from suspended_users where username = #{username}
+    </select>
+    <select id="getNoticeList" resultType="com.ontherocks.cocktail.dto.NoticeDto">
+        select notice_num, notice_title,
+               case when updated_at is null then created_at else updated_at end as created_date, deadline
+        from notice
+        <choose>
+            <when test="keyword != null and keyword != ''">
+                where ${colName} like concat('%', #{keyword}, '%')
+                order by notice_num desc limit #{startIdx}, #{listCnt}
+            </when>
+            <otherwise>
+                order by notice_num desc limit #{startIdx}, #{listCnt}
+            </otherwise>
+        </choose>
+    </select>
+    <select id="getNoticeCnt" resultType="java.lang.Integer">
+        select count(*) from notice
+        <if test="colName != null and colName != ''">
+            where ${colName} like concat('%', #{keyword}, '%')
+        </if>
+    </select>
+    <select id="getDetailNotice" resultType="com.ontherocks.cocktail.dto.NoticeDto">
+        select * from notice where notice_num = #{notice_num}
+    </select>
+    <select id="getTodayVisitor" resultType="java.lang.Integer">
+        select count(*) from login_history where date(login_date) = current_date
+    </select>
+    <select id="getTodaySignup" resultType="java.lang.Integer">
+        select count(*) from users where date(registration_date) = current_date
+    </select>
+    <select id="hasRecentLogin" resultType="java.lang.Boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM login_history
+            WHERE user_id = #{user_id}
+              AND login_date >= NOW() - INTERVAL 1 SECOND
+        )
+    </select>
+    <select id="getYesterdayVisitors" resultType="java.lang.Integer">
+        select count(*) from login_history
+        where date(login_date) = date_sub(curdate(), interval 1 day)
+    </select>
+    <select id="getYesterdaySignups" resultType="java.lang.Integer">
+        select count(*) from users
+        where date(registration_date) = date_sub(curdate(), interval 1 day)
+    </select>
+    <select id="getWeeklyStats" resultType="com.ontherocks.cocktail.dto.DailyStatisticsDto">
+         <![CDATA[
+        select * from daily_statistics
+        where date >= date_sub(curdate(),interval 7 day) and date < curdate()
+        ]]>
+    </select>
+
+</mapper>
