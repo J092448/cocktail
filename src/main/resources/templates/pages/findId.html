@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아이디 찾기</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <script src="/js/common.js"></script>
+    <style>
+        .content {
+            background-color: #f7f7f7; /* 배경색 추가 */
+            border-radius: 8px; /* 모서리 둥글게 */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            flex-grow: 1;
+            display: flex;
+            justify-content: center; /* 중앙 정렬 */
+            align-items: center; /* 세로 중앙 정렬 */
+            padding: 20px;
+            margin-left: 220px; /* aside와의 간격 */
+
+        }
+        h1 {
+            margin-bottom: 20px;
+            text-align: center; /* 중앙 정렬 */
+        }
+        form {
+            max-width: 400px;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            /*box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);*/
+        }
+        .form-container {
+            max-width: 400px; /* 최대 너비 설정 */
+            width: 100%; /* 너비 100%로 설정 */
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff8c00; /* 버튼 색상 */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #e07b00; /* 버튼 hover 색상 */
+        }
+        input[type="text"]{
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #007bff; /* 테두리 색상 */
+            border-radius: 4px;
+            transition: border-color 0.3s; /* 테두리 색상 변화 효과 */
+        }
+        input[type="text"]:focus{
+            border-color: #0056b3; /* 포커스 시 테두리 색상 */
+        }
+
+    </style>
+</head>
+<body>
+
+<aside>
+    <div style="margin-top: auto;">
+        <a href="/login">로그인</a>
+    </div>
+</aside>
+
+<div class="content">
+    <div class="form-container">
+        <h1>아이디 찾기</h1>
+        <form id="findIdForm">
+<!--        <form th:action="@{/findId}" method="post">-->
+            <label for="name">이름:</label>
+            <input type="text" id="name" name="name" required />
+
+            <label for="phoneNumber">전화번호:</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" required />
+
+            <label for="businessNumber">사업자 번호:</label>
+            <input type="text" id="businessNumber" name="businessNumber" required maxlength="12" oninput="formatBusinessNumber()"/>
+
+            <button type="submit">아이디 찾기</button>
+        </form>
+    </div>
+</div>
+
+
+
+<footer>
+    <p>Copyright © 2025</p>
+</footer>
+<script>
+    $(document).ready(function() {
+        $('#findIdForm').submit(function(event) {
+            event.preventDefault(); // 기본 폼 제출 방지
+
+            $.post("/findId", $(this).serialize())
+                .done(function(response) {
+                    alert(response); // 성공 메시지 표시
+                    window.location.href = "/login"; // 로그인 페이지로 리다이렉트
+                })
+                .fail(function(xhr) {
+                    alert(xhr.responseText); // 오류 메시지 표시
+                    window.location.href = "/findId"; // 아이디 찾기 페이지로 리다이렉트
+                });
+        });
+    });
+</script>
+</body>
+</html>

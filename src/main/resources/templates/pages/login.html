@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
+  <script>
+      window.onload = function() {
+          const urlParams = new URLSearchParams(window.location.search);
+          const usernameInput = document.getElementById('username'); // username 입력 필드 가져오기
+          if (urlParams.has('error')) {
+              alert("로그인 실패: 사용자 이름 또는 비밀번호가 올바르지 않습니다.");
+          }
+          if (urlParams.has('logout')) {
+              alert("로그아웃이 완료되었습니다."); // 로그아웃 메시지
+          }
+          if (urlParams.has('registerMsg')) {
+              alert("회원가입에 성공하셨습니다"); // 회원가입 메시지
+          }
+          if (urlParams.has('findSuc')) {
+              alert("아이디는"+urlParams.get('findSuc')+"입니다."); // 찾은 아이디 메시지
+          }
+
+      }
+  </script>
+
+
+    <style>
+        .content{
+            display: flex; /* Flexbox 사용 */
+            justify-content: center; /* 가로 중앙 정렬 */
+            align-items: center; /* 세로 중앙 정렬 */
+        }
+        .login-form {
+            max-width: 400px;
+            width: 100%; /* 너비 100%로 설정하여 중앙 정렬 */
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .login-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .login-form input[type="text"], .login-form input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .login-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff8c00; /* 버튼 색상 */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .login-form button:hover {
+            background-color: #e07b00; /* 버튼 hover 색상 */
+        }
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+        .link-group {
+            display: flex; /* Flexbox 사용 */
+            justify-content: flex-end; /* 오른쪽 정렬 */
+            margin-top: 10px; /* 위쪽 여백 */
+        }
+        .link-group a {
+            margin-left: 10px; /* 링크 간격 */
+            color: #007bff; /* 링크 색상 */
+            text-decoration: none;
+        }
+        .link-group a:hover {
+            text-decoration: underline; /* hover 시 밑줄 */
+        }
+        .register-link {
+            position: fixed; /* 고정 위치 */
+            top: 20px; /* 상단 위치 */
+            right: 20px; /* 오른쪽 위치 */
+            z-index: 10; /* 다른 요소 위에 표시 */
+        }
+        .register-link a {
+            color: #ff8c00; /* 링크 색상 */
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid #ff8c00; /* 테두리 */
+            border-radius: 4px; /* 모서리 둥글게 */
+        }
+        .register-link a:hover {
+            background-color: #e07b00; /* hover 색상 */
+        }
+        h1 {
+            margin-bottom: 20px;
+            text-align: center; /* 중앙 정렬 */
+        }
+    </style>
+
+</head>
+<body>
+
+<aside>
+    <div style="margin-top: auto;">
+        <a th:href="@{/login}">로그인</a>
+    </div>
+</aside>
+<div class="content">
+    <div class="login-form">
+        <h1>로그인</h1>
+        <form th:action="@{/login}" method="post">
+            <label for="username">아이디 입력</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">비밀번호 입력</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">로그인</button>
+        </form>
+        <div class="register-link">
+            <a th:href="@{/register}">회원가입</a>
+        </div>
+        <div class="link-group">
+            <a th:href="@{/findId}">아이디 찾기</a>
+            <a th:href="@{/findPw}">비밀번호 찾기</a>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <p>Copyright © 2025</p>
+</footer>
+</body>
+</html>
