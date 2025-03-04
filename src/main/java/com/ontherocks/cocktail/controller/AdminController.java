@@ -108,14 +108,14 @@ public class AdminController {
         model.addAttribute("suspendedUser", suspendedUser);
 //        log.info("user: {}", user);
         // 번호에 - 추가 \\d{3}: 3자리 숫자 (...): 그룹 지정 $1: 첫번째 그룹 -: 하이픈
-        String pn = user.getPhone_number()
+        String pn = user.getPhoneNumber()
                 .replaceFirst("(\\d{3})(\\d{4})(\\d{3})", "$1-$2-$3");
-        String bin = user.getBusiness_number()
+        String bin = user.getBusinessNumber()
                 .replaceFirst("(\\d{3})(\\d{2})(\\d{5})", "$1-$2-$3");
         model.addAttribute("pn", pn);
         model.addAttribute("bin", bin);
         model.addAttribute("user", user);
-        String secPn = user.getSecondary_phone_number();
+        String secPn = user.getSecondaryPhoneNumber();
         if (secPn != null) { // null 체크 추가
             String sPn = null;
             if (secPn.length() == 10) { //10자리 일 때

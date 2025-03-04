@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script> <!-- jQuery UI 추가 -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .calendar-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .calendar-days, #calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+        .day-name, .calendar-day {
+            text-align: center;
+            padding: 10px;
+            border-radius: 4px;
+            background: #e3e3e3;
+        }
+        .calendar-day {
+            width: 100px;
+            height: 100px;
+            background: white;
+            cursor: pointer;
+            border: 1px solid #ddd;
+        }
+        .calendar-day:hover {
+            background: #d3d3d3;
+        }
+    </style>
+</head>
+<body>
+<div class="calendar-container">
+    <div class="calendar-header">
+        <button id="prevMonth">&#9665;</button>
+        <h2 id="currentMonth"></h2>
+        <button id="nextMonth">&#9655;</button>
+    </div>
+    <div class="calendar-days">
+        <div class="day-name">Sun</div>
+        <div class="day-name">Mon</div>
+        <div class="day-name">Tue</div>
+        <div class="day-name">Wed</div>
+        <div class="day-name">Thu</div>
+        <div class="day-name">Fri</div>
+        <div class="day-name">Sat</div>
+    </div>
+    <div id="calendar"></div>
+</div>
+<!--<div id="text" class="box">-->
+<!--    테스트-->
+<!--</div>-->
+<!--<div id="box" class="box" style="margin-top: 20px;"></div>-->
+<script>
+        let currentDate = new Date();
+        function renderCalendar(date) {
+            let month = date.getMonth();
+            let year = date.getFullYear();
+            let firstDay = new Date(year, month, 1).getDay();
+            let lastDate = new Date(year, month + 1, 0).getDate();
+
+            $('#currentMonth').text(`${year}년 ${month + 1}월`);
+            $('#calendar').empty();
+
+            for (let i = 0; i < firstDay; i++) {
+                $('#calendar').append('<div class="empty"></div>');
+            }
+
+            for (let day = 1; day <= lastDate; day++) {
+                $('#calendar').append(`<div class="calendar-day" id="calendarDay">${day}</div>`);
+            }
+        }
+
+        $('#prevMonth').click(function() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar(currentDate);
+        });
+
+        $('#nextMonth').click(function() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar(currentDate);
+        });
+
+        renderCalendar(currentDate);
+
+
+
+    // let textShown = false; // 텍스트가 한 번만 나타나도록 하는 플래그
+    //
+    // $("#text").draggable(); // 드래그 가능하게 설정
+    //
+    // $("#box").droppable({
+    //     drop: function (event, ui) {
+    //         if (!textShown) { // 한 번만 나타나도록 조건 설정
+    //             $(this).append("<p>드롭 성공!</p>");
+    //             textShown = true;
+    //         }
+    //     }
+    // });
+
+</script>
+</body>
+</html>

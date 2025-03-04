@@ -21,18 +21,22 @@ private final UserDao uDao;
         this.uDao = uDao;
     }
 
-    @GetMapping("/")
-    public String home(HttpSession session, Model model) {
-        Object msg = session.getAttribute("msg");
-//        log.info("홈 페이지에서 msg: {}", msg);
-        if (session.getAttribute("msg") != null) {
-            model.addAttribute("msg", session.getAttribute("msg"));
-            session.removeAttribute("msg");
-        }
-        return "/index";
-    }
+//    @GetMapping("/")
+//    public String home(HttpSession session, Model model) {
+//        Object msg = session.getAttribute("msg");
+////        log.info("홈 페이지에서 msg: {}", msg);
+//        if (session.getAttribute("msg") != null) {
+//            model.addAttribute("msg", session.getAttribute("msg"));
+//            session.removeAttribute("msg");
+//        }
+//        return "/index";
+//    }
     @GetMapping("/showNotice")
     public String showNotice() {
         return "/showNotice";
+    }
+    @GetMapping("/test")
+    public String test() {
+        return "/test";
     }
 }
