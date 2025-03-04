@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>발주 리스트</title>
-    <link rel="stylesheet" href="orderingList.css" />
+    <link rel="stylesheet" href="companyList.css" />
   </head>
   <body>
     <aside>
@@ -18,15 +18,15 @@
         <div class="menu-item">
           <a href="#">거래 업체</a>
           <div class="submenu">
-            <a href="../../tradeCompany/companyList/companyList.html">거래 업체 목록</a
-            ><a href="../../tradeCompany/tradeCompany/tradeCompany.html">거래 업체 등록</a>
+            <a href="#" onclick="window.location.reload();">거래 업체 목록</a
+            ><a href="../tradeCompany/tradeCompany.html">거래 업체 등록</a>
           </div>
         </div>
         <div class="menu-item">
           <a href="#">발주</a>
           <div class="submenu">
-            <a href="#" onclick="window.location.reload();">발주 목록</a>
-            <a href="../orderingFrm/orderingFrm.html">발주 신청</a>
+            <a href="../../ordering/orderingList/orderingList.html">발주 목록</a>
+            <a href="../../ordering/orderingFrm/orderingFrm.html">발주 신청</a>
           </div>
         </div>
       </div>
@@ -70,6 +70,6 @@
       </table>
       <div id="pagination"></div>
     </div>
-    <script src="orderingList.js"></script>
+    <script src="companyList.js"></script>
   </body>
 </html>

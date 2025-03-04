@@ -17,12 +17,6 @@ function setTodayDate() {
   document.getElementById("expectedDate").innerText = "예상 수령 일자: " + formattedExpectedDate;
 }
 
-// 순차적으로 번호를 자동 생성하는 함수
-function generateOrderNumber() {
-  var currentNumber = parseInt(localStorage.getItem("orderNumber") || "0");
-  return currentNumber.toString().padStart(6, "0");
-}
-
 // 발주가 저장될 때 번호를 증가시키는 함수
 function incrementOrderNumber() {
   var currentNumber = parseInt(localStorage.getItem("orderNumber") || "0");
@@ -136,10 +130,34 @@ document.getElementById("itemName").addEventListener("change", function () {
   }
 });
 
+// 순차적으로 번호를 자동 생성하는 함수
+function generateOrderNumber() {
+  var currentNumber = parseInt(localStorage.getItem("orderNumber") || "0") + 1; // 기본값을 0이 아닌 1로 변경
+  return currentNumber.toString().padStart(6, "0");
+}
+
 document.getElementById("submitOrder").addEventListener("click", function () {
-  alert("발주신청 되었습니다. 발주 목록 페이지로 이동합니다.");
-  incrementOrderNumber(); // 발주가 저장될 때 번호를 증가시킴
-  window.location.href = "../orderingList/orderingList.html"; // 발주 목록 페이지로 이동
+  var orderNumber = generateOrderNumber(); // 발주 번호 생성
+  var orderDate = new Date().toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  // 알림창에서 확인과 취소 버튼 처리
+  if (
+    confirm(
+      `발주를 완료하시겠습니까?\n발주 번호: ${orderNumber}\n발주 날짜: ${orderDate}\n감사합니다. 발주 내역은 언제든지 확인하실 수 있습니다.\n[확인]을 누르면 발주가 완료되며, [취소]를 누르면 작성 중인 발주 신청서로 돌아갑니다.`
+    )
+  ) {
+    // 발주 번호 저장
+    localStorage.setItem("orderNumber", orderNumber);
+    // 확인을 누른 경우
+    window.location.href = "../orderingList/orderingList.html";
+  } else {
+    // 취소를 누른 경우
+    alert("발주 신청이 취소되었습니다. 작성 중인 발주 신청서로 돌아갑니다.");
+  }
 });
 
 document.getElementById("cancelOrder").addEventListener("click", function () {
@@ -148,8 +166,5 @@ document.getElementById("cancelOrder").addEventListener("click", function () {
 });
 
 document.getElementById("quantity").addEventListener("input", function () {
-  if (this.value < 0) {
-    this.value = 0;
-  }
   updateTotalAmount();
 });

@@ -12,7 +12,6 @@ body {
   font-family: Arial, sans-serif; /* 폰트 설정 */
   margin: 0;
   background-color: #fff; /* 배경색 설정 */
-  padding: 0px 20px 20px 0px; /* 상단과 하단 패딩 추가 */
 }
 
 /* aside 태그 스타일 설정 */
@@ -80,10 +79,16 @@ footer {
 /* 발주 신청서 컨테이너 스타일 설정 */
 .container {
   width: 600px;
-  margin: 40px auto; /* 상단과 하단 마진 추가 */
+  margin: 40px auto; /* 상단과 하단 마진 추가, 왼쪽과 오른쪽 마진을 auto로 설정 */
   border: 1px solid #ccc;
   padding: 20px;
   border-radius: 10px;
+}
+
+@media screen and (max-width: 820px) {
+  .container {
+    margin-left: 220px; /* 창 크기가 줄어들 때 왼쪽 마진을 220px로 설정 */
+  }
 }
 
 /* 발주 신청서 헤더 스타일 설정 */
@@ -96,7 +101,7 @@ footer {
 /* 발주 신청서 제목 스타일 설정 */
 h1 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   position: relative; /* 상대적 위치 설정 */
 }
 
@@ -127,7 +132,7 @@ h1 {
 }
 /* 발주 신청서 폼 컨텐츠 스타일 설정 */
 .form-content {
-  margin-top: 30px; /* 상단 마진 추가 */
+  margin-top: 20px; /* 상단 마진 추가 */
 }
 
 /* 구분선 스타일 설정 */
