@@ -23,7 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.net.URI;
 
-import static com.ontherocks.cocktail.controller.PhoneNumberVerificationController.VERIFICATION_SERVICE_SID;
+
 
 
 @Controller
@@ -152,31 +152,10 @@ public class UserController {
         return "pages/findPw"; // 비밀번호 찾기 페이지로 이동
     }
 
-    @PostMapping("/findPw")
-    public ResponseEntity<String> findPassword(@RequestParam String username, @RequestParam String name,
-                                               @RequestParam String businessNumber, @RequestParam String phoneNumber) {
-        // 비즈니스 번호에서 하이픈 제거
-        String sanitizedBusinessNumber = businessNumber.replace("-", "");
 
-        // 전화번호를 국제 형식으로 변환
-        String formattedPhoneNumber = convertToInternationalFormat(phoneNumber);
 
-        // 사용자 정보 검증
-        boolean isValidUser = userService.validateUserInfo(username, name, sanitizedBusinessNumber, formattedPhoneNumber);
 
-        if (!isValidUser) {
-            return new ResponseEntity<>("입력한 정보가 일치하지 않습니다.", HttpStatus.BAD_REQUEST);
-        }
 
-        // OTP 생성 및 발송
-        try {
-            Verification.creator(VERIFICATION_SERVICE_SID, formattedPhoneNumber, "sms").create();
-            System.out.println("OTP has been sent to " + formattedPhoneNumber);
-            return new ResponseEntity<>("전화번호로 코드를 전송합니다.", HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("코드 전송 실패: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 
     // 전화번호 변환 함수
     private String convertToInternationalFormat(String phoneNumber) {
