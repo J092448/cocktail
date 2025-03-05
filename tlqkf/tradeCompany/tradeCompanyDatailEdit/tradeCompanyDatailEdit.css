@@ -1,0 +1,193 @@
+/* 기본 스타일 설정 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* body 태그 스타일 설정 */
+body {
+  display: flex; /* 플렉스 박스 사용 */
+  min-height: 100vh; /* 최소 높이를 100vh로 설정 */
+  font-family: Arial, sans-serif; /* 폰트 설정 */
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff; /* 배경색 설정 */
+}
+
+.wrapper {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin-left: 220px; /* 사이드바 너비를 고려한 마진 설정 */
+  background-color: white;
+}
+
+.container {
+  position: relative;
+  background-color: #fff;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: calc(100% - 240px); /* 사이드바를 고려한 너비 설정 */
+  max-width: 800px;
+  border: 1px solid #000000;
+  overflow-x: auto; /* 화면을 넘어가는 테이블에 대해 스크롤 허용 */
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.title-underline {
+  border-top: 1px solid #000;
+  width: 260px; /* 밑줄 길이 조정 */
+  margin-bottom: 10px;
+}
+
+table {
+  width: 100%;
+  max-width: 800px; /* 테이블의 너비를 800px로 고정 */
+  border-collapse: collapse;
+}
+
+table,
+th,
+td {
+  border: 1px solid #000000;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: center;
+}
+
+.medium-grey-background {
+  background-color: #d3d3d3;
+}
+
+/* aside 태그 스타일 설정 */
+aside {
+  width: 200px; /* 너비 설정 */
+  background: #222; /* 배경색 설정 */
+  color: white; /* 글자색 설정 */
+  display: flex; /* 플렉스 박스 사용 */
+  flex-direction: column; /* 세로 정렬 */
+  padding: 20px; /* 패딩 설정 */
+  justify-content: space-between; /* 콘텐츠 간 간격 조정 */
+  position: fixed; /* 고정 위치 설정 */
+  height: 100vh; /* 높이 100vh로 설정 */
+  left: 0;
+}
+
+/* aside 태그 안의 a 태그 스타일 설정 */
+aside a {
+  color: white; /* 글자색 설정 */
+  text-decoration: none; /* 밑줄 제거 */
+  padding: 10px 0; /* 패딩 설정 */
+  display: block; /* 블록 요소로 설정 */
+}
+
+/* a 태그 호버시 스타일 설정 */
+aside a:hover {
+  background: #444; /* 배경색 설정 */
+}
+
+/* 서브 메뉴 스타일 설정 */
+.submenu {
+  display: none; /* 기본적으로 숨김 */
+  padding-left: 20px; /* 왼쪽 패딩 추가 */
+}
+
+/* 메뉴 항목 호버시 서브 메뉴 보이기 */
+.menu-item:hover .submenu {
+  display: block; /* 서브 메뉴 보이기 */
+}
+
+/* 로그아웃 버튼 순서 설정 */
+.logout {
+  order: 1; /* 로그아웃을 아래로 */
+}
+
+/* 정보 수정 버튼 순서 및 간격 설정 */
+.info-edit {
+  order: 0; /* 정보 수정을 로그아웃 위로 */
+  margin-top: auto; /* 자동으로 위 간격 설정 */
+  margin-bottom: 20px; /* 아래쪽 간격 설정 */
+}
+
+/* footer 태그 스타일 설정 */
+footer {
+  position: fixed; /* 고정 위치 설정 */
+  bottom: 0; /* 하단에 위치 */
+  left: 200px; /* 왼쪽에서 200px 떨어짐 */
+  width: calc(100% - 200px); /* 너비 계산 */
+  background: black; /* 배경색 설정 */
+  color: white; /* 글자색 설정 */
+  text-align: right; /* 텍스트 오른쪽 정렬 */
+  padding: 10px; /* 패딩 설정 */
+  font-size: 14px; /* 폰트 크기 설정 */
+}
+
+/* 창의 크기가 줄어들 때 반응형 스타일 설정 */
+@media (max-width: 768px) {
+  .wrapper {
+    justify-content: flex-start;
+  }
+  .container {
+    width: calc(100% - 240px); /* 사이드바를 고려한 너비 설정 */
+    margin-left: 300px;
+  }
+  table {
+    width: 100%;
+    table-layout: fixed;
+    word-wrap: break-word;
+  }
+  th,
+  td {
+    padding: 5px;
+  }
+}
+/* wrapper의 너비를 95%로 설정하고 top, bottom에 여유를 줌 */
+#companyDetail-container {
+  width: 100%;
+}
+
+/* table의 고정 너비를 유지 */
+table {
+  width: 100%;
+}
+/* 버튼 컨테이너를 오른쪽 하단으로 정렬 */
+.button-container {
+  text-align: right;
+  right: 20px;
+}
+
+#cancel-button,
+#save-button {
+  margin: 0px 10px 0px 10px; /* 버튼 간의 여유 */
+  background-color: #eaeaea;
+  padding: 5px 10px; /* 패딩 설정 */
+  color: black; /* 텍스트 색상 설정 */
+  border: 1px solid black; /* 경계선 색상 설정 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  cursor: pointer; /* 커서 변경 */
+  margin-top: 20px;
+}
+#cancel-button:hover,
+#save-button:hover {
+  background-color: #a9a9a9; /* 호버시 배경색 변경 */
+  color: white; /* 호버시 텍스트 색상 변경 */
+}

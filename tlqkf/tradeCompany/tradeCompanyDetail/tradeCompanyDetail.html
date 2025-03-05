@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>발주 상세 내역서</title>
-    <link rel="stylesheet" href="orderingDetail.css" />
-    <script src="orderingDetail.js" defer></script>
+    <title>거래 업체 상세 정보</title>
+    <link rel="stylesheet" href="tradeCompanyDetail.css" />
+    <script src="tradeCompanyDetail.js" defer></script>
   </head>
   <body>
     <aside>
@@ -40,15 +40,11 @@
     <div class="wrapper">
       <div class="container">
         <div class="header">
-          <h1>발주 상세 내역서</h1>
+          <h1>거래 업체 상세 정보</h1>
           <hr class="title-underline" />
+          <div id="companyDetail-container"></div>
+          <!-- JavaScript에서 동적으로 테이블을 생성할 요소 -->
         </div>
-        <div class="document-number-container">
-          <span class="document-number" id="document-number" placeholder=""></span>
-          <hr class="document-number-underline" />
-        </div>
-        <div id="order-container"></div>
-        <!-- JavaScript에서 동적으로 테이블을 생성할 요소 -->
       </div>
     </div>
   </body>

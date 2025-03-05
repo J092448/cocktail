@@ -44,7 +44,7 @@ document.getElementById("submitCompany").addEventListener("click", function () {
     )
   ) {
     // 확인을 누른 경우
-    window.location.href = "../companyList/companyList.html";
+    window.location.href = "../tradeCompanyList/tradeCompanyList.html";
   } else {
     // 취소를 누른 경우
     alert("업체 등록이 취소되었습니다. 작성 중인 업체 등록 페이지로 돌아갑니다.");

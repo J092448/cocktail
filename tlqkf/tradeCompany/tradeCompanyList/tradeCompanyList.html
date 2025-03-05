@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>발주 리스트</title>
-    <link rel="stylesheet" href="companyList.css" />
+    <title>거래 업체 목록</title>
+    <link rel="stylesheet" href="tradeCompanyList.css" />
   </head>
   <body>
     <aside>
@@ -35,41 +35,23 @@
       <footer><div>문의사항: admin1@gmail.com</div></footer>
     </aside>
     <div class="main-content">
-      <h1 class="centered-title">발주 목록</h1>
-      <table id="orderTable">
+      <h1 class="centered-title">거래 업체 목록</h1>
+      <table id="companyTable">
         <thead>
           <tr>
-            <th>발주번호</th>
-            <th>품목명</th>
-            <th>신청일자</th>
-            <th>수량</th>
-            <th>발주상태</th>
-            <th>수령</th>
+            <th>업체번호</th>
+            <th>업체명</th>
+            <th>등록/수정일자</th>
+            <th>거래품목</th>
+            <th>대표자</th>
           </tr>
         </thead>
         <tbody>
-          <!-- 여기에 발주 목록 항목이 추가됩니다 -->
-          <tr>
-            <td><a href="orderDetail.html?orderNumber=000001">000001</a></td>
-            <td>품목명1</td>
-            <td>2025-02-25</td>
-            <td>10</td>
-            <td>신청</td>
-            <td>수령 완료</td>
-          </tr>
-          <tr>
-            <td><a href="orderDetail.html?orderNumber=000002">000002</a></td>
-            <td>품목명2</td>
-            <td>2025-02-24</td>
-            <td>20</td>
-            <td>신청</td>
-            <td>미수령</td>
-          </tr>
-          <!-- 추가 항목을 여기에 추가합니다 -->
+          <!-- 여기에 거래 업체 목록 항목이 추가됩니다 -->
         </tbody>
       </table>
       <div id="pagination"></div>
     </div>
-    <script src="companyList.js"></script>
+    <script src="tradeCompanyList.js"></script>
   </body>
 </html>
