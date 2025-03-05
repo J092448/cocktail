@@ -17,7 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("redirect:/calculate");
-        registry.addViewController("/calendar").setViewName("/calendar"); // /calendar 요청 시 calendar.html 렌더링
+        registry.addViewController("/calendar").setViewName("calendar"); // ✅ 수정
     }
 
     @Override
@@ -53,9 +53,9 @@ public class WebConfig implements WebMvcConfigurer {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")  // 모든 경로에 대해 CORS 허용
-                        .allowedOrigins("*")  // 모든 출처에서 접근 가능
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // 허용할 HTTP 메서드
+                registry.addMapping("/**")
+                        .allowedOrigins("*")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowCredentials(false);
             }
         };

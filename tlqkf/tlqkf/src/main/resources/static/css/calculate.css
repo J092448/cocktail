@@ -81,6 +81,24 @@ footer {
   padding: 20px;
   margin-left: 220px;
 }
+@media screen and (max-width: 768px) {
+  .wrapper {
+    justify-content: flex-start;
+  }
+  .container {
+    width: calc(100% - 240px); /* 사이드바를 고려한 너비 설정 */
+    margin-left: 300px;
+  }
+  table {
+    width: 100%;
+    table-layout: fixed;
+    word-wrap: break-word;
+  }
+  th,
+  td {
+    padding: 5px;
+  }
+}
 table {
   width: 50%; /* 표의 너비를 절반으로 줄임 */
   border-collapse: collapse;

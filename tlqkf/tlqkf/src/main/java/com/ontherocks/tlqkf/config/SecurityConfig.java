@@ -17,8 +17,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/login", "/favicon.ico", "/css/**", "/js/**", "/static/**",
                                 "/calculate/**", "/calendar/**", "/findId", "/findPw",
-                                "/orderingFrm/**", "/api/**", "/error")
-                        .permitAll()  // 🔹 인증 없이 접근 가능
+                                "/orderingFrm/**", "/api/**", "/error",
+                                "/calendar/sales", "/api/sales")  // ✅ 추가!
+                .permitAll()  // 🔹 인증 없이 접근 가능
                         .anyRequest().authenticated() // 🔹 나머지는 인증 필요
                 )
                 .anonymous(anonymous -> anonymous

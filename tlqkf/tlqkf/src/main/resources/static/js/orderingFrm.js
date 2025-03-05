@@ -19,8 +19,11 @@ function setTodayDate() {
 
 // 순차적으로 번호를 자동 생성하는 함수
 function generateOrderNumber() {
-  var currentNumber = parseInt(localStorage.getItem("orderNumber") || "0");
-  return currentNumber.toString().padStart(6, "0");
+    let lastOrderNumber = localStorage.getItem("lastOrderNumber") || 0;
+    lastOrderNumber = parseInt(lastOrderNumber) + 1;
+    let orderNumber = lastOrderNumber.toString().padStart(6, "0"); // 6자리로 맞춤
+    localStorage.setItem("lastOrderNumber", lastOrderNumber);
+    return orderNumber;
 }
 
 // 발주가 저장될 때 번호를 증가시키는 함수
@@ -109,13 +112,23 @@ function fetchUnitPrice(itemId) {
     .catch((error) => console.error("Error fetching unit price:", error));
 }
 
-// 총 발주 금액을 업데이트하는 함수
-function updateTotalAmount() {
-  var quantity = parseInt(document.getElementById("quantity").value) || 0; // 기본값 0으로 설정
-  var unitPrice = parseInt(document.getElementById("unitPrice").value.replace(/[^0-9]/g, "")) || 0; // 기본값 0으로 설정
-  var totalAmount = quantity * unitPrice;
-  document.getElementById("totalAmount").value = totalAmount.toLocaleString("ko-KR") + " 원";
-}
+document.getElementById("quantity").addEventListener("input", function () {
+    let unitPriceElement = document.getElementById("unitPrice");
+    let unitPrice = 0;
+
+    if (unitPriceElement) {
+        unitPrice = parseInt(unitPriceElement.textContent.replace(/[^0-9]/g, "")) || 0;
+    }
+
+    let quantity = parseInt(this.value) || 0; // 입력된 수량 값 가져오기 (입력 없을 시 0)
+    let totalPrice = unitPrice * quantity; // 총 금액 계산
+
+    let totalPriceElement = document.getElementById("totalPrice");
+    if (totalPriceElement) {
+        totalPriceElement.textContent = totalPrice.toLocaleString("ko-KR") + " 원"; // 총 금액 표시
+    }
+});
+
 
 // 페이지 로드 시 현재 날짜 설정 및 데이터 가져오기
 window.onload = function () {
@@ -136,11 +149,14 @@ document.getElementById("itemName").addEventListener("change", function () {
   }
 });
 
-document.getElementById("submitOrder").addEventListener("click", function () {
-  alert("발주신청 되었습니다. 발주 목록 페이지로 이동합니다.");
-  incrementOrderNumber(); // 발주가 저장될 때 번호를 증가시킴
-  window.location.href = "../../templates/ordering/orderingList.html"; // 발주 목록 페이지로 이동
+document.getElementById("orderSubmit").addEventListener("click", function () {
+    let confirmOrder = confirm("발주를 신청하시겠습니까?");
+    if (confirmOrder) {
+        alert("발주신청이 완료되었습니다. 발주 번호: " + generateOrderNumber());
+        window.location.href = "/orderingList"; // 발주 목록 페이지로 이동
+    }
 });
+
 
 document.getElementById("cancelOrder").addEventListener("click", function () {
   alert("발주가 취소되었습니다. 페이지를 새로고침합니다.");

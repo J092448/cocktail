@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>거래 업체 상세 정보</title>
+    <link rel="stylesheet" href="tradeCompanyDetail.css" />
+    <script src="tradeCompanyDetail.js" defer></script>
+  </head>
+  <body>
+    <aside>
+      <div>
+        <div class="menu-item"><a href="#">홈으로</a></div>
+        <div class="menu-item">
+          <a href="#"></a>
+        </div>
+        <div class="menu-item">
+          <a href="#">판매</a>
+          <div class="submenu"><a href="#">메뉴 목록</a><a href="#">재고 목록</a></div>
+        </div>
+        <div class="menu-item">
+          <a href="#">거래 업체</a>
+          <div class="submenu">
+            <a href="../../tradeCompany/tradeCompanyList/tradeCompanyList.html">거래 업체 목록</a>
+            <a href="../../tradeCompany/tradeCompany/tradeCompany.html">거래 업체 등록</a>
+          </div>
+        </div>
+        <div class="menu-item">
+          <a href="#">발주</a>
+          <div class="submenu">
+            <a href="../orderingList/orderingList.html">발주 목록</a>
+            <a href="../orderingFrm/orderingFrm.html">발주 신청</a>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item info-edit"><a href="#">정보 수정</a></div>
+      <div class="menu-item logout"><a href="#">로그아웃</a></div>
+      <footer><div>문의사항: admin1@gmail.com</div></footer>
+    </aside>
+    <div class="wrapper">
+      <div class="container">
+        <div class="header">
+          <h1>거래 업체 상세 정보</h1>
+          <hr class="title-underline" />
+          <div id="companyDetail-container"></div>
+          <!-- JavaScript에서 동적으로 테이블을 생성할 요소 -->
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

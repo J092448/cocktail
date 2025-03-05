@@ -9,7 +9,7 @@ import java.util.List;
 public interface CalculateMapper {
 
     // 🔹 calendar 테이블에서 월별 총 매출 조회
-    @Select("SELECT SUM(sales) AS totalSales, DATE_FORMAT(date, '%Y-%m') AS month FROM calendar GROUP BY month")
+    @Select("SELECT IFNULL(SUM(sales), 0) AS totalSales, DATE_FORMAT(STR_TO_DATE(date, '%Y-%m-%d'), '%Y-%m') AS month FROM calendar GROUP BY month")
     List<Calculate> findAllSales();
 
     // 🔹 ordering 테이블에서 월별 총 원가 조회

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>업체 등록</title>
+    <link rel="stylesheet" href="tradeCompany.css" />
+  </head>
+  <body>
+    <aside>
+      <div>
+        <div class="menu-item"><a href="#">홈으로</a></div>
+        <div class="menu-item"><a href="#"></a></div>
+        <div class="menu-item">
+          <a href="#">판매</a>
+          <div class="submenu">
+            <a href="#">메뉴 목록</a>
+            <a href="#">재고 목록</a>
+          </div>
+        </div>
+        <div class="menu-item">
+          <a href="#">거래 업체</a>
+          <div class="submenu">
+            <a href="../tradeCompanyList/tradeCompanyList.html">거래 업체 목록</a>
+            <a href="#" onclick="window.location.reload();">거래 업체 등록</a>
+          </div>
+        </div>
+        <div class="menu-item">
+          <a href="#">발주</a>
+          <div class="submenu">
+            <a href="../../ordering/orderingList/orderingList.html">발주 목록</a>
+            <a href="../../ordering/orderingFrm/orderingFrm.html">발주 신청</a>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item info-edit"><a href="#">정보 수정</a></div>
+      <div class="menu-item logout"><a href="#">로그아웃</a></div>
+      <footer>
+        <div>문의사항: admin1@gmail.com</div>
+      </footer>
+    </aside>
+
+    <div class="container">
+      <form id="companyForm" autocomplete="off">
+        <div class="form-content">
+          <!-- 구분선 추가 -->
+          <div class="input-group">
+            <label for="companyName">업체명</label>
+            <input type="text" id="companyName" placeholder="업체명" autocomplete="off" />
+          </div>
+          <div class="separator"></div>
+          <div class="input-group">
+            <label for="companyEName">업체 영문명</label>
+            <input type="text" id="companyEName" placeholder="업체의 영문명을 입력해주세요." autocomplete="off" />
+          </div>
+          <div class="separator"></div>
+          <div class="input-group">
+            <label for="businessNumber">사업자 번호</label>
+            <input
+              type="text"
+              id="businessNumber"
+              placeholder="000-00-00000"
+              autocomplete="off"
+              oninput="formatBusinessNumber(this)"
+            />
+          </div>
+          <div class="separator"></div>
+          <div class="input-group">
+            <label for="name">대표자 이름</label>
+            <input type="text" id="name" placeholder="대표자 이름" autocomplete="off" />
+          </div>
+          <div class="separator"></div>
+          <div class="input-group">
+            <label for="phone">휴대전화</label>
+            <input
+              type="text"
+              id="phone"
+              placeholder="휴대전화번호"
+              autocomplete="off"
+              oninput="formatPhoneNumber(this)"
+              maxlength="13"
+            />
+          </div>
+          <div class="separator"></div>
+          <div class="input-group">
+            <label for="comPhone">전화번호</label>
+            <input
+              type="text"
+              id="comPhone"
+              placeholder="전화번호"
+              autocomplete="off"
+              oninput="formatPhoneNumber(this)"
+              maxlength="13"
+            />
+          </div>
+          <div class="separator"></div>
+          <div class="form-group">
+            <label for="category">거래 품목:</label>
+            <select id="category" autocomplete="off">
+              <option value="">선택</option>
+            </select>
+            <select id="subcategory" autocomplete="off">
+              <option value="">선택</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-buttons">
+          <button type="button" id="submitCompany">저장</button>
+          <button type="button" id="cancelCompany">취소</button>
+        </div>
+      </form>
+    </div>
+    <script src="tradeCompany.js"></script>
+  </body>
+</html>

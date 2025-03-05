@@ -14,8 +14,7 @@ body {
   padding: 0;
   justify-content: center;
   align-items: center;
-
-  background-color: #fff; /* 배경색 검정으로 설정 */
+  background-color: #fff; /* 배경색 설정 */
 }
 
 .wrapper {
@@ -38,24 +37,7 @@ body {
   border: 1px solid #000000;
   overflow-x: auto; /* 화면을 넘어가는 테이블에 대해 스크롤 허용 */
 }
-@media screen and (max-width: 768px) {
-  .wrapper {
-    justify-content: flex-start;
-  }
-  .container {
-    width: calc(100% - 240px); /* 사이드바를 고려한 너비 설정 */
-    margin-left: 300px;
-  }
-  table {
-    width: 100%;
-    table-layout: fixed;
-    word-wrap: break-word;
-  }
-  th,
-  td {
-    padding: 5px;
-  }
-}
+
 h1 {
   text-align: center;
   margin-bottom: 0;
@@ -70,32 +52,13 @@ h1 {
 
 .title-underline {
   border-top: 1px solid #000;
-  width: 220px;
-  margin-top: 5px;
-}
-
-.document-number-container {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  text-align: center;
-}
-
-.document-number {
-  font-size: 12px;
-  color: #666;
-  display: inline-block;
-}
-
-.document-number-underline {
-  border: 0;
-  border-top: 1px solid #000;
-  width: 90px;
-  margin: 2px auto;
+  width: 260px; /* 밑줄 길이 조정 */
+  margin-bottom: 10px;
 }
 
 table {
   width: 100%;
+  max-width: 800px; /* 테이블의 너비를 800px로 고정 */
   border-collapse: collapse;
 }
 
@@ -196,4 +159,35 @@ footer {
   td {
     padding: 5px;
   }
+}
+/* wrapper의 너비를 95%로 설정하고 top, bottom에 여유를 줌 */
+#companyDetail-container {
+  width: 100%;
+}
+
+/* table의 고정 너비를 유지 */
+table {
+  width: 100%;
+}
+/* 버튼 컨테이너를 오른쪽 하단으로 정렬 */
+.button-container {
+  text-align: right;
+  right: 20px;
+}
+
+#cancel-button,
+#save-button {
+  margin: 0px 10px 0px 10px; /* 버튼 간의 여유 */
+  background-color: #eaeaea;
+  padding: 5px 10px; /* 패딩 설정 */
+  color: black; /* 텍스트 색상 설정 */
+  border: 1px solid black; /* 경계선 색상 설정 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  cursor: pointer; /* 커서 변경 */
+  margin-top: 20px;
+}
+#cancel-button:hover,
+#save-button:hover {
+  background-color: #a9a9a9; /* 호버시 배경색 변경 */
+  color: white; /* 호버시 텍스트 색상 변경 */
 }

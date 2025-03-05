@@ -21,9 +21,8 @@ public class CalculateService {
             List<Calculate> salesList = calculateMapper.findAllSales();
             List<Calculate> costList = calculateMapper.findAllCosts();
 
-            if (salesList == null || costList == null) {
-                throw new RuntimeException("DB에서 데이터를 가져오지 못했습니다.");
-            }
+            if (salesList == null) salesList = List.of();
+            if (costList == null) costList = List.of();
 
             Map<String, Integer> salesMap = salesList.stream()
                     .collect(Collectors.toMap(Calculate::getMonth, Calculate::getTotalSales, (a, b) -> a));
@@ -38,7 +37,8 @@ public class CalculateService {
             }).toList();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("매출 데이터 계산 중 오류 발생: " + e.getMessage());
+            return List.of(); // 예외 발생 시 빈 리스트 반환
         }
     }
+
 }
