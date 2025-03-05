@@ -1,7 +1,7 @@
 package com.ontherocks.cocktail.security;
 
-import com.ontherocks.cocktail.Dao.AdminDao;
-import com.ontherocks.cocktail.Dao.UserDao;
+import com.ontherocks.cocktail.mapper.AdminDao;
+import com.ontherocks.cocktail.mapper.UserDao;
 import com.ontherocks.cocktail.dto.AdminDto;
 import com.ontherocks.cocktail.dto.UserDto;
 import com.ontherocks.cocktail.service.AdminService;
@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,4 +1,4 @@
-package com.ontherocks.cocktail.Dao;
+package com.ontherocks.cocktail.mapper;
 
 import com.ontherocks.cocktail.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;

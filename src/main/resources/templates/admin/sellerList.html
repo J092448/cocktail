@@ -115,17 +115,25 @@
         <div style="flex: 3; text-align: center;">등록된 업체가 없습니다.</div>
     </div>
 </th:block>
-        <th:block th:if="${uList}">
+        <th:block th:if="${not #lists.isEmpty(uList)}">
             <th:block th:each="user : ${uList}">
                 <div class="row">
-                <a th:href="@{/admin/detailInfo(username=${user.username})}" th:text="${user.username}"
-                   th:style="${user.account_non_locked}==0 ? 'color:red' : ''" class="uUsername uList-username"></a>
-                <div th:text="${user.name}"
-                     th:style="${user.account_non_locked}==0 ? 'color:red' : ''" class="uName"></div>
-                <div th:text="${user.company_name}"
-                     th:style="${user.account_non_locked}==0 ? 'color:red' : ''" class="uCompanyName"></div>
-                <div th:text="${#temporals.format(user.registration_date, 'yyyy.MM.dd')}"
-                     th:style="${user.account_non_locked}==0 ? 'color:red' : ''"class="uRegistrationDate"></div>
+                    <a th:href="@{/admin/detailInfo(username=${user.username})}"
+                       th:text="${user.username}"
+                       th:style="${user.accountNonLocked eq 0} ? 'color:red' : ''"
+                       class="uUsername uList-username"></a>
+
+                    <div th:text="${user.name}"
+                         th:style="${user.accountNonLocked eq 0} ? 'color:red' : ''"
+                         class="uName"></div>
+
+                    <div th:text="${user.companyName}"
+                         th:style="${user.accountNonLocked eq 0} ? 'color:red' : ''"
+                         class="uCompanyName"></div>
+
+                    <div th:text="${#temporals.format(user.registrationDate, 'yyyy.MM.dd')}"
+                         th:style="${user.accountNonLocked eq 0} ? 'color:red' : ''"
+                         class="uRegistrationDate"></div>
                 </div>
             </th:block>
         </th:block>

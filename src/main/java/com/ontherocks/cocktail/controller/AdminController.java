@@ -1,7 +1,7 @@
 package com.ontherocks.cocktail.controller;
 
-import com.ontherocks.cocktail.Dao.AdminDao;
-import com.ontherocks.cocktail.Dao.UserDao;
+import com.ontherocks.cocktail.mapper.AdminDao;
+import com.ontherocks.cocktail.mapper.UserDao;
 import com.ontherocks.cocktail.dto.*;
 import com.ontherocks.cocktail.service.AdminService;
 import jakarta.servlet.http.HttpSession;
@@ -85,7 +85,6 @@ public class AdminController {
 //        log.info("=======search: " + search);
         List<UserDto> uList = null;
         uList = aSer.getUserList(search); //전체 유저 조회(suspended_users 테이블과 조인해서 정지 여부까지 확인)
-
 //        log.info("=======list: " + uList);
         if (uList != null) { //리스트가 있으면 페이징
             String pageHtml = aSer.getUserPaging(search);
@@ -104,18 +103,16 @@ public class AdminController {
     @GetMapping("/detailInfo")
     public String detailInfo(Model model, HttpSession session, String username) {
         UserDto user = uDao.findByUsername(username);
-        boolean suspendedUser = aDao.isSuspendedUser(username);
-        model.addAttribute("suspendedUser", suspendedUser);
 //        log.info("user: {}", user);
         // 번호에 - 추가 \\d{3}: 3자리 숫자 (...): 그룹 지정 $1: 첫번째 그룹 -: 하이픈
-        String pn = user.getPhone_number()
+        String pn = user.getPhoneNumber()
                 .replaceFirst("(\\d{3})(\\d{4})(\\d{3})", "$1-$2-$3");
-        String bin = user.getBusiness_number()
+        String bin = user.getBusinessNumber()
                 .replaceFirst("(\\d{3})(\\d{2})(\\d{5})", "$1-$2-$3");
         model.addAttribute("pn", pn);
         model.addAttribute("bin", bin);
         model.addAttribute("user", user);
-        String secPn = user.getSecondary_phone_number();
+        String secPn = user.getSecondaryPhoneNumber();
         if (secPn != null) { // null 체크 추가
             String sPn = null;
             if (secPn.length() == 10) { //10자리 일 때

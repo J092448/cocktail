@@ -57,7 +57,7 @@
     </div>
     <div class="info-group">
     <label for="company_name" class="info-label">매장명</label>
-<div th:text="${user.company_name}" id="company_name" class="info-div"></div>
+<div th:text="${user.companyName}" id="company_name" class="info-div"></div>
     </div>
     <div class="info-group">
     <label for="phone_number" class="info-label">전화번호</label>
@@ -77,12 +77,12 @@
     </div>
     <div class="info-group">
     <label for="registration_date" class="info-label">가입일</label>
-<div th:text="${#temporals.format(user.registration_date, 'yyyy.MM.dd HH:mm:ss') }" id="registration_date" class="info-div"></div>
+<div th:text="${#temporals.format(user.registrationDate, 'yyyy.MM.dd HH:mm:ss') }" id="registration_date" class="info-div"></div>
     </div>
-    <div th:if="${user.account_non_locked} == 1"> <!--값이 1이면 표시 -->
+    <div th:if="${user.accountNonLocked} == 1"> <!--값이 1이면 표시 -->
     <input type="button" id="suspend" value="계정 정지" class="btn">
     </div>
-    <div th:if="${user.account_non_locked} == 0"><!--값이 0이면 표시 -->
+    <div th:if="${user.accountNonLocked} == 0"><!--값이 0이면 표시 -->
     <input type="button" id="activate" value="정지 해제" class="btn">
     </div>
     </div>

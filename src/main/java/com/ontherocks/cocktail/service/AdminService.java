@@ -1,7 +1,7 @@
 package com.ontherocks.cocktail.service;
 
-import com.ontherocks.cocktail.Dao.AdminDao;
-import com.ontherocks.cocktail.Dao.UserDao;
+import com.ontherocks.cocktail.mapper.AdminDao;
+import com.ontherocks.cocktail.mapper.UserDao;
 import com.ontherocks.cocktail.common.Paging;
 import com.ontherocks.cocktail.dto.*;
 import lombok.RequiredArgsConstructor;
@@ -118,7 +118,7 @@ private final UserDao uDao;
         if (admin != null) {
             return; //관리자 계정으로 로그인하면 저장하지 않음
         }
-        int user_id = user.getUser_id();
+        int user_id = user.getUserId();
         if (user == null) { //users 테이블에 없으면 저장하지 않음
             return;
         }
@@ -143,6 +143,6 @@ private final UserDao uDao;
         if (user == null) {
             return false;
         } //users 테이블에 없으면 false 반환
-        return user.getAccount_non_locked() == 0; //값이 0(정지된 유저)이면 true 반환
+        return user.getAccountNonLocked() == 0; //값이 0(정지된 유저)이면 true 반환
     }
 }

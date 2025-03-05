@@ -10,24 +10,24 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
-    private int user_id;
+    private int userId;
     private String username;
     private String name;
-    private String company_name;
+    private String companyName;
     private String password;
-    private String phone_number;
-    private String secondary_phone_number;
-    private String business_number;
+    private String phoneNumber;
+    private String secondaryPhoneNumber;
+    private String businessNumber;
     private String email;
-    private int account_non_locked;
-    private LocalDateTime registration_date;
+    private int accountNonLocked;
+    private LocalDateTime registrationDate;
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -46,12 +46,12 @@ public class UserDto {
         this.name = name;
     }
 
-    public String getCompany_name() {
-        return company_name;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setCompany_name(String company_name) {
-        this.company_name = company_name;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public String getPassword() {
@@ -62,28 +62,28 @@ public class UserDto {
         this.password = password;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public String getSecondary_phone_number() {
-        return secondary_phone_number;
+    public String getSecondaryPhoneNumber() {
+        return secondaryPhoneNumber;
     }
 
-    public void setSecondary_phone_number(String secondary_phone_number) {
-        this.secondary_phone_number = secondary_phone_number;
+    public void setSecondaryPhoneNumber(String secondaryPhoneNumber) {
+        this.secondaryPhoneNumber = secondaryPhoneNumber;
     }
 
-    public String getBusiness_number() {
-        return business_number;
+    public String getBusinessNumber() {
+        return businessNumber;
     }
 
-    public void setBusiness_number(String business_number) {
-        this.business_number = business_number;
+    public void setBusinessNumber(String businessNumber) {
+        this.businessNumber = businessNumber;
     }
 
     public String getEmail() {
@@ -94,21 +94,22 @@ public class UserDto {
         this.email = email;
     }
 
-    public int getAccount_non_locked() {
-        return account_non_locked;
+    public int getAccountNonLocked() {
+        return accountNonLocked;
     }
 
-    public void setAccount_non_locked(int account_non_locked) {
-        this.account_non_locked = account_non_locked;
+    public void setAccountNonLocked(int accountNonLocked) {
+        this.accountNonLocked = accountNonLocked;
     }
 
-    public LocalDateTime getRegistration_date() {
-        return registration_date;
+    public LocalDateTime getRegistrationDate() {
+        return registrationDate;
     }
 
-    public void setRegistration_date(LocalDateTime registration_date) {
-        this.registration_date = registration_date;
+    public void setRegistrationDate(LocalDateTime registrationDate) {
+        this.registrationDate = registrationDate;
     }
+
     //    user_id INT AUTO_INCREMENT PRIMARY KEY,                -- 고유 사용자 ID
 //    username VARCHAR(50) NOT NULL UNIQUE,                 -- 아이디
 //    name VARCHAR(50) NOT NULL,                             -- 이름

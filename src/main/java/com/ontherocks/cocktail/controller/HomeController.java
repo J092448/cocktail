@@ -1,6 +1,6 @@
 package com.ontherocks.cocktail.controller;
 
-import com.ontherocks.cocktail.Dao.UserDao;
+import com.ontherocks.cocktail.mapper.UserDao;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
