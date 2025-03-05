@@ -1,10 +1,9 @@
-package com.ontherocks.cocktail.security;
+package com.ontherocks.cocktail.service;
 
 import com.ontherocks.cocktail.mapper.AdminDao;
 import com.ontherocks.cocktail.mapper.UserDao;
 import com.ontherocks.cocktail.dto.AdminDto;
 import com.ontherocks.cocktail.dto.UserDto;
-import com.ontherocks.cocktail.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.DisabledException;
