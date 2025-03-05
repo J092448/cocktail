@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org/">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script th:inline="javascript">
+        $(() => {
+            const msg = [[${msg}]]
+            console.log("msg 값:", msg);
+            if (msg){
+                alert(msg)
+            }
+        })
+    </script>
+</head>
+<body>
+<form th:action="@{/login}" method="post">
+    <label for="username">아이디
+        <input type="text" id="username" name="username">
+    </label><br>
+    <label for="password">비밀번호
+        <input type="text" id="password" name="password">
+    </label><br>
+    <button>로그인</button>
+</form>
+<a href="/join">회원가입</a>
+</body>
+</html>

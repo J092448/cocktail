@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script th:inline="javascript">
+        $(() => {
+            const msg = [[${msg}]]
+            if (msg != null) {
+                alert(msg)
+            }
+        })
+    </script>
+    <link rel="stylesheet" href="/adminHeader.css">
+</head>
+<body>
+<div th:replace="~{fragments::adminHeader}"></div>
+<h1>admin/main</h1>
+<div>오늘의 가입자 [[${singup}]]</div>
+<div>오늘의 방문자 [[${visitor}]]</div>
+<div class="chart-area">
+    <canvas id="visitorsChart" style="max-width: 600px; max-height: 400px"></canvas>
+    <canvas id="signupsChart" style="max-width: 600px; max-height: 400px"></canvas>
+</div>
+
+<script th:inline="javascript">
+    const dates = [[${weekly.![date]}]]
+    const visitors = [[${weekly.![total_visitors]}]]
+    const signups = [[${weekly.![new_users]}]]
+    console.log(dates, visitors, signups)
+
+    const ctxVisitors = $('#visitorsChart')[0].getContext('2d')
+    new Chart(ctxVisitors, {
+        type: 'bar',
+        data: {
+            labels: dates,
+            datasets: [{
+                label: '일일 방문자 수',
+                data: visitors,
+                backgroundColor: 'rgba(235,199,54,0.5)',
+                borderColor: 'rgb(235,193,54)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {beginAtZero: true}
+            }
+        }
+    })
+    const ctxSignups = $('#signupsChart')[0].getContext('2d')
+    new Chart(ctxSignups, {
+        type: 'bar',
+        data: {
+            labels: dates,
+            datasets: [{
+                label: '일일 가입자 수',
+                data: signups,
+                backgroundColor: 'rgba(235,129,54,0.5)',
+                borderColor: 'rgb(255,136,51)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {beginAtZero: true}
+            }
+        }
+    })
+</script>
+</body>
+</html>
