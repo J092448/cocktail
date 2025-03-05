@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>캘린더와 사이드바</title>
+    <link rel="stylesheet" th:href="@{/css/calendar.css}" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
+    <script th:src="@{/js/calendar.js}"></script>
+  </head>
+  <body>
+    <aside>
+      <div>
+        <div class="menu-item"><a href="#">홈으로</a></div>
+        <div class="menu-item">
+          <a href="#"></a>
+        </div>
+        <div class="menu-item">
+          <a href="#">대시보드</a>
+        </div>
+        <div class="menu-item">
+          <a href="#">인사관리</a>
+        </div>
+        <div class="menu-item">
+          <a href="#">판매</a>
+        </div>
+        <div class="menu-item">
+          <a href="#">회계</a>
+          <div class="submenu">
+            <a href="#" onclick="window.location.reload();">매출</a>
+            <a th:href="@{calculate}">정산</a>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item info-edit"><a href="#">정보 수정</a></div>
+      <div class="menu-item logout"><a href="#">로그아웃</a></div>
+      <footer><div>문의사항: admin1@gmail.com</div></footer>
+    </aside>
+    <div class="content">
+      <div id="calendar-header">
+        <button id="prev" onclick="changeMonth(-1)">◀</button>
+        <div id="month-year" class="month-year">2025년 1월</div>
+        <button id="next" onclick="changeMonth(1)">▶</button>
+      </div>
+      <div id="calendar"></div>
+    </div>
+
+  </body>
+</html>
