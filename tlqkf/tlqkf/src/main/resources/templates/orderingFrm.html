@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>발주 신청서</title>
+    <link rel="stylesheet" th:href="@{/css/orderingFrm.css}" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
+    <script th:src="@{/js/orderingFrm.js}"></script>
+  </head>
+  <body>
+    <aside>
+      <div>
+        <div class="menu-item"><a href="#">홈으로</a></div>
+        <div class="menu-item"><a href="#"></a></div>
+        <div class="menu-item">
+          <a href="#">판매</a>
+          <div class="submenu">
+            <a href="#">메뉴 목록</a>
+            <a href="#">재고 목록</a>
+          </div>
+        </div>
+        <div class="menu-item">
+          <a href="#">거래 업체</a>
+          <div class="submenu">
+            <a href="#">거래 업체 목록</a>
+            <a href="#">거래 업체 등록</a>
+          </div>
+        </div>
+        <div class="menu-item">
+          <a href="#">발주</a>
+          <div class="submenu">
+            <a th:href="@{orderingList}">발주 목록</a>
+            <a href="#" onclick="window.location.reload();">발주 신청</a>
+          </div>
+        </div>
+      </div>
+      <div class="menu-item info-edit"><a href="#">정보 수정</a></div>
+      <div class="menu-item logout"><a href="#">로그아웃</a></div>
+      <footer>
+        <div>문의사항: admin1@gmail.com</div>
+      </footer>
+    </aside>
+
+    <div class="container">
+      <div class="header">
+        <p id="orderDate">발주 신청 일자:</p>
+        <p id="expectedDate">예상 수령 일자:</p>
+      </div>
+      <form th:action="@{/orderingFrm/submit}" method="post" th:object="${orderingFrmForm}">
+        <h1>
+          발주 신청서
+          <span class="small-gray-text" id="orderNumber" placeholder="no.000000"></span>
+          <hr class="small-gray-line" />
+        </h1>
+        <div class="form-content">
+          <div class="separator"></div>
+          <!-- 구분선 추가 -->
+          <div class="form-group">
+            <label for="category">발주 물품:</label>
+            <select id="category" th:field="*{category}" onchange="loadSubcategories()">
+              <option value="">선택</option>
+              <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>
+            </select>
+              <select id="subcategory" th:field="*{subcategory}" onchange="loadItems()">
+              <option value="">선택</option>
+            </select>
+          </div>
+          <div class="separator"></div>
+          <div class="form-group">
+            <label for="itemName">품목명:</label>
+            <select id="itemName" th:field="*{itemName}" onchange="loadUnitPrice()">
+              <option value="">선택</option>
+            </select>
+          </div>
+          <div class="separator"></div>
+          <div class="form-group">
+            <label for="company">거래업체:</label>
+            <select id="company" th:field="*{company}" onchange="loadBusinessNumber()">
+              <option value="">선택</option>
+              <option th:each="comp : ${companies}" th:value="${comp}" th:text="${comp}"></option>
+            </select>
+          </div>
+          <div class="separator"></div>
+          <div class="form-group">
+            <label for="businessNumber">사업자 번호:</label>
+            <input type="text" id="businessNumber" th:field="*{businessNumber}" placeholder="000-00-00000" readonly />
+          </div>
+          <div class="separator"></div>
+          <div class="form-group">
+            <label for="unitPrice">단가:</label>
+            <input type="text" id="unitPrice" th:field="*{unitPrice}" readonly />
+          </div>
+          <div class="separator"></div>
+          <div class="form-group">
+            <label for="quantity">발주신청수량:</label>
+            <input type="number" id="quantity" value="0" />
+          </div>
+          <div class="separator"></div>
+          <div class="form-group">
+            <label for="totalAmount">총 발주 금액:</label>
+            <input type="text" id="totalAmount" readonly />
+          </div>
+          <div class="form-buttons">
+            <button type="button" id="submitOrder">발주 신청</button>
+            <button type="button" id="cancelOrder">발주 취소</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
