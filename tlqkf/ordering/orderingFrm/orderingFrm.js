@@ -103,13 +103,22 @@ function fetchUnitPrice(itemId) {
     .catch((error) => console.error("Error fetching unit price:", error));
 }
 
-// 총 발주 금액을 업데이트하는 함수
-function updateTotalAmount() {
-  var quantity = parseInt(document.getElementById("quantity").value) || 0; // 기본값 0으로 설정
-  var unitPrice = parseInt(document.getElementById("unitPrice").value.replace(/[^0-9]/g, "")) || 0; // 기본값 0으로 설정
-  var totalAmount = quantity * unitPrice;
-  document.getElementById("totalAmount").value = totalAmount.toLocaleString("ko-KR") + " 원";
-}
+document.getElementById("quantity").addEventListener("input", function () {
+  let unitPriceElement = document.getElementById("unitPrice"); 
+  let unitPrice = 0;
+
+  if (unitPriceElement) {
+      unitPrice = parseInt(unitPriceElement.textContent.replace(/[^0-9]/g, "")) || 0; 
+  }
+
+  let quantity = parseInt(this.value) || 0; // 입력된 수량 값 가져오기 (입력 없을 시 0)
+  let totalPrice = unitPrice * quantity; // 총 금액 계산
+
+  let totalPriceElement = document.getElementById("totalPrice"); 
+  if (totalPriceElement) {
+      totalPriceElement.textContent = totalPrice.toLocaleString("ko-KR") + " 원"; // 총 금액 표시
+  }
+});
 
 // 페이지 로드 시 현재 날짜 설정 및 데이터 가져오기
 window.onload = function () {
