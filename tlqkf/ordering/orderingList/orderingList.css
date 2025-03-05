@@ -178,7 +178,24 @@ tr td:last-child {
   font-size: 12px; /* 폰트 크기 설정 */
   color: #6c757d; /* 글자색 설정 */
 }
-
+@media screen and (max-width: 768px) {
+  .wrapper {
+    justify-content: flex-start;
+  }
+  .container {
+    width: calc(100% - 240px); /* 사이드바를 고려한 너비 설정 */
+    margin-left: 300px;
+  }
+  table {
+    width: 100%;
+    table-layout: fixed;
+    word-wrap: break-word;
+  }
+  th,
+  td {
+    padding: 5px;
+  }
+}
 /* 페이지네이션 버튼 스타일 설정 */
 #pagination button {
   margin: 0 5px; /* 버튼 간격 설정 */

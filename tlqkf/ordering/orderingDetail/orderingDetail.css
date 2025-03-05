@@ -38,7 +38,24 @@ body {
   border: 1px solid #000000;
   overflow-x: auto; /* 화면을 넘어가는 테이블에 대해 스크롤 허용 */
 }
-
+@media screen and (max-width: 768px) {
+  .wrapper {
+    justify-content: flex-start;
+  }
+  .container {
+    width: calc(100% - 240px); /* 사이드바를 고려한 너비 설정 */
+    margin-left: 300px;
+  }
+  table {
+    width: 100%;
+    table-layout: fixed;
+    word-wrap: break-word;
+  }
+  th,
+  td {
+    padding: 5px;
+  }
+}
 h1 {
   text-align: center;
   margin-bottom: 0;

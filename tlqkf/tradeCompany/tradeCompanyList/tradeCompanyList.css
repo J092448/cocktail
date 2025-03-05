@@ -86,7 +86,24 @@ footer {
   flex-direction: column; /* 세로 정렬 */
   align-items: center; /* 중앙 정렬 추가 */
 }
-
+@media screen and (max-width: 768px) {
+  .wrapper {
+    justify-content: flex-start;
+  }
+  .container {
+    width: calc(100% - 240px); /* 사이드바를 고려한 너비 설정 */
+    margin-left: 300px;
+  }
+  table {
+    width: 100%;
+    table-layout: fixed;
+    word-wrap: break-word;
+  }
+  th,
+  td {
+    padding: 5px;
+  }
+}
 /* 중앙 정렬된 제목 스타일 설정 */
 .centered-title {
   text-align: center; /* 중앙 정렬 */

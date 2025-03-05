@@ -1,7 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
   // 데이터를 비동기적으로 가져옵니다.
   fetch("/data")
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
     .then((data) => {
       // 데이터를 이용해 캘린더 또는 페이지를 업데이트하는 코드 작성
       console.log(data);
@@ -151,7 +156,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return fetch(`/api/sales?year=${year}&month=${month}`)
       .then((response) => response.json())
       .then((data) => {
-        // 매출 데이터가 성공적으로 반환된 경우
         return data.sales;
       })
       .catch((error) => {
