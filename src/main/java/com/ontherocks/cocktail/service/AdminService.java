@@ -143,6 +143,6 @@ private final UserDao uDao;
         if (user == null) {
             return false;
         } //users 테이블에 없으면 false 반환
-        return user.getAccountNonLocked() == 0; //값이 0(정지된 유저)이면 true 반환
+        return !user.isAccountNonLocked(); //값이 0(정지된 유저)이면 true 반환
     }
 }
