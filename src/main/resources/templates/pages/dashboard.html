@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" href="/css/notice.css"/>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has('infoMsg')) {
             alert("회원정보가 성공적으로 변경 되었습니다");
         }
     </script>
-
+    <script th:src="@{/js/notice.js}"></script>
     <style>
         .menu-group {
             position: relative; /* 상대 위치 설정 */
@@ -73,7 +75,6 @@
             }
         }
 
-
     </style>
 </head>
 <body>
@@ -92,6 +93,19 @@
 
 
 </aside>
+
+<div id="noticeModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="noticeTitle"></h2>
+        <p id="noticeContents"></p>
+        <div class="modal-footer">
+            <label>
+                <input type="checkbox" id="dontShowToday"> 오늘 하루 보지 않기
+            </label>
+        </div>
+    </div>
+</div>
 
 <div class="content">
     <div class="card-container">
