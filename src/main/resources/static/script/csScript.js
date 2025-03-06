@@ -8,3 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+function goList(){
+    window.location.href = 'orderList.html';
+}

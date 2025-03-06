@@ -10,8 +10,8 @@
 <div class="container">
     <!-- 가게 이미지 및 상단 정보 -->
     <div class="header">
-        <img class="mainimg" th:src="@{/images/cocktailbarimg.jpg}" alt="가게 사진">
-        <button class="order-button">주문내역</button>
+        <img class="mainimg" src="/images/cocktailbarimg.jpg" alt="가게 사진">
+        <button class="order-button" onclick="goList()">주문내역</button>
     </div>
     <div class="subHeader">
         <h1 class="store-name">온더락스 칵테일바</h1>
@@ -24,79 +24,113 @@
     <div class="recommendation">
         <img class="recomImg" src="/images/speaker.png" alt="확성기 아이콘">
         <h2>오늘의 추천 칵테일 "모히또"</h2>
-        <img class="menu-image" src="#" alt="메뉴 이미지">
+        <img class="menu-image" src="/images/mojito.jpg" alt="메뉴 이미지">
     </div>
+    <a href="menuDetail.html?cocktail=mojito">
         <div class="recomcock">
             <h3 class="menu-name">모히또</h3>
             <p class="menu-description">상큼한 민트향과 새콤달콤한 라임향의 조화!<br>
                 화이트럼 + 라임주스 + 애플민트 + 설탕 + 탄산수</p>
             <p class="menu-price">12,000원</p>
         </div>
+    </a>
 
     <div class="horizontal-line"></div>
 
     <!-- 메뉴 리스트 -->
     <div class="menu">
         <h2>일반메뉴</h2>
+        <a href="menuDetail.html?cocktail=screwdriver">
         <div class="menu-item">
-            <img class="menu-image" src="#" alt="메뉴 이미지">
+            <img class="menu-image" src="/images/Screwdriver.jpg" alt="메뉴 이미지">
             <div class="menu-info">
-                <h3 class="menu-name">칵테일 A</h3>
-                <p class="menu-description">상큼한 맛의 칵테일입니다.</p>
-                <p class="menu-price">₩6000</p>
-
+                <h3 class="menu-name">스크류 드라이버</h3>
+                <p class="menu-description">상큼한 오렌지와 보드카의 깔끔한 조화, 가볍고 부드러운 한잔!<br>
+                    보드카 + 오렌지주스 + 오렌지</p>
+                <p class="menu-price">15,000원</p>
             </div>
         </div>
-        <div class="menu-item">
-            <img class="menu-image" src="#" alt="메뉴 이미지">
-            <div class="menu-info">
-                <h3 class="menu-name">칵테일 B</h3>
-                <p class="menu-description">달콤한 맛의 칵테일입니다.</p>
-                <p class="menu-price">₩7000</p>
+        </a>
 
+        <div class="horizontal-line"></div>
+
+        <a href="menuDetail.html?cocktail=tequilaSunrise">
+        <div class="menu-item">
+            <img class="menu-image" src="/images/TequilaSunrise.jpg" alt="메뉴 이미지">
+            <div class="menu-info">
+                <h3 class="menu-name">데킬라 선라이즈</h3>
+                <p class="menu-description">달콤한 오렌지와 그레나딘 시럽이 어우러진, 부드럽고 화려한 한잔!<br>
+                    데킬라 + 오렌지주스 + 오렌지 + 체리 + 그레다닌 시럽</p>
+                <p class="menu-price">12,000원</p>
             </div>
         </div>
+        </a>
+
+        <div class="horizontal-line"></div>
+
+    <a href="menuDetail.html?cocktail=magarita">
+    <div class="menu-item">
+        <img class="menu-image" src="/images/Margarita.jpg" alt="메뉴 이미지">
+        <div class="menu-info">
+            <h3 class="menu-name">마가리타</h3>
+            <p class="menu-description">상큼한 라임과 테킬라의 조화, 산뜻하고 시원한 한잔!<br>
+                데킬라 + 쿠앵트로 + 소금 + 라임</p>
+            <p class="menu-price">14,000원</p>
+        </div>
     </div>
+    </a>
+
+        <div class="horizontal-line"></div>
+
+    <a href="menuDetail.html?cocktail=martini">
+    <div class="menu-item">
+        <img class="menu-image" src="/images/Martini.jpg" alt="메뉴 이미지">
+        <div class="menu-info">
+            <h3 class="menu-name">마티니</h3>
+            <p class="menu-description">"진과 드라이 베르무트가 어우러진, 깔끔하고 클래식한 한잔!<br>
+                진 + 드라이 베르무트 + 올리브</p>
+            <p class="menu-price">15,000원</p>
+        </div>
+    </div>
+    </a>
+
+        <div class="horizontal-line"></div>
+
+    <a href="menuDetail.html?cocktail=sangria">
+    <div class="menu-item">
+        <img class="menu-image" src="/images/Sangria.jpg" alt="메뉴 이미지">
+        <div class="menu-info">
+            <h3 class="menu-name">샹그리아</h3>
+            <p class="menu-description">"과일과 와인의 풍미가 조화를 이루는 달콤하고 상큼한 한잔!<br>
+                레드와인 + 브랜디 + 설탕 + 오렌지 + 레몬</p>
+            <p class="menu-price">10,000원</p>
+        </div>
+    </div>
+    </a>
+
+        <div class="horizontal-line"></div>
+
+    <a href="menuDetail.html?cocktail=jackcoke">
+    <div class="menu-item">
+        <img class="menu-image" src="/images/JackCoke.jpg" alt="메뉴 이미지">
+        <div class="menu-info">
+            <h3 class="menu-name">잭콕</h3>
+            <p class="menu-description">부드럽고 진한 오크 향, 달콤하면서도 스모키한 풍미가 돋보이는 한잔!<br>
+                잭다니엘 + 콜라</p>
+            <p class="menu-price">7,000원</p>
+        </div>
+    </div>
+    </a>
+
 </div>
-<div class="menu">
-    <div class="menu-item">
-        <img class="menu-image" src="#" alt="메뉴 이미지">
-        <div class="menu-info">
-            <h3 class="menu-name">칵테일 A</h3>
-            <p class="menu-description">상큼한 맛의 칵테일입니다.</p>
-            <p class="menu-price">₩6000</p>
-
-        </div>
-    </div>
-    <div class="menu-item">
-        <img class="menu-image" src="#" alt="메뉴 이미지">
-        <div class="menu-info">
-            <h3 class="menu-name">칵테일 B</h3>
-            <p class="menu-description">달콤한 맛의 칵테일입니다.</p>
-            <p class="menu-price">₩7000</p>
-
-        </div>
-    </div>
-    <div class="menu-item">
-        <img class="menu-image" src="#" alt="메뉴 이미지">
-        <div class="menu-info">
-            <h3 class="menu-name">칵테일 B</h3>
-            <p class="menu-description">달콤한 맛의 칵테일입니다.</p>
-            <p class="menu-price">₩7000</p>
-
-        </div>
-    </div>
-    <div class="menu-item">
-        <img class="menu-image" src="#" alt="메뉴 이미지">
-        <div class="menu-info">
-            <h3 class="menu-name">칵테일 B</h3>
-            <p class="menu-description">달콤한 맛의 칵테일입니다.</p>
-            <p class="menu-price">₩7000</p>
-
-        </div>
-    </div>
 </div>
+
+<a href="cart.html">
+<div class="footer">
+    <p>장바구니 보기</p>
 </div>
+</a>
+
 
 <script src="/script/csScript.js"></script>
 </body>
