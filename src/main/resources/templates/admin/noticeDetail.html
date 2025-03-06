@@ -59,8 +59,8 @@
 
     <div class="notice-info">
         <strong>번호:</strong> <span th:text="${notice.notice_num}"></span><br>
-        <strong>등록일:</strong> <span th:text="${notice.created_at}"></span><br>
-        <strong>수정일:</strong> <span th:text="${notice.updated_at}"></span><br>
+        <strong>등록일:</strong> <span th:text="${#temporals.format(notice.created_at, 'yyyy.MM.dd HH:mm')}"></span><br>
+        <strong>수정일:</strong> <span th:text="${#temporals.format(notice.updated_at, 'yyyy.MM.dd HH:mm')}"></span><br>
         <strong>만료일:</strong> <span th:text="${notice.deadline}"></span>
     </div>
 

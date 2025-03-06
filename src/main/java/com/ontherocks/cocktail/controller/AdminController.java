@@ -41,6 +41,9 @@ public class AdminController {
         int visitor = aDao.getTodayVisitor(); //오늘의 방문자 수 조회
         int singup = aDao.getTodaySignup(); //오늘의 가입자 수 조회
         List<DailyStatisticsDto> weekly = aDao.getWeeklyStats();
+        for (DailyStatisticsDto weeklyDto : weekly) {
+            System.out.println("weeklyDto: " + weeklyDto.getTotal_visitors());
+        }
 
         model.addAttribute("weekly", weekly);
         model.addAttribute("visitor", visitor);
@@ -132,6 +135,9 @@ public class AdminController {
         if(search.getListCnt() == null){search.setListCnt(10);}
         if (search.getStartIdx() == null) {search.setStartIdx(0);}
         List<NoticeDto> nList = aSer.getNoticeList(search);
+        for (NoticeDto notice : nList) {
+            System.out.println("notice: " + notice.getNotice_num());
+        }
         if (nList != null) {
             String pageHtml = aSer.getNoticePaging(search);
             if (search.getKeyword() != null) {

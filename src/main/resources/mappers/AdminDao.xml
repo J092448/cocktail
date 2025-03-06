@@ -14,6 +14,21 @@
         <result column="account_non_locked" property="accountNonLocked"/>
         <result column="registration_date" property="registrationDate" javaType="java.time.LocalDateTime"/>
     </resultMap>
+    <resultMap id="noticeResultMap" type="com.ontherocks.cocktail.dto.NoticeDto">
+        <id property="notice_num" column="notice_num"/>
+        <result property="notice_title" column="notice_title"/>
+        <result property="notice_contents" column="notice_contents"/>
+        <result property="created_at" column="created_at"/>
+        <result property="updated_at" column="updated_at"/>
+        <result property="deadline" column="deadline"/>
+        <result property="status" column="status"/>
+    </resultMap>
+    <resultMap id="StatsResultMap" type="com.ontherocks.cocktail.dto.DailyStatisticsDto">
+        <result column="date" property="date"/>
+        <result column="total_visitors" property="total_visitors"/>
+        <result column="new_users" property="new_users"/>
+    </resultMap>
+
     <insert id="insertAdmin">
         insert into admin (username, password, email, tel, status, role)
         values (#{username}, #{password}, #{email}, #{tel}, default, default);
@@ -71,7 +86,7 @@
         select * from admin where username = #{username}
     </select>
 
-    <select id="getActiveNotice" resultType="com.ontherocks.cocktail.dto.NoticeDto">
+    <select id="getActiveNotice" resultMap="noticeResultMap">
         select * from notice
         where status = 'ACTIVE' and (deadline is null or deadline >= current_date)
     </select>
@@ -96,7 +111,7 @@
     <select id="isSuspendedUser" resultType="java.lang.Boolean">
         select count(*) from suspended_users where username = #{username}
     </select>
-    <select id="getNoticeList" resultType="com.ontherocks.cocktail.dto.NoticeDto">
+    <select id="getNoticeList" resultMap="noticeResultMap">
         select notice_num, notice_title,
                case when updated_at is null then created_at else updated_at end as created_date, deadline
         from notice
@@ -116,7 +131,7 @@
             where ${colName} like concat('%', #{keyword}, '%')
         </if>
     </select>
-    <select id="getDetailNotice" resultType="com.ontherocks.cocktail.dto.NoticeDto">
+    <select id="getDetailNotice" resultMap="noticeResultMap">
         select * from notice where notice_num = #{notice_num}
     </select>
     <select id="getTodayVisitor" resultType="java.lang.Integer">
@@ -140,7 +155,7 @@
         select count(*) from users
         where date(registration_date) = date_sub(curdate(), interval 1 day)
     </select>
-    <select id="getWeeklyStats" resultType="com.ontherocks.cocktail.dto.DailyStatisticsDto">
+    <select id="getWeeklyStats" resultMap="StatsResultMap">
          <![CDATA[
         select * from daily_statistics
         where date >= date_sub(curdate(),interval 7 day) and date < curdate()
