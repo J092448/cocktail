@@ -80,6 +80,7 @@
     <input type="submit" id="updateBtn" class="btn" value="저장" style="display: none">
 </form>
 </div>
+<div th:replace="~{fragments::footer}"></div>
 <script>
 $('#modifyBtn').click(() => {
     const emailVal = $('#email').val()

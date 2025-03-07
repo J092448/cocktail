@@ -31,8 +31,8 @@ private final UserDao uDao;
 //        }
 //        return "/index";
 //    }
-    @GetMapping("/showNotice")
-    public String showNotice() {
-        return "/showNotice";
-    }
+//    @GetMapping("/showNotice")
+//    public String showNotice() {
+//        return "/showNotice";
+//    }
 }

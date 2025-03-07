@@ -81,6 +81,7 @@
         <button class="btn btn-danger" id="deleteBtn">삭제</button>
     </div>
 </div>
+<div th:replace="~{fragments::footer}"></div>
 <script >
     $('#deleteBtn').click(() => {
         if (confirm('삭제하시겠습니까?')){

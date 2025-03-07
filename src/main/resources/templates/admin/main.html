@@ -14,6 +14,12 @@
         })
     </script>
     <link rel="stylesheet" href="/adminHeader.css">
+    <style>
+        .chart{
+            width: 500px;
+            height: 400px;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="~{fragments::adminHeader}"></div>
@@ -21,10 +27,10 @@
 <div>오늘의 가입자 [[${singup}]]</div>
 <div>오늘의 방문자 [[${visitor}]]</div>
 <div class="chart-area">
-    <canvas id="visitorsChart" style="max-width: 600px; max-height: 400px"></canvas>
-    <canvas id="signupsChart" style="max-width: 600px; max-height: 400px"></canvas>
+    <canvas id="visitorsChart" class="chart"></canvas>
+    <canvas id="signupsChart" class="chart"></canvas>
 </div>
-
+<div th:replace="~{fragments::footer}"></div>
 <script th:inline="javascript">
     const dates = [[${weekly.![date]}]]
     const visitors = [[${weekly.![total_visitors]}]]

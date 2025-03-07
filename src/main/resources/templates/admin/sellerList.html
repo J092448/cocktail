@@ -141,7 +141,7 @@
     </div>
 </div>
 <div th:utext="${pageHtml}" class="paging"></div>
-
+<div th:replace="~{fragments::footer}"></div>
 <script>
     $('#searchBtn').click(() => {
         const keyword = $('#keyword').val()
