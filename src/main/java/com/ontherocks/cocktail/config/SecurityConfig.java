@@ -12,7 +12,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/images/**", "/css/**", "/js/**", "/menu/**", "/cocktail/templates/**", "/menuOrder.html","/csPages/**").permitAll() // 인증 없이 접근할 수 있는 리소스 추가
+                        .requestMatchers("/images/**", "/css/**", "/js/**", "/menu/**", "/cocktail/templates/**", "/menuOrder.html", "/csPages/**", "/csPages/menuDetail.html", "cart.html", "orderList.html").permitAll() // 인증 없이 접근할 수 있는 리소스 추가
                         .anyRequest().authenticated() // 그 외 요청은 인증 필요
                 );
 //                .logout(logout -> logout.permitAll()) // 로그아웃 기능 허용

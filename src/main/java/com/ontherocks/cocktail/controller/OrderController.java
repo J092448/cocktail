@@ -1,7 +1,9 @@
 package com.ontherocks.cocktail.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class OrderController {
@@ -16,8 +18,9 @@ public class OrderController {
     }
 
     @GetMapping("/csPages/menuDetail")
-    public String menuDetailPage() {
-        return "/csPages/menuDetail";
+    public String menuDetailPage(@RequestParam("cocktail") String cocktail, Model model) {
+        model.addAttribute("cocktail", cocktail);  // 파라미터를 모델에 추가
+        return "csPages/menuDetail";  // 메뉴 상세 페이지 뷰 반환
     }
 
     @GetMapping("/csPages/cart")
