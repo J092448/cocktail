@@ -131,8 +131,8 @@
         </th:block>
     </div>
     <input type="button" value="작성" onclick="location.href='/admin/notice'" class="write-btn">
+    <div th:utext="${pageHtml}" class="paging"></div>
 </div>
-<div th:utext="${pageHtml}" class="paging"></div>
 <div th:replace="~{fragments::footer}"></div>
 <script>
     $('#searchBtn').click(() => {

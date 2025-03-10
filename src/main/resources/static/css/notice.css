@@ -13,12 +13,38 @@
     background-color: white;
     margin: 10% auto;
     padding: 20px;
-    width: 50%;
+    width: 30%;
     border-radius: 10px;
+    position: relative; /* 체크박스 절대 위치 조정을 위해 필요 */
 }
 
+/* 닫기 버튼 스타일 */
 .close {
     float: right;
     font-size: 24px;
+    cursor: pointer;
+}
+
+/* 제목과 내용 간격 조정 */
+#noticeTitle {
+    margin-bottom: 15px;
+}
+
+#noticeContents {
+    margin-bottom: 30px;
+    line-height: 1.6; /* 가독성 향상 */
+}
+
+/* 체크박스를 우측 하단으로 이동 */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end; /* 우측 정렬 */
+    padding-top: 10px;
+}
+
+/* 체크박스 스타일 조정 */
+.checkbox-container {
+    font-size: 14px;
+    color: #555;
     cursor: pointer;
 }

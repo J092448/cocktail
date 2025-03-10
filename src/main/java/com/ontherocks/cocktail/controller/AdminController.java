@@ -44,7 +44,6 @@ public class AdminController {
         for (DailyStatisticsDto weeklyDto : weekly) {
             System.out.println("weeklyDto: " + weeklyDto.getTotal_visitors());
         }
-
         model.addAttribute("weekly", weekly);
         model.addAttribute("visitor", visitor);
         model.addAttribute("singup", singup);

@@ -15,20 +15,71 @@
     </script>
     <link rel="stylesheet" href="/adminHeader.css">
     <style>
-        .chart{
-            width: 500px;
-            height: 400px;
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            margin-left: 220px;
+        }
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .card {
+            width: 48%;
+            padding: 20px;
+            margin: 50px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .signup-card { background: #f8caca; color: #b22222; }
+        .total-card { background: #cce5ff; color: #004085; }
+        .chart-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .chart-box {
+            width: 48%;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 200px;
+            width: calc(100% - 200px);
+            background: black;
+            color: white;
+            text-align: right;
+            padding: 10px;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
 <div th:replace="~{fragments::adminHeader}"></div>
-<h1>admin/main</h1>
-<div>오늘의 가입자 [[${singup}]]</div>
-<div>오늘의 방문자 [[${visitor}]]</div>
-<div class="chart-area">
-    <canvas id="visitorsChart" class="chart"></canvas>
-    <canvas id="signupsChart" class="chart"></canvas>
+
+<div class="content">
+    <div class="stats-container">
+        <div class="card signup-card">오늘의 가입자 수
+        <div th:text="${visitor}"></div>
+        </div>
+        <div class="card total-card">누적 가입자 수
+        <div th:text="${singup}"></div>
+        </div>
+    </div>
+    <div class="chart-container">
+        <div class="chart-box">
+            <canvas id="visitorsChart"></canvas>
+        </div>
+        <div class="chart-box">
+            <canvas id="signupsChart"></canvas>
+        </div>
+    </div>
 </div>
 <div th:replace="~{fragments::footer}"></div>
 <script th:inline="javascript">

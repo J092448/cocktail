@@ -74,10 +74,10 @@ private final UserDao uDao;
         } //리스트가 없으면 빈 문자열 반환
         String listUrl = null;
         if (search.getColName() != null) { //검색 중일 때
-            listUrl = "admin/sellerList?colName=" + search.getColName()
+            listUrl = "/admin/sellerList?colName=" + search.getColName()
                     + "&keyword=" + search.getKeyword() + "&";
         }else { //검색 중이 아닐 때
-            listUrl = "admin/sellerList?";
+            listUrl = "/admin/sellerList?";
         }
         Paging paging = new Paging(totalNum, search.getPageNum(), search.getListCnt(), 10, listUrl);
         return paging.makePaging();
@@ -100,10 +100,10 @@ private final UserDao uDao;
         int totalNum = aDao.getNoticeCnt(search);
         String listUrl = null;
         if (search.getColName() != null) {
-            listUrl = "admin/noticeList?colName=" + search.getColName()
+            listUrl = "/admin/noticeList?colName=" + search.getColName()
                     + "&keyword=" + search.getKeyword() + "&";
         }else {
-            listUrl = "admin/noticeList?";
+            listUrl = "/admin/noticeList?";
         }
         Paging paging = new Paging(totalNum, search.getPageNum(), search.getListCnt(), 10, listUrl);
         return paging.makePaging();
