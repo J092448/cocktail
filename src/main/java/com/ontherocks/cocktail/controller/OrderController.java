@@ -20,7 +20,7 @@ public class OrderController {
     @GetMapping("/csPages/menuDetail")
     public String menuDetailPage(@RequestParam("cocktail") String cocktail, Model model) {
         model.addAttribute("cocktail", cocktail);  // 파라미터를 모델에 추가
-        return "csPages/menuDetail";  // 메뉴 상세 페이지 뷰 반환
+        return "/csPages/menuDetail";  // 메뉴 상세 페이지 뷰 반환
     }
 
     @GetMapping("/csPages/cart")
