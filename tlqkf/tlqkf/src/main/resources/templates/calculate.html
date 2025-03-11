@@ -8,7 +8,7 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"
           integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
           crossorigin="anonymous"></script>
-  <script th:src="@{/js/calculate.js}"></script>
+
 
 </head>
 <body>
@@ -55,99 +55,101 @@
     <tbody>
     <tr class="category">
       <td>I. 매출액</td>
-      <td id="salesCurrent" contenteditable="true">0</td>
-      <td id="salesPrevious" class="previous-data">0</td>
+      <td id="salesCurrent" th:name="salesCurrent" value="0"></td>
+      <td id="salesPrevious"  th:name="salesPrevious" class="previous-data"value="0"></td>
     </tr>
     <tr class="category">
       <td>II. 매출원가</td>
-      <td id="costOfSalesCurrent">0</td>
-      <td id="costOfSalesPrevious" class="previous-data">0</td>
+      <td id="costOfSalesCurrent" th:name="costOfSalesCurrent" value="0"></td>
+      <td id="costOfSalesPrevious" th:name="costOfSalesPrevious" class="previous-data" value="0"></td>
     </tr>
     <tr>
       <td>상품매출원가 (자동)</td>
-      <td id="productCostAuto" class="amount-auto">0</td>
-      <td id="productCostAutoPrev" class="previous-data">0</td>
+      <td id="productCostAuto" th:name="productCostAuto" class="amount-auto" value="0">0</td>
+      <td id="productCostAutoPrev" th:name="productCostAutoPrev" class="previous-data" value="0"></td>
     </tr>
     <tr>
       <td>상품매출원가</td>
-      <td class="amount"><input type="text" id="productCostManual" value="0" autocomplete="off" /></td>
-      <td id="productCostManualPrev" class="previous-data">0</td>
+      <td class="amount"><input type="text" id="productCostManual" th:name="productCostManual"value="0" autocomplete="off" /></td>
+      <td id="productCostManualPrev" th:name="productCostManualPrev"class="previous-data"value="0"></td>
     </tr>
     <tr>
       <td>기초상품재고액</td>
-      <td class="amount"><input type="text" id="beginningInventory" value="0" autocomplete="off" /></td>
-      <td id="beginningInventoryPrev" class="previous-data">0</td>
+      <td class="amount"><input type="text" id="beginningInventory" th:name="beginningInventory"value="0" autocomplete="off" /></td>
+      <td id="beginningInventoryPrev" th:name="beginningInventoryPrev"class="previous-data"value="0"></td>
     </tr>
     <tr>
       <td>월말상품재고액</td>
-      <td class="amount"><input type="text" id="endingInventory" value="0" autocomplete="off" /></td>
-      <td id="endingInventoryPrev" class="previous-data">0</td>
+      <td class="amount"><input type="text" id="endingInventory" th:name="endingInventory"value="0" autocomplete="off" /></td>
+      <td id="endingInventoryPrev" th:name="endingInventoryPrev"class="previous-data"value="0"></td>
     </tr>
 
     <tr class="category">
       <td>III. 매출총이익</td>
-      <td id="grossProfitCurrent">0</td>
-      <td id="grossProfitPrevious" class="previous-data">0</td>
+      <td id="grossProfitCurrent" th:name="grossProfitCurrent"value="0"></td>
+      <td id="grossProfitPrevious" th:name="grossProfitPrevious"class="previous-data"value="0"></td>
     </tr>
     <tr class="category">
       <td>IV. 판매비와 관리비</td>
-      <td id="sgAndACurrent">0</td>
-      <td id="sgAndAPrevious" class="previous-data">0</td>
+      <td id="sgAndACurrent" th:name="sgAndACurrent"value="0"></td>
+      <td id="sgAndAPrevious" th:name="sgAndAPrevious"class="previous-data"value="0"></td>
     </tr>
     <tr>
       <td>급여</td>
-      <td class="amount"><input type="text" id="salary" value="0" autocomplete="off" /></td>
-      <td id="salaryPrevious" class="previous-data">0</td>
+      <td class="amount"><input type="text" id="salary"  th:name="salary"value="0" autocomplete="off" /></td>
+      <td id="salaryPrevious" th:name="salaryPrevious"class="previous-data"value="0"></td>
     </tr>
     <tr>
       <td>운반비</td>
-      <td class="amount"><input type="text" id="freight" value="0" autocomplete="off" /></td>
-      <td id="freightPrevious" class="previous-data">0</td>
+      <td class="amount"><input type="text" id="freight" th:name="freight"value="0" autocomplete="off" /></td>
+      <td id="freightPrevious" th:name="freightPrevious"class="previous-data"value="0"></td>
     </tr>
     <tr>
       <td>사무용품비</td>
-      <td class="amount"><input type="text" id="officeSupplies" value="0" autocomplete="off" /></td>
-      <td id="officeSuppliesPrevious" class="previous-data">0</td>
+      <td class="amount"><input type="text" id="officeSupplies" th:name="officeSupplies"value="0" autocomplete="off" /></td>
+      <td id="officeSuppliesPrevious" th:name="officeSuppliesPrevious"class="previous-data"value="0"></td>
     </tr>
     <tr>
       <td>지급임차료</td>
-      <td class="amount"><input type="text" id="rent" value="0" autocomplete="off" /></td>
-      <td id="rentPrevious" class="previous-data">0</td>
+      <td class="amount"><input type="text" id="rent" th:name="rent"value="0" autocomplete="off" /></td>
+      <td id="rentPrevious" th:name="rentPrevious"class="previous-data"value="0"></td>
     </tr>
 
     <tr class="category">
       <td>V. 영업이익</td>
-      <td id="operatingIncomeCurrent">0</td>
-      <td id="operatingIncomePrevious" class="previous-data">0</td>
+      <td id="operatingIncomeCurrent" th:name="operatingIncomeCurrent" value="0">0</td>
+      <td id="operatingIncomePrevious" th:name="operatingIncomePrevious" class="previous-data" value="0"></td>
     </tr>
     <tr class="category">
       <td>VI. 영업외수익</td>
-      <td id="nonOperatingIncomeCurrent" contenteditable="true">0</td>
-      <td id="nonOperatingIncomePrevious" class="previous-data">0</td>
+      <td id="nonOperatingIncomeCurrent" th:name="nonOperatingIncomeCurrent" value="0">0</td>
+      <td id="nonOperatingIncomePrevious" th:name="nonOperatingIncomePrevious" class="previous-data" value="0"></td>
     </tr>
     <tr class="category">
       <td>VII. 영업외비용</td>
-      <td id="nonOperatingExpenseCurrent" contenteditable="true">0</td>
-      <td id="nonOperatingExpensePrevious" class="previous-data">0</td>
+      <td id="nonOperatingExpenseCurrent" th:name="nonOperatingExpenseCurrent" value="0">0</td>
+      <td id="nonOperatingExpensePrevious" th:name="nonOperatingExpensePrevious" class="previous-data" value="0"></td>
     </tr>
     <tr class="category">
       <td>VIII. 법인세비용차감전순이익</td>
-      <td id="preTaxIncomeCurrent">0</td>
-      <td id="preTaxIncomePrevious" class="previous-data">0</td>
+      <td id="preTaxIncomeCurrent" th:name="preTaxIncomeCurrent" value="0">0</td>
+      <td id="preTaxIncomePrevious" th:name="preTaxIncomePrevious" class="previous-data" value="0"></td>
     </tr>
     <tr class="category">
       <td>IX. 법인세비용</td>
-      <td id="taxExpenseCurrent" contenteditable="true">0</td>
-      <td id="taxExpensePrevious" class="previous-data">0</td>
+      <td id="taxExpenseCurrent" th:name="taxExpenseCurrent" value="0">0</td>
+      <td id="taxExpensePrevious" th:name="taxExpensePrevious" class="previous-data" value="0"></td>
     </tr>
     <tr class="category">
       <td>X. 당기순이익</td>
-      <td id="netIncomeCurrent">0</td>
-      <td id="netIncomePrevious" class="previous-data">0</td>
+      <td id="netIncomeCurrent" th:name="netIncomeCurrent"value="0"></td>
+      <td id="netIncomePrevious" th:name="netIncomePrevious"class="previous-data"value="0"></td>
     </tr>
     </tbody>
   </table>
-</div>
+  <button id="saveButton" onclick="saveData()">저장</button>
 
+</div>
+<script th:src="@{/js/calculate.js}"></script>
 </body>
 </html>

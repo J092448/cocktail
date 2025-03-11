@@ -138,3 +138,8 @@ td:first-child {
 .previous-data {
   color: black;
 }
+
+#saveButton {
+  display: flex;
+  justify-content: flex-end; /* 오른쪽으로 정렬 */
+}

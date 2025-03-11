@@ -14,6 +14,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // 서버에서 당월 회계 데이터를 불러와 HTML에 반영
+  fetch("/api/accounting/current")
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("salesCurrent").textContent = data.productSales || 0;
+        document.getElementById("salary").value = data.salary || 0;
+        document.getElementById("freight").value = data.transportationCost || 0;
+        document.getElementById("officeSupplies").value = data.officeSuppliesCost || 0;
+        document.getElementById("rent").value = data.rentExpense || 0;
+      });
+
   // 데이터베이스에서 값을 가져와 HTML에 반영
   fetch("/currentData")
       .then((response) => response.json())
@@ -137,6 +148,40 @@ document.addEventListener("DOMContentLoaded", () => {
       input.value = input.value.replace(/[^0-9]/g, ""); // 숫자만 입력 가능
     });
   });
+  function saveData() {
+    // 폼 데이터 수집
+    const form = document.getElementById('dataForm');
+    const formData = new FormData(form);
+
+    // JSON 형식으로 데이터 변환
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+
+    // 서버로 데이터 전송
+    fetch('/save-data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log('Success:', data);
+          alert('데이터가 성공적으로 저장되었습니다!');
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          alert('데이터 저장 중 오류가 발생했습니다.');
+        });
+  }
 
   // 초기 계산 실행
   calculateFinancials();
