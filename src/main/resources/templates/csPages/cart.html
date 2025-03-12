@@ -1,11 +1,104 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>장바구니 페이지</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>장바구니</title>
+    <link rel="stylesheet" type="text/css" href="/css/csStayle.css">
 </head>
 <body>
-<h1> 장바구니 페이지 </h1>
+
+<!-- 메뉴 장바구니 페이지 시작 -->
+<div class="cart-page">
+
+    <button class="back-btn" onclick="goBack()">
+        <span class="arrow"></span>
+    </button>
+
+    <div class="header">
+        <button class="order-button" onclick="goList()">주문내역</button>
+    </div>
+
+    <!-- 담은 메뉴 목록 -->
+    <div class="cart-items">
+        <!-- 메뉴 아이템을 동적으로 삽입 (JavaScript 사용) -->
+        <div class="cart-item" id="cart-item-1">
+            <div class="cart-item-info">
+                <p class="cart-item-name">모히또</p>
+                <p class="cart-item-price">12,000원</p>
+            </div>
+            <div class="cart-item-quantity">
+                <button class="quantity-btn" onclick="changeQuantity('cart-item-1', -1)">-</button>
+                <span class="quantity" id="quantity-1">1</span>
+                <button class="quantity-btn" onclick="changeQuantity('cart-item-1', 1)">+</button>
+            </div>
+        </div>
+
+        <!-- 더 많은 메뉴 항목이 동적으로 추가될 수 있음 -->
+    </div>
+
+    <!-- 장바구니 가격과 주문하기 버튼 -->
+    <div class="cart-summary">
+        <p class="total-price"> <span id="total-price">12,000원</span></p>
+        <button class="order-btn" onclick="goToOrderPage()">주문하기</button>
+    </div>
+
+
+    <!-- 장바구니 추가 메뉴 버튼 -->
+    <button class="add-menu-btn" onclick="addMenu()">메뉴 추가 +</button>
+
+
+</div>
+
+<script>
+    // 메뉴 수량 조정
+    function changeQuantity(itemId, change) {
+        const quantityElem = document.getElementById(`quantity-1`); // 해당 메뉴의 수량
+        let quantity = parseInt(quantityElem.textContent);
+        quantity += change;
+
+        // 수량이 1 미만이면 1로 설정
+        if (quantity < 1) {
+            quantity = 1;
+        }
+
+        quantityElem.textContent = quantity;
+        updateTotalPrice(); // 가격 업데이트
+    }
+
+    // 장바구니 총 가격 업데이트
+    function updateTotalPrice() {
+        const quantityElem = document.getElementById('quantity-1');
+        const quantity = parseInt(quantityElem.textContent);
+        const pricePerItem = 12000; // 모히또 가격
+        const totalPrice = pricePerItem * quantity;
+
+        document.getElementById('total-price').textContent = totalPrice.toLocaleString() + '원';
+    }
+
+    // 주문 페이지로 이동
+    function goToOrderPage() {
+        alert("주문이 완료되었습니다.");
+
+    }
+
+
+    function addMenu() {
+        alert("메뉴를 추가합니다.");
+    }
+
+ 기
+    function goBack() {
+        window.history.back();
+    }
+
+
+    function goList() {
+        window.location.href = "/orderList.html";
+
+    }
+
+</script>
+
 </body>
 </html>

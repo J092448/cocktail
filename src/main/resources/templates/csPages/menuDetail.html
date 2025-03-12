@@ -8,11 +8,10 @@
 </head>
 <body>
 <div class="menu-detail">
-    <img id="menu-image" src="/images/mojito2.jpg" alt="메뉴 이미지">
-    <h2 id="menu-name">모히또</h2>
-    <p id="menu-description">상큼한 민트향과 새콤달콤한 라임향의 조화!<br>
-        화이트럼 + 라임주스 + 애플민트 + 설탕 + 탄산수</p>
-    <p id="menu-price">12,000원</p>
+    <img id="menu-image" src="" alt="메뉴 이미지">
+    <h2 id="menu-name">메뉴명</h2>
+    <p id="menu-description">메뉴 설명</p>
+    <p id="menu-price">가격</p>
 </div>
 
 <button class="back-btn" onclick="goBack()">
@@ -23,15 +22,11 @@
     <button class="order-button" onclick="goList()">주문내역</button>
 </div>
 
-
 <div class="horizontal-line"></div>
 
-
-
-    <div class="footer">
-        <p>장바구니 담기</p>
-    </div>
-
+<div class="footer">
+    <button class="cart-button" onclick="addToCart()">장바구니 담기</button>
+</div>
 
 <script>
     // URL 파라미터에서 'cocktail' 값을 읽어오기
@@ -81,7 +76,6 @@
             description: '부드럽고 진한 오크 향, 달콤하면서도 스모키한 풍미가 돋보이는 한잔!<br>잭다니엘 + 콜라',
             price: '7,000원'
         },
-
     };
 
     // 선택된 칵테일에 맞는 내용으로 업데이트
@@ -95,10 +89,26 @@
         document.getElementById('menu-name').textContent = '메뉴를 찾을 수 없습니다';
     }
 
-    function goBack(){
+    function goBack() {
         window.history.back();
     }
 
+    function addToCart() {
+        // 메뉴 아이템을 로컬 스토리지에 추가
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const menuItem = {
+            name: document.getElementById('menu-name').textContent,
+            price: document.getElementById('menu-price').textContent
+        };
+        cart.push(menuItem);
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        alert('장바구니에 담겼습니다!');
+    }
+
+    function goList() {
+        window.location.href = "/csPages/cart";  // 장바구니 페이지로 이동
+    }
 </script>
 </body>
 </html>
