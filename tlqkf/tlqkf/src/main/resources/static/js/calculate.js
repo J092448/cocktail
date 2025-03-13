@@ -103,8 +103,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     updateElement("netIncomePrevious", data.netIncomePrevious || 0);
   }
 
-
-
 // ✅ 당월 데이터 불러오기
   fetch("/api/accounting/current")
       .then(response => {
@@ -117,8 +115,31 @@ document.addEventListener("DOMContentLoaded", (event) => {
         console.log("📌 현재 데이터:", data);
         updateCurrentTable(data);  // ✅ 수정: 올바른 함수명 사용
       })
-      .catch(error => console.error("❌ 데이터 불러오기 오류:", error));
+      .catch(error => {
+        console.error("❌ 당월 데이터 불러오기 오류:", error);
 
+        // ✅ 오류 발생 시 기본값 적용 (필드명 수정됨)
+        updateCurrentTable({
+          sales: 0,  // ✅ 변경됨
+          costOfSales: 0,  // ✅ 변경됨
+          productCostAuto: 0,  // ✅ 추가됨
+          productCostManual: 0,  // ✅ 추가됨
+          beginningInventory: 0,  // ✅ 추가됨
+          endingInventory: 0,  // ✅ 추가됨
+          grossProfit: 0,  // ✅ 추가됨
+          sgAndA: 0,  // ✅ 변경됨
+          salary: 0,
+          transportationCost: 0,
+          officeSuppliesCost: 0,
+          rentExpense: 0,
+          operatingIncome: 0,  // ✅ 변경됨
+          nonOperatingIncome: 0,  // ✅ 추가됨
+          nonOperatingExpense: 0,  // ✅ 추가됨
+          preTaxIncome: 0,  // ✅ 추가됨
+          taxExpense: 0,  // ✅ 추가됨
+          netIncome: 0,  // ✅ 변경됨
+        });
+      });
   // ✅ 전월 데이터 불러오기
   fetch("/api/accounting/previous")
       .then(response => {
@@ -221,63 +242,53 @@ document.addEventListener("DOMContentLoaded", (event) => {
   });
 
     // ✅ saveData 함수 정의
-    function saveData() {
-      const formData = {
-        date: new Date().toISOString().split("T")[0],  // 현재 날짜 (YYYY-MM-DD 형식)
-        userId: 11,  // 예제 사용자 ID (동적으로 처리할 수 있도록 변경 가능)
-        sales: parseFloat(document.getElementById("salesCurrent").textContent.replace(/,/g, "")) || 0,
-        costOfSales: parseFloat(document.getElementById("costOfSalesCurrent").textContent.replace(/,/g, "")) || 0,
-        productCostAuto: parseFloat(document.getElementById("productCostAutoCurrent").textContent.replace(/,/g, "")) || 0,
-        productCostManual: parseFloat(document.getElementById("productCostManualCurrent").value.replace(/,/g, "")) || 0,
-        beginningInventory: parseFloat(document.getElementById("beginningInventoryCurrent").value.replace(/,/g, "")) || 0,
-        endingInventory: parseFloat(document.getElementById("endingInventoryCurrent").value.replace(/,/g, "")) || 0,
-        grossProfit: parseFloat(document.getElementById("grossProfitCurrent").textContent.replace(/,/g, "")) || 0,
-        sgAndA: parseFloat(document.getElementById("sgAndACurrent").textContent.replace(/,/g, "")) || 0,
-        salary: parseFloat(document.getElementById("salaryCurrent").value.replace(/,/g, "")) || 0,
-        transportationCost: parseFloat(document.getElementById("transportationCostCurrent").value.replace(/,/g, "")) || 0,
-        officeSuppliesCost: parseFloat(document.getElementById("officeSuppliesCostCurrent").value.replace(/,/g, "")) || 0,
-        rentExpense: parseFloat(document.getElementById("rentExpenseCurrent").value.replace(/,/g, "")) || 0,
-        operatingIncome: parseFloat(document.getElementById("operatingIncomeCurrent").textContent.replace(/,/g, "")) || 0,
-        nonOperatingIncome: parseFloat(document.getElementById("nonOperatingIncomeCurrent").textContent.replace(/,/g, "")) || 0,
-        nonOperatingExpense: parseFloat(document.getElementById("nonOperatingExpenseCurrent").textContent.replace(/,/g, "")) || 0,
-        preTaxIncome: parseFloat(document.getElementById("preTaxIncomeCurrent").textContent.replace(/,/g, "")) || 0,
-        taxExpense: parseFloat(document.getElementById("taxExpenseCurrent").textContent.replace(/,/g, "")) || 0,
-        netIncome: parseFloat(document.getElementById("netIncomeCurrent").textContent.replace(/,/g, "")) || 0,
-        month: new Date().getMonth() + 1,  // 현재 월 (1~12)
-        year: new Date().getFullYear()  // 현재 연도 (YYYY)
-      };
+  function saveData() {
+    const formData = {
+      date: new Date().toISOString().split("T")[0],  // 현재 날짜 (YYYY-MM-DD 형식)
+      userId: 11,  // 예제 사용자 ID (동적으로 처리할 수 있도록 변경 가능)
+      sales: parseFloat(document.getElementById("salesCurrent").textContent.replace(/,/g, "")) || 0,
+      costOfSales: parseFloat(document.getElementById("costOfSalesCurrent").textContent.replace(/,/g, "")) || 0,
+      productCostAuto: parseFloat(document.getElementById("productCostAutoCurrent").textContent.replace(/,/g, "")) || 0,
+      productCostManual: parseFloat(document.getElementById("productCostManualCurrent").value.replace(/,/g, "")) || 0,
+      beginningInventory: parseFloat(document.getElementById("beginningInventoryCurrent").value.replace(/,/g, "")) || 0,
+      endingInventory: parseFloat(document.getElementById("endingInventoryCurrent").value.replace(/,/g, "")) || 0,
+      grossProfit: parseFloat(document.getElementById("grossProfitCurrent").textContent.replace(/,/g, "")) || 0,
+      sgAndA: parseFloat(document.getElementById("sgAndACurrent").textContent.replace(/,/g, "")) || 0,
+      salary: parseFloat(document.getElementById("salaryCurrent").value.replace(/,/g, "")) || 0,
+      transportationCost: parseFloat(document.getElementById("transportationCostCurrent").value.replace(/,/g, "")) || 0,
+      officeSuppliesCost: parseFloat(document.getElementById("officeSuppliesCostCurrent").value.replace(/,/g, "")) || 0,
+      rentExpense: parseFloat(document.getElementById("rentExpenseCurrent").value.replace(/,/g, "")) || 0,
+      operatingIncome: parseFloat(document.getElementById("operatingIncomeCurrent").textContent.replace(/,/g, "")) || 0,
+      nonOperatingIncome: parseFloat(document.getElementById("nonOperatingIncomeCurrent").textContent.replace(/,/g, "")) || 0,
+      nonOperatingExpense: parseFloat(document.getElementById("nonOperatingExpenseCurrent").textContent.replace(/,/g, "")) || 0,
+      preTaxIncome: parseFloat(document.getElementById("preTaxIncomeCurrent").textContent.replace(/,/g, "")) || 0,
+      taxExpense: parseFloat(document.getElementById("taxExpenseCurrent").textContent.replace(/,/g, "")) || 0,
+      netIncome: parseFloat(document.getElementById("netIncomeCurrent").textContent.replace(/,/g, "")) || 0,
+      month: new Date().getMonth() + 1,  // 현재 월 (1~12)
+      year: new Date().getFullYear(),  // 현재 연도 (YYYY)
+      productSales: 0  // 기본값으로 0 설정
+    };
 
-      // ✅ POST로 데이터를 서버에 전송 (새로운 데이터 삽입)
-      fetch("/api/accounting/save", {
-        method: "POST",  // 데이터 삽입을 위한 POST 요청
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(formData)  // formData는 AccountingDataDTO 객체
-      })
-          .then(response => {
-            if (!response.ok) {
-              return response.json().then(err => {
-                throw new Error(`❌ 서버 응답 오류: ${err.message}`);
-              });
-            }
-            return response.json();  // 서버 응답을 JSON으로 변환
-          })
-          .then(data => {
-            console.log("✅ 저장 성공:", data);
-            alert("데이터가 성공적으로 저장되었습니다.");
-          })
-          .catch(error => {
-            console.error("❌ 저장 오류:", error);
-            alert("데이터 저장에 실패했습니다.");
-          });
-    }
+    fetch("/api/accounting/save", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    })
+        .then(response => response.json())
+        .then(data => {
+          console.log("✅ 저장 성공:", data);
+        })
+        .catch(error => {
+          console.error("❌ 저장 오류:", error);
+        });
+  }
+
   event.preventDefault(); // 기본 제출 방지
 // ✅ 버튼 클릭 시 saveData 함수 호출
-    const saveButton = document.getElementById("saveButton");
-    if (saveButton) {
-      saveButton.addEventListener("click", saveData);
-    }
+  document.getElementById("saveButton").addEventListener("click", saveData);
+
 
 
 // ✅ 초기 계산 실행

@@ -32,4 +32,10 @@ public class CalendarController {
 
         return calendarService.getCalendarData(year, month);
     }
+
+    // 일정 페이지를 반환하는 메소드 (예: calendar.html)
+    @GetMapping("/calendar")
+    public String showCalendarPage() {
+        return "calendar";  // 해당 HTML 페이지 이름을 반환
+    }
 }

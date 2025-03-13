@@ -23,27 +23,54 @@ public class AccountingService {
     }
 
     public AccountingDataDTO getCurrentAccountingData() {
-        AccountingDataDTO data = accountingMapper.getCurrentAccountingData();
-        if (data == null) {
-            data = new AccountingDataDTO();
+        try {
+            // DB 접근 시 로그 추가
+            System.out.println("DB 연결을 시도합니다...");
+            AccountingDataDTO data = accountingMapper.getCurrentAccountingData();
+            if (data == null) {
+                throw new DataAccessException("No current accounting data found.") {
+                };
+            }
+            return data;
+        } catch (DataAccessException e) {
+            // DataAccessException을 처리하는 코드
+            System.err.println("데이터베이스 접근 오류: " + e.getMessage());
+            throw new DataAccessException("Error accessing current accounting data.", e) {
+            };
+        } catch (Exception e) {
+            // 일반 예외 처리
+            System.err.println("예상치 못한 오류 발생: " + e.getMessage());
+            throw new DataAccessException("Unexpected error: " + e.getMessage(), e) {
+            };
         }
-        return data;
     }
-
     public AccountingDataDTO getPreviousAccountingData() {
-        LocalDate currentDate = LocalDate.now();
-        int previousYear = currentDate.getYear();
-        int previousMonth = currentDate.getMonthValue() - 1;
-
-        if (previousMonth == 0) {
-            previousMonth = 12;
-            previousYear--;
+        try {
+            int previousYear = LocalDate.now().getYear();
+            int previousMonth = LocalDate.now().getMonthValue() - 1;
+            if (previousMonth == 0) {
+                previousMonth = 12;
+                previousYear--;
+            }
+            AccountingDataDTO data = accountingMapper.getPreviousAccountingData(previousYear, previousMonth);
+            if (data == null) {
+                throw new DataAccessException("No previous accounting data found.") {};
+            }
+            return data;
+        } catch (DataAccessException e) {
+            throw new DataAccessException("Error accessing previous accounting data.", e) {};
         }
-        AccountingDataDTO data = accountingMapper.getPreviousAccountingData(previousYear, previousMonth);
-        return (data != null) ? data : new AccountingDataDTO();
     }
     // 데이터 저장 또는 업데이트
     public void saveOrUpdateAccountingData(AccountingDataDTO accountingDataDTO) throws SQLException {
+        // 필요한 필드 설정
+        if (accountingDataDTO.getProductSales() == null) {
+            accountingDataDTO.setProductSales(BigDecimal.ZERO); // 기본값으로 0 설정
+        }
+
+        // 쿼리 파라미터 출력
+        System.out.println("쿼리 파라미터: " + accountingDataDTO);
+
         try {
             accountingMapper.saveOrUpdateAccountingData(accountingDataDTO);
         } catch (DataAccessException e) {

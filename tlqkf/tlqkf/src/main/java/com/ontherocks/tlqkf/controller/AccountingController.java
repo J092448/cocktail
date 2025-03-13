@@ -32,9 +32,8 @@ public class AccountingController {
     // 현재 회계 데이터 가져오기
     @GetMapping("/current")
     public ResponseEntity<AccountingDataDTO> getCurrentAccountingData() {
-        return ResponseEntity.ok(accountingService.getCurrentAccountingData());
-    }
-
+            return ResponseEntity.ok(accountingService.getCurrentAccountingData());
+        }
 
     // ✅ 전월 회계 데이터 가져오기
     @GetMapping("/previous")
@@ -55,7 +54,6 @@ public class AccountingController {
             accountingService.saveOrUpdateAccountingData(accountingDataDTO);
             return ResponseEntity.ok("Data saved/updated successfully");
         } catch (Exception e) {
-            // 구체적인 오류 메시지를 응답에 포함시킴
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error saving/updating data: " + e.getMessage());
         }

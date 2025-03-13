@@ -27,25 +27,11 @@ public interface AccountingMapper {
     BigDecimal getProductCostAuto();
 
     // ✅ 데이터가 존재하면 업데이트, 없으면 삽입 (동적 쿼리 사용)
-    @Insert("INSERT INTO accounting (date, user_id, sales, cost_of_sales, product_cost_manual, " +
-            "beginning_inventory, ending_inventory, salary, transportation_cost, " +
-            "office_supplies_cost, rent_expense, operating_income, " +
-            "non_operating_income, non_operating_expense, pre_tax_income, " +
-            "tax_expense, net_income, month, year) " +
-            "VALUES (#{date}, #{userId}, #{sales}, #{costOfSales}, #{productCostManual}, " +
-            "#{beginningInventory}, #{endingInventory}, #{salary}, #{transportationCost}, " +
-            "#{officeSuppliesCost}, #{rentExpense}, #{operatingIncome}, " +
-            "#{nonOperatingIncome}, #{nonOperatingExpense}, #{preTaxIncome}, " +
-            "#{taxExpense}, #{netIncome}, #{month}, #{year}) " +
-            "ON DUPLICATE KEY UPDATE " +
-            "sales = VALUES(sales), cost_of_sales = VALUES(cost_of_sales), " +
-            "product_cost_manual = VALUES(product_cost_manual), beginning_inventory = VALUES(beginning_inventory), " +
-            "ending_inventory = VALUES(ending_inventory), salary = VALUES(salary), transportation_cost = VALUES(transportationCost), " +
-            "office_supplies_cost = VALUES(officeSuppliesCost), rent_expense = VALUES(rentExpense), operating_income = VALUES(operatingIncome), " +
-            "non_operating_income = VALUES(nonOperatingIncome), non_operating_expense = VALUES(nonOperatingExpense), " +
-            "pre_tax_income = VALUES(preTaxIncome), tax_expense = VALUES(taxExpense), net_income = VALUES(netIncome), " +
-            "month = VALUES(month), year = VALUES(year)") // month와 year도 업데이트
+    @Insert("INSERT INTO accounting (date, user_id, sales, cost_of_sales, product_cost_auto, product_cost_manual, beginning_inventory, ending_inventory, salary, transportation_cost, office_supplies_cost, rent_expense, operating_income, non_operating_income, non_operating_expense, pre_tax_income, tax_expense, net_income, month, year, product_sales) " +
+            "VALUES (#{date}, #{userId}, #{sales}, #{costOfSales}, #{productCostAuto}, #{productCostManual}, #{beginningInventory}, #{endingInventory}, #{salary}, #{transportationCost}, #{officeSuppliesCost}, #{rentExpense}, #{operatingIncome}, #{nonOperatingIncome}, #{nonOperatingExpense}, #{preTaxIncome}, #{taxExpense}, #{netIncome}, #{month}, #{year}, #{productSales}) " +
+            "ON DUPLICATE KEY UPDATE sales = VALUES(sales), cost_of_sales = VALUES(cost_of_sales), product_cost_auto = VALUES(product_cost_auto), product_cost_manual = VALUES(product_cost_manual), beginning_inventory = VALUES(beginning_inventory), ending_inventory = VALUES(ending_inventory), salary = VALUES(salary), transportation_cost = VALUES(transportation_cost), office_supplies_cost = VALUES(office_supplies_cost), rent_expense = VALUES(rent_expense), operating_income = VALUES(operating_income), non_operating_income = VALUES(non_operating_income), non_operating_expense = VALUES(non_operating_expense), pre_tax_income = VALUES(pre_tax_income), tax_expense = VALUES(tax_expense), net_income = VALUES(net_income), month = VALUES(month), year = VALUES(year), product_sales = VALUES(product_sales)")
     void saveOrUpdateAccountingData(AccountingDataDTO accountingDataDTO);
+
 }
 
 

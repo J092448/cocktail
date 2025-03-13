@@ -1,5 +1,6 @@
 package com.ontherocks.tlqkf.model;
 
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 import java.math.BigDecimal;
@@ -20,6 +21,7 @@ public class AccountingDataDTO {
     private BigDecimal grossProfit;
     private BigDecimal sgAndA;
     private BigDecimal salary;
+    @Column(name = "transportation_cost")
     private BigDecimal transportationCost;
     private BigDecimal officeSuppliesCost;
     private BigDecimal rentExpense;
@@ -30,6 +32,7 @@ public class AccountingDataDTO {
     private BigDecimal taxExpense;
     private BigDecimal netIncome;
     private Integer userId;
+    private BigDecimal productSales;
 
     private BigDecimal salesPrevious;
     private BigDecimal costOfSalesPrevious;
@@ -50,7 +53,7 @@ public class AccountingDataDTO {
     private BigDecimal taxExpensePrevious;
     private BigDecimal netIncomePrevious;
 
-
+    private LocalDate date; // 추가: date 필드
         // ✅ Getter 및 Setter 추가
         public Integer getUserId() {
             return userId;
@@ -59,6 +62,31 @@ public class AccountingDataDTO {
         public void setUserId(Integer userId) {
             this.userId = userId;
         }
-    }
 
+@Override
+public String toString() {
+    return "AccountingDataDTO{" +
+            "date=" + date +
+            ", userId=" + userId +
+            ", sales=" + sales +
+            ", costOfSales=" + costOfSales +
+            ", productCostManual=" + productCostManual +
+            ", beginningInventory=" + beginningInventory +
+            ", endingInventory=" + endingInventory +
+            ", salary=" + salary +
+            ", transportationCost=" + transportationCost +
+            ", officeSuppliesCost=" + officeSuppliesCost +
+            ", rentExpense=" + rentExpense +
+            ", operatingIncome=" + operatingIncome +
+            ", nonOperatingIncome=" + nonOperatingIncome +
+            ", nonOperatingExpense=" + nonOperatingExpense +
+            ", preTaxIncome=" + preTaxIncome +
+            ", taxExpense=" + taxExpense +
+            ", netIncome=" + netIncome +
+            ", month=" + month +
+            ", year=" + year +
+            ", productSales=" + productSales +
+            '}';
+}
 
+}
