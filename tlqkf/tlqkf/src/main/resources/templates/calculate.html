@@ -39,6 +39,7 @@
   <div class="menu-item logout"><a href="#">로그아웃</a></div>
   <footer><div>문의사항: admin1@gmail.com</div></footer>
 </aside>
+<form action="#" th:action="@{/api/accounting/save}" method="post">
 
 <div class="content">
   <div id="tableheader" style="text-align: center; font-weight: bold; font-size: 2em; margin-bottom: 20px">
@@ -70,17 +71,17 @@
     </tr>
     <tr>
       <td>상품매출원가</td>
-      <td class="amount"><input type="text" id="productCostManualCurrent" value="0" autocomplete="off" /></td>
+      <td class="amount"><input type="text" id="productCostManualCurrent" autocomplete="off" th:value="${currentData.productCostManual}"/></td>
       <td id="productCostManualPrevious"class="previous-data"textContent="0"></td>
     </tr>
     <tr>
       <td>기초상품재고액</td>
-      <td class="amount"><input type="text" id="beginningInventoryCurrent" value="0" autocomplete="off" /></td>
+      <td class="amount"><input type="text" id="beginningInventoryCurrent" autocomplete="off" th:value="${currentData.beginningInventory}" /></td>
       <td id="beginningInventoryPrevious" class="previous-data"textContent="0"></td>
     </tr>
     <tr>
       <td>월말상품재고액</td>
-      <td class="amount"><input type="text" id="endingInventoryCurrent" value="0" autocomplete="off" /></td>
+      <td class="amount"><input type="text" id="endingInventoryCurrent" autocomplete="off" th:value="${currentData.endingInventory}" /></td>
       <td id="endingInventoryPrevious" class="previous-data"textContent="0"></td>
     </tr>
 
@@ -96,22 +97,22 @@
     </tr>
     <tr>
       <td>급여</td>
-      <td class="amount"><input type="text" id="salaryCurrent"  value="0" autocomplete="off" /></td>
+      <td class="amount"><input type="text" id="salaryCurrent"  th:value="${currentData.salary}" autocomplete="off" /></td>
       <td id="salaryPrevious" class="previous-data"textContent="0"></td>
     </tr>
     <tr>
       <td>운반비</td>
-      <td class="amount"><input type="text" id="transportationCostCurrent" value="0" autocomplete="off" /></td>
+      <td class="amount"><input type="text" id="transportationCostCurrent" th:value="${currentData.transportationCost}" autocomplete="off" /></td>
       <td id="transportationCostPrevious" class="previous-data"textContent="0"></td>
     </tr>
     <tr>
       <td>사무용품비</td>
-      <td class="amount"><input type="text" id="officeSuppliesCostCurrent" value="0" autocomplete="off" /></td>
+      <td class="amount"><input type="text" id="officeSuppliesCostCurrent" th:value="${currentData.officeSuppliesCost}" autocomplete="off" /></td>
       <td id="officeSuppliesCostPrevious" class="previous-data"textContent="0"></td>
     </tr>
     <tr>
       <td>지급임차료</td>
-      <td class="amount"><input type="text" id="rentExpenseCurrent"value="0" autocomplete="off" /></td>
+      <td class="amount"><input type="text" id="rentExpenseCurrent" th:value="${currentData.rentExpense}" autocomplete="off" /></td>
       <td id="rentExpensePrevious" class="previous-data"textContent="0"></td>
     </tr>
 
@@ -151,5 +152,6 @@
 
 </div>
 <script th:src="@{/js/calculate.js}"></script>
+</form>
 </body>
 </html>

@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", (event) => {
-
   // 숫자를 세 자리마다 쉼표로 포맷하는 함수
   function formatNumber(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -57,7 +56,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             })
             .catch(error => console.error("❌ 상품 매출 원가 데이터 불러오기 오류:", error));
       } else {
-        productCostElement.textContent = formatNumber(productCostAutoCurrent);
+        productCostElement.textContent = formatNumber(productCostAuto);
       }
     } else {
       console.error("❌ 'productCostAutoCurrent' 요소가 없습니다. HTML에서 확인하세요.");
