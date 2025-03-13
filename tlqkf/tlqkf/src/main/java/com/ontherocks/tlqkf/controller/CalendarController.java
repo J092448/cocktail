@@ -9,7 +9,7 @@ import java.util.Calendar;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/sales")
+@RequestMapping("/api/calendar")
 public class CalendarController {
 
     private final CalendarService calendarService;
@@ -19,16 +19,15 @@ public class CalendarController {
     }
 
     // 특정 연월의 매출 데이터 가져오기
-    @GetMapping
+    @GetMapping("/sales") // ✅ 변경
     public List<CalendarDTO> getCalendarData(
             @RequestParam(value = "year", required = false) Integer year,
             @RequestParam(value = "month", required = false) Integer month) {
 
-        // 기본값: 현재 연도와 월
         if (year == null || month == null) {
             LocalDate today = LocalDate.now();
-            year = (year == null) ? today.getYear() : year;
-            month = (month == null) ? today.getMonthValue() : month;
+            year = today.getYear();
+            month = today.getMonthValue();
         }
 
         return calendarService.getCalendarData(year, month);

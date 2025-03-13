@@ -2,8 +2,12 @@
 
 package com.ontherocks.tlqkf.config;
 
+import org.springframework.boot.web.server.ErrorPage;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -24,8 +28,8 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // 🔹 CORS 설정 추가
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/login", "/favicon.ico", "/css/**", "/js/**", "/static/**",
-                                "/calculate/**", "/calendar/**", "/api/data", "/findId", "/findPw",
-                                "/orderingFrm/**", "/previousData","/api/**", "/error")  // 🔹 `/api/data` 허용 추가
+                                "/accounting/**","/calculate/**","/currentData", "/calendar/**", "/api/data", "/findId", "/findPw",
+                                "/orderingFrm/**", "/previousData","/api/**","/api/calendar/**","/api/accounting/**", "/error/**")  // 🔹 `/api/data` 허용 추가
                         .permitAll()
                         .anyRequest().authenticated()
                 )
@@ -53,5 +57,11 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration); // 모든 경로에 대해 CORS 설정 적용
         return source;
+    }
+    @Bean
+    public WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> webServerFactoryCustomizer() {
+        return factory -> {
+            factory.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/error/404"));
+        };
     }
 }

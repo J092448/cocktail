@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.mapper.CalendarMapper">
-    <select id="getSalesData" resultType="com.example.dto.SalesDataDTO">
+<mapper namespace="com.ontherocks.tlqkf.repository.CalendarMapper">
+    <select id="getSalesData" resultType="com.ontherocks.tlqkf.model.SalesDataDTO">
         SELECT date, sales_amount FROM calendar
         WHERE YEAR(date) = #{year} AND MONTH(date) = #{month}
     </select>

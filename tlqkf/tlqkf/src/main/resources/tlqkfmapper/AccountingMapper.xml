@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ontherocks.tlqkf.repository.AccountingMapper">
+
+    <!-- 당월 데이터 가져오기 -->
+    <select id="getCurrentAccountingData" resultType="com.ontherocks.tlqkf.model.AccountingDataDTO">
+        SELECT
+        accounting_id,
+        date,
+        sales,
+        cost_of_sales,
+        product_cost_auto,
+        product_cost_manual,
+        beginning_inventory,
+        ending_inventory,
+        gross_profit,
+        sg_and_a,
+        salary,
+        transportation_cost,
+        office_supplies_cost,
+        rent_expense,
+        operating_income,
+        non_operating_income,
+        non_operating_expense,
+        pre_tax_income,
+        tax_expense,
+        net_income
+        FROM accounting_with_revenue
+        WHERE YEAR(date) = YEAR(CURDATE()) AND MONTH(date) = MONTH(CURDATE());
+    </select>
+
+    <!-- 전월 데이터 가져오기 -->
+    <select id="getPreviousAccountingData" resultType="com.ontherocks.tlqkf.model.AccountingDataDTO">
+        SELECT
+        sales_previous AS sales,
+        cost_of_sales_previous AS cost_of_sales,
+        product_cost_auto_previous AS product_cost_auto,
+        product_cost_manual_previous AS product_cost_manual,
+        beginning_inventory_previous AS beginning_inventory,
+        ending_inventory_previous AS ending_inventory,
+        gross_profit_previous AS gross_profit,
+        sg_and_a_previous AS sg_and_a,
+        salary_previous AS salary,
+        transportation_cost_previous AS transportation_cost,
+        office_supplies_cost_previous AS office_supplies_cost,
+        rent_expense_previous AS rent_expense,
+        operating_income_previous AS operating_income,
+        non_operating_income_previous AS non_operating_income,
+        non_operating_expense_previous AS non_operating_expense,
+        pre_tax_income_previous AS pre_tax_income,
+        tax_expense_previous AS tax_expense,
+        net_income_previous AS net_income
+        FROM accounting_with_revenue
+        WHERE YEAR(date) = #{year} AND MONTH(date) = #{month};
+    </select>
+
+        <!-- 데이터가 존재하면 업데이트, 없으면 삽입 -->
+    <insert id="saveOrUpdateAccountingData" parameterType="com.ontherocks.tlqkf.model.AccountingDataDTO">
+        INSERT INTO accounting (date, user_id, sales, cost_of_sales, product_cost_manual,
+        beginning_inventory, ending_inventory, salary, transportation_cost,
+        office_supplies_cost, rent_expense, operating_income,
+        non_operating_income, non_operating_expense, pre_tax_income,
+        tax_expense, net_income, month, year)
+        VALUES (#{date}, #{userId}, #{sales}, #{costOfSales}, #{productCostManual},
+        #{beginningInventory}, #{endingInventory}, #{salary}, #{transportationCost},
+        #{officeSuppliesCost}, #{rentExpense}, #{operatingIncome},
+        #{nonOperatingIncome}, #{nonOperatingExpense}, #{preTaxIncome},
+        #{taxExpense}, #{netIncome}, #{month}, #{year})
+        ON DUPLICATE KEY UPDATE
+        sales = VALUES(sales), cost_of_sales = VALUES(cost_of_sales),
+        product_cost_manual = VALUES(product_cost_manual),
+        beginning_inventory = VALUES(beginning_inventory),
+        ending_inventory = VALUES(ending_inventory),
+        salary = VALUES(salary), transportation_cost = VALUES(transportation_cost),
+        office_supplies_cost = VALUES(office_supplies_cost), rent_expense = VALUES(rent_expense),
+        operating_income = VALUES(operating_income), non_operating_income = VALUES(non_operating_income),
+        non_operating_expense = VALUES(non_operating_expense), pre_tax_income = VALUES(pre_tax_income),
+        tax_expense = VALUES(tax_expense), net_income = VALUES(net_income),
+        month = VALUES(month), year = VALUES(year)
+    </insert>
+
+    <!-- 상품 매출원가(자동) 총액 조회 -->
+    <select id="getProductCostAuto" resultType="java.math.BigDecimal">
+        SELECT SUM(product_price * quantity)
+        FROM orders
+        WHERE YEAR(order_date) = YEAR(CURDATE())
+        AND MONTH(order_date) = MONTH(CURDATE());
+    </select>
+
+</mapper>

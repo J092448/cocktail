@@ -2,8 +2,21 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentYear = new Date().getFullYear();
   let currentMonth = new Date().getMonth() + 1;
 
+
+  // 데이터 요청 함수
+  function fetchSalesData(year, month) {
+    fetch(`/api/calendar/sales?year=${year}&month=${month}`)
+        .then(response => response.json())
+        .then(data => {
+          // 받은 데이터를 처리해서 표시
+          console.log("판매 데이터:", data);
+        })
+        .catch(error => {
+          console.error("판매 데이터 가져오기 오류:", error);
+        });
+  }
   // ✅ 현재 연도, 월의 매출 데이터 불러오기
-  fetch(`/api/sales?year=${currentYear}&month=${currentMonth}`)
+  fetch(`/api/calendar/sales?year=${currentYear}&month=${currentMonth}`)
       .then(response => response.json())
       .then(data => {
         console.log("받은 데이터:", data); // 데이터 확인
@@ -139,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
       currentMonth = 1;
       currentYear++;
     }
-    fetch(`/api/sales?year=${currentYear}&month=${currentMonth}`)
+    fetch(`/api/calendar/sales?year=${currentYear}&month=${currentMonth}`)
         .then(response => response.json())
         .then(data => generateCalendar(data))
         .catch(error => {
