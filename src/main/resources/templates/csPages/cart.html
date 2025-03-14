@@ -24,6 +24,7 @@
         <!-- 메뉴 아이템을 동적으로 삽입 (JavaScript 사용) -->
         <div class="cart-item" id="cart-item-1">
             <div class="cart-item-info">
+                <img src="/images/mojito.jpg" alt="모히또" class="cart-item-image"> <!-- 메뉴 이미지 추가 -->
                 <p class="cart-item-name">모히또</p>
                 <p class="cart-item-price">12,000원</p>
             </div>
@@ -43,10 +44,8 @@
         <button class="order-btn" onclick="goToOrderPage()">주문하기</button>
     </div>
 
-
     <!-- 장바구니 추가 메뉴 버튼 -->
     <button class="add-menu-btn" onclick="addMenu()">메뉴 추가 +</button>
-
 
 </div>
 
@@ -79,23 +78,18 @@
     // 주문 페이지로 이동
     function goToOrderPage() {
         alert("주문이 완료되었습니다.");
-
     }
-
 
     function addMenu() {
         alert("메뉴를 추가합니다.");
     }
 
- 기
     function goBack() {
         window.history.back();
     }
 
-
     function goList() {
         window.location.href = "/orderList.html";
-
     }
 
 </script>

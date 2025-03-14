@@ -312,6 +312,8 @@ body, html {
 .cart-item-info {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    flex: 1; /* 이 부분이 필요 */
 }
 
 .cart-item-name {
@@ -323,6 +325,7 @@ body, html {
 .cart-item-price {
     font-size: 14px;
     color: #7F7F7F;
+    margin-top: 5px;
 }
 
 .cart-item-quantity {
@@ -398,4 +401,12 @@ body, html {
 }
 .total-price {
     color: white;
+}
+
+.cart-item-image {
+    width: 100px; /* 크기를 조금 줄여줍니다 */
+    height: 100px; /* 동일하게 크기 조절 */
+    border-radius: 8px;
+    object-fit: cover;
+
 }
