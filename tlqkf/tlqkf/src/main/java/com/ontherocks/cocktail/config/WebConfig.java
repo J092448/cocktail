@@ -1,4 +1,4 @@
-package com.ontherocks.tlqkf.config;
+package com.ontherocks.cocktail.config;
 
 
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.ontherocks.tlqkf.model;
+package com.ontherocks.cocktail.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

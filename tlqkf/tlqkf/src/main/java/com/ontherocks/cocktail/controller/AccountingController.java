@@ -1,19 +1,14 @@
-package com.ontherocks.tlqkf.controller;
+package com.ontherocks.cocktail.controller;
 
-import ch.qos.logback.classic.Logger;
-import com.ontherocks.tlqkf.model.Accounting;
-import com.ontherocks.tlqkf.model.AccountingDataDTO;
-import com.ontherocks.tlqkf.service.AccountingService;
+import com.ontherocks.cocktail.model.Accounting;
+import com.ontherocks.cocktail.model.AccountingDataDTO;
+import com.ontherocks.cocktail.service.AccountingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 

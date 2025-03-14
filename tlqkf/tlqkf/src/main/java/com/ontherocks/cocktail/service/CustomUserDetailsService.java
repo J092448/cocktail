@@ -1,7 +1,7 @@
-package com.ontherocks.tlqkf.service;
+package com.ontherocks.cocktail.service;
 
-import com.ontherocks.tlqkf.model.User;
-import com.ontherocks.tlqkf.repository.UserMapper;
+import com.ontherocks.cocktail.model.User;
+import com.ontherocks.cocktail.repository.UserMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

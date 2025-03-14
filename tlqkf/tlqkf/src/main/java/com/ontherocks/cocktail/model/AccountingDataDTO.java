@@ -1,6 +1,5 @@
-package com.ontherocks.tlqkf.model;
+package com.ontherocks.cocktail.model;
 
-import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 import java.math.BigDecimal;
@@ -18,10 +17,9 @@ public class AccountingDataDTO {
     private BigDecimal productCostManual;
     private BigDecimal beginningInventory;
     private BigDecimal endingInventory;
-    private BigDecimal grossProfit;
-    private BigDecimal sgAndA;
+    private BigDecimal grossProfit; // 추가된 필드
+    private BigDecimal sgAndA; // 추가된 필드
     private BigDecimal salary;
-    @Column(name = "transportation_cost")
     private BigDecimal transportationCost;
     private BigDecimal officeSuppliesCost;
     private BigDecimal rentExpense;
@@ -73,6 +71,8 @@ public String toString() {
             ", productCostManual=" + productCostManual +
             ", beginningInventory=" + beginningInventory +
             ", endingInventory=" + endingInventory +
+            ", grossProfit=" + grossProfit +
+            ", sgAndA=" + sgAndA +
             ", salary=" + salary +
             ", transportationCost=" + transportationCost +
             ", officeSuppliesCost=" + officeSuppliesCost +
@@ -88,5 +88,6 @@ public String toString() {
             ", productSales=" + productSales +
             '}';
 }
+
 
 }

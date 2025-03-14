@@ -1,20 +1,23 @@
-package com.ontherocks.tlqkf.service;
+package com.ontherocks.cocktail.service;
 
-import com.ontherocks.tlqkf.model.Accounting;
-import com.ontherocks.tlqkf.model.AccountingDataDTO;
-import com.ontherocks.tlqkf.repository.AccountingMapper;
+import com.ontherocks.cocktail.model.Accounting;
+import com.ontherocks.cocktail.model.AccountingDataDTO;
+import com.ontherocks.cocktail.repository.AccountingMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import java.util.logging.Logger;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountingService {
-
+    private static final Logger logger = Logger.getLogger(AccountingService.class.getName());
     private final AccountingMapper accountingMapper;
 
     @Autowired
@@ -22,28 +25,47 @@ public class AccountingService {
         this.accountingMapper = accountingMapper;
     }
 
+    private AccountingDataDTO getDefaultAccountingData() {
+        AccountingDataDTO defaultData = new AccountingDataDTO();
+        defaultData.setDate(LocalDate.now());
+        defaultData.setUserId(11);
+        defaultData.setSales(BigDecimal.ZERO);
+        defaultData.setCostOfSales(BigDecimal.ZERO);
+        defaultData.setProductCostAuto(BigDecimal.ZERO);
+        defaultData.setProductCostManual(BigDecimal.ZERO);
+        defaultData.setBeginningInventory(BigDecimal.ZERO);
+        defaultData.setEndingInventory(BigDecimal.ZERO);
+        defaultData.setGrossProfit(BigDecimal.ZERO);
+        defaultData.setSgAndA(BigDecimal.ZERO);
+        defaultData.setSalary(BigDecimal.ZERO);
+        defaultData.setTransportationCost(BigDecimal.ZERO);
+        defaultData.setOfficeSuppliesCost(BigDecimal.ZERO);
+        defaultData.setRentExpense(BigDecimal.ZERO);
+        defaultData.setOperatingIncome(BigDecimal.ZERO);
+        defaultData.setNonOperatingIncome(BigDecimal.ZERO);
+        defaultData.setNonOperatingExpense(BigDecimal.ZERO);
+        defaultData.setPreTaxIncome(BigDecimal.ZERO);
+        defaultData.setTaxExpense(BigDecimal.ZERO);
+        defaultData.setNetIncome(BigDecimal.ZERO);
+        defaultData.setMonth(LocalDate.now().getMonthValue());
+        defaultData.setYear(LocalDate.now().getYear());
+        defaultData.setProductSales(BigDecimal.ZERO);
+        return defaultData;
+    }
+
     public AccountingDataDTO getCurrentAccountingData() {
         try {
             // DB 접근 시 로그 추가
             System.out.println("DB 연결을 시도합니다...");
             AccountingDataDTO data = accountingMapper.getCurrentAccountingData();
-            if (data == null) {
-                throw new DataAccessException("No current accounting data found.") {
-                };
-            }
-            return data;
-        } catch (DataAccessException e) {
+            return Optional.ofNullable(data).orElseGet(this::getDefaultAccountingData);
+        } catch (Exception e) {
             // DataAccessException을 처리하는 코드
             System.err.println("데이터베이스 접근 오류: " + e.getMessage());
-            throw new DataAccessException("Error accessing current accounting data.", e) {
-            };
-        } catch (Exception e) {
-            // 일반 예외 처리
-            System.err.println("예상치 못한 오류 발생: " + e.getMessage());
-            throw new DataAccessException("Unexpected error: " + e.getMessage(), e) {
-            };
+            return getDefaultAccountingData();
         }
     }
+
     public AccountingDataDTO getPreviousAccountingData() {
         try {
             int previousYear = LocalDate.now().getYear();
@@ -62,17 +84,25 @@ public class AccountingService {
         }
     }
     // 데이터 저장 또는 업데이트
+    @Transactional
     public void saveOrUpdateAccountingData(AccountingDataDTO accountingDataDTO) throws SQLException {
         // 필요한 필드 설정
         if (accountingDataDTO.getProductSales() == null) {
             accountingDataDTO.setProductSales(BigDecimal.ZERO); // 기본값으로 0 설정
         }
-
+        if (accountingDataDTO.getGrossProfit() == null) {
+            accountingDataDTO.setGrossProfit(BigDecimal.ZERO); // 기본값 설정
+        }
+        if (accountingDataDTO.getSgAndA() == null) {
+            accountingDataDTO.setSgAndA(BigDecimal.ZERO); // 기본값 설정
+        }
         // 쿼리 파라미터 출력
         System.out.println("쿼리 파라미터: " + accountingDataDTO);
 
         try {
+            // 데이터베이스 저장 또는 업데이트
             accountingMapper.saveOrUpdateAccountingData(accountingDataDTO);
+            System.out.println("✅ 데이터 저장 성공");
         } catch (DataAccessException e) {
             throw new RuntimeException("❌ 데이터베이스 오류: " + e.getMessage(), e);
         }

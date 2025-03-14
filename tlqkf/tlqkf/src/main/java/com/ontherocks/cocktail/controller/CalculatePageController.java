@@ -1,8 +1,8 @@
-package com.ontherocks.tlqkf.controller;
+package com.ontherocks.cocktail.controller;
 
 import org.springframework.ui.Model; // 여기에 올바른 Model 클래스를 임포트해야 합니다.
-import com.ontherocks.tlqkf.model.AccountingDataDTO;
-import com.ontherocks.tlqkf.service.AccountingService;
+import com.ontherocks.cocktail.model.AccountingDataDTO;
+import com.ontherocks.cocktail.service.AccountingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

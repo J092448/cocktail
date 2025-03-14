@@ -1,4 +1,4 @@
-package com.ontherocks.tlqkf.model;
+package com.ontherocks.cocktail.model;
 
 import lombok.Data;
 import java.math.BigDecimal;

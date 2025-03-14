@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentYear = new Date().getFullYear();
   let currentMonth = new Date().getMonth() + 1;
 
-
   // 데이터 요청 함수
   function fetchSalesData(year, month) {
     fetch(`/api/calendar/sales?year=${year}&month=${month}`)
@@ -15,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
           console.error("판매 데이터 가져오기 오류:", error);
         });
   }
+
   // ✅ 현재 연도, 월의 매출 데이터 불러오기
   fetch(`/api/calendar/sales?year=${currentYear}&month=${currentMonth}`)
       .then(response => response.json())
@@ -65,6 +65,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     for (let day = 1; day <= daysInMonth; day++) {
       const dayCell = document.createElement("td");
+      dayCell.classList.add("calendar-day");
+
 
       // ✅ 날짜 비교 수정 (date: [YYYY, MM, DD] 배열 처리)
       const salesDataForDay = salesData.find(item => {
