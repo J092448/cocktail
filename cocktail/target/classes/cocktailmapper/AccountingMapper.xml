@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ontherocks.cocktail.repository.AccountingMapper">
+
+    <!-- 당월 데이터 가져오기 -->
+    <select id="getCurrentAccountingData" resultType="com.ontherocks.cocktail.model.AccountingDataDTO">
+        SELECT
+            COALESCE(a.date, CURDATE()) AS date,
+        COALESCE(a.user_id, 11) AS user_id,
+        COALESCE(a.sales, 0) AS sales,
+        COALESCE(a.cost_of_sales, 0) AS cost_of_sales,
+        COALESCE(a.product_cost_auto, 0) AS product_cost_auto,
+        COALESCE(a.product_cost_manual, 0) AS product_cost_manual,
+        COALESCE(a.beginning_inventory, 0) AS beginning_inventory,
+        COALESCE(a.ending_inventory, 0) AS ending_inventory,
+        COALESCE(a.gross_profit, 0) AS gross_profit,
+        COALESCE(a.sg_and_a, 0) AS sg_and_a,
+        COALESCE(a.salary, 0) AS salary,
+        COALESCE(a.transportation_cost, 0) AS transportation_cost,
+        COALESCE(a.office_supplies_cost, 0) AS office_supplies_cost,
+        COALESCE(a.rent_expense, 0) AS rent_expense,
+        COALESCE(a.operating_income, 0) AS operating_income,
+        COALESCE(a.non_operating_income, 0) AS non_operating_income,
+        COALESCE(a.non_operating_expense, 0) AS non_operating_expense,
+        COALESCE(a.pre_tax_income, 0) AS pre_tax_income,
+        COALESCE(a.tax_expense, 0) AS tax_expense,
+        COALESCE(a.net_income, 0) AS net_income,
+        YEAR(CURDATE()) AS year,
+        MONTH(CURDATE()) AS month,
+        COALESCE(a.product_sales, 0) AS product_sales
+        FROM
+            (SELECT 1 AS id) AS dummy
+            LEFT JOIN accounting a ON YEAR(a.date) = YEAR(CURDATE()) AND MONTH(a.date) = MONTH(CURDATE())
+    </select>
+
+    <!-- 전월 데이터 가져오기 -->
+    <select id="getPreviousAccountingData" resultType="com.ontherocks.cocktail.model.AccountingDataDTO">
+        SELECT
+        sales_previous AS sales,
+        cost_of_sales_previous AS cost_of_sales,
+        product_cost_auto_previous AS product_cost_auto,
+        product_cost_manual_previous AS product_cost_manual,
+        beginning_inventory_previous AS beginning_inventory,
+        ending_inventory_previous AS ending_inventory,
+        gross_profit_previous AS gross_profit,
+        sg_and_a_previous AS sg_and_a,
+        salary_previous AS salary,
+        transportation_cost_previous AS transportation_cost,
+        office_supplies_cost_previous AS office_supplies_cost,
+        rent_expense_previous AS rent_expense,
+        operating_income_previous AS operating_income,
+        non_operating_income_previous AS non_operating_income,
+        non_operating_expense_previous AS non_operating_expense,
+        pre_tax_income_previous AS pre_tax_income,
+        tax_expense_previous AS tax_expense,
+        net_income_previous AS net_income
+        FROM accounting_with_revenue
+        WHERE YEAR(date) = #{year} AND MONTH(date) = #{month};
+    </select>
+
+        <!-- 데이터가 존재하면 업데이트, 없으면 삽입 -->
+    <insert id="saveOrUpdateAccountingData" parameterType="com.ontherocks.cocktail.model.AccountingDataDTO">
+        INSERT INTO accounting (
+            date, user_id, sales, cost_of_sales, product_cost_auto, product_cost_manual,
+            beginning_inventory, ending_inventory, gross_profit, sg_and_a, salary, transportation_cost,
+            office_supplies_cost, rent_expense, operating_income, non_operating_income,
+            non_operating_expense, pre_tax_income, tax_expense, net_income, month, year,
+            product_sales
+        ) VALUES (
+                     #{date}, #{userId}, #{sales}, #{costOfSales}, #{productCostAuto}, #{productCostManual},
+                     #{beginningInventory}, #{endingInventory}, #{grossProfit}, #{sgAndA} , #{salary}, #{transportationCost},
+                     #{officeSuppliesCost}, #{rentExpense}, #{operatingIncome}, #{nonOperatingIncome},
+                     #{nonOperatingExpense}, #{preTaxIncome}, #{taxExpense}, #{netIncome}, #{month}, #{year},
+                     #{productSales}
+                 )
+            ON DUPLICATE KEY UPDATE
+                                 sales = VALUES(sales), cost_of_sales = VALUES(cost_of_sales), product_cost_auto = VALUES(product_cost_auto),
+                                 product_cost_manual = VALUES(product_cost_manual), beginning_inventory = VALUES(beginning_inventory),
+                                 ending_inventory = VALUES(ending_inventory), gross_profit = VALUES(gross_profit), sg_and_a = VALUES(sg_and_a), salary = VALUES(salary),
+                                 transportation_cost = VALUES(transportation_cost), office_supplies_cost = VALUES(office_supplies_cost),
+                                 rent_expense = VALUES(rent_expense), operating_income = VALUES(operating_income),
+                                 non_operating_income = VALUES(non_operating_income), non_operating_expense = VALUES(non_operating_expense),
+                                 pre_tax_income = VALUES(pre_tax_income), tax_expense = VALUES(tax_expense), net_income = VALUES(net_income),
+                                 month = VALUES(month), year = VALUES(year), product_sales = VALUES(product_sales);
+    </insert>
+
+
+
+
+
+    <!-- 상품 매출원가(자동) 총액 조회 -->
+    <select id="getProductCostAuto" resultType="java.math.BigDecimal">
+        SELECT SUM(product_price * quantity)
+        FROM orders
+        WHERE YEAR(order_date) = YEAR(CURDATE())
+        AND MONTH(order_date) = MONTH(CURDATE());
+    </select>
+
+</mapper>
