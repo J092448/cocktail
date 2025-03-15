@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ontherocks.cocktail.repository.CalendarMapper">
+    <select id="getSalesDataGrouped" resultType="com.ontherocks.cocktail.model.CalendarDTO">
+        SELECT sale_date AS date, SUM(total_amount) AS salesAmount
+        FROM sales
+        WHERE YEAR(sale_date) = #{year} AND MONTH(sale_date) = #{month} AND user_id = 11
+        GROUP BY sale_date
+    </select>
+</mapper>
