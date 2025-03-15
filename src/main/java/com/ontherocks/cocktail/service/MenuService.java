@@ -1,7 +1,7 @@
 package com.ontherocks.cocktail.service;
 
 import com.ontherocks.cocktail.dto.MenuDto;
-import com.ontherocks.cocktail.mapper.MenuMapper;
+import com.ontherocks.cocktail.repository.MenuMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

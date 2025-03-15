@@ -1,4 +1,4 @@
-package com.ontherocks.cocktail.mapper;
+package com.ontherocks.cocktail.repository;
 
 import com.ontherocks.cocktail.dto.MenuDto;
 import org.apache.ibatis.annotations.Mapper;
