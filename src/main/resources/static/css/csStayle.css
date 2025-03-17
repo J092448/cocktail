@@ -408,5 +408,14 @@ body, html {
     height: 100px; /* 동일하게 크기 조절 */
     border-radius: 8px;
     object-fit: cover;
+    margin-top: 5px;
+}
 
+.cart-item-content {
+    display: flex;
+}
+
+.cart-item-text {
+    margin-left: 10px;
+    margin-top: 10px;
 }

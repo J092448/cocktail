@@ -24,9 +24,15 @@
         <!-- 메뉴 아이템을 동적으로 삽입 (JavaScript 사용) -->
         <div class="cart-item" id="cart-item-1">
             <div class="cart-item-info">
-                <img src="/images/mojito.jpg" alt="모히또" class="cart-item-image"> <!-- 메뉴 이미지 추가 -->
-                <p class="cart-item-name">모히또</p>
-                <p class="cart-item-price">12,000원</p>
+                <div class="cart-item-content">
+                    <div class="cart-item-image">
+                    <img src="/images/mojito.jpg" alt="모히또" class="cart-item-image"> <!-- 메뉴 이미지 추가 -->
+                    </div>
+                    <div class="cart-item-text">
+                        <p class="cart-item-name">모히또</p>
+                        <p class="cart-item-price">12,000원</p>
+                    </div>
+                </div>
             </div>
             <div class="cart-item-quantity">
                 <button class="quantity-btn" onclick="changeQuantity('cart-item-1', -1)">-</button>
@@ -91,7 +97,6 @@
     function goList() {
         window.location.href = "/orderList.html";
     }
-
 </script>
 
 </body>
