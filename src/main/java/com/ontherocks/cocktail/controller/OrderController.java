@@ -14,23 +14,23 @@ public class OrderController {
 
     @GetMapping("/csPages/menuOrder")
     public String menuOrderPage() {
-        return "/csPages/menuOrder";
+        return "csPages/menuOrder";
     }
 
     @GetMapping("/csPages/menuDetail")
     public String menuDetailPage(@RequestParam("cocktail") String cocktail, Model model) {
         model.addAttribute("cocktail", cocktail);  // 파라미터를 모델에 추가
-        return "/csPages/menuDetail";  // 메뉴 상세 페이지 뷰 반환
+        return "csPages/menuDetail";  // 메뉴 상세 페이지 뷰 반환
     }
 
     @GetMapping("/csPages/cart")
     public String cartPage() {
-        return "/csPages/cart";
+        return "csPages/cart";
     }
 
     @GetMapping("/csPages/orderList")
     public String orderListPage() {
-        return "/csPages/orderList";
+        return "csPages/orderList";
     }
 
 }
