@@ -52,16 +52,8 @@ public class AccountingDataDTO {
     private BigDecimal netIncomePrevious;
 
     private LocalDate date; // 추가: date 필드
-        // ✅ Getter 및 Setter 추가
-        public Integer getUserId() {
-            return userId;
-        }
 
-        public void setUserId(Integer userId) {
-            this.userId = userId;
-        }
-
-@Override
+    @Override
 public String toString() {
     return "AccountingDataDTO{" +
             "date=" + date +
