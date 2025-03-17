@@ -1,7 +1,12 @@
 package com.ontherocks.cocktail.service;
 
-import com.ontherocks.cocktail.model.User;
-import com.ontherocks.cocktail.repository.UserMapper;
+import com.ontherocks.cocktail.dto.AdminDto;
+import com.ontherocks.cocktail.dto.UserDto;
+import com.ontherocks.cocktail.mapper.AdminDao;
+import com.ontherocks.cocktail.mapper.UserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,24 +15,40 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserMapper userMapper;
+    @Autowired
+    private UserMapper userMapper;
 
-    // ✅ 생성자 주입 방식으로 변경
-    public CustomUserDetailsService(UserMapper userMapper) {
-        this.userMapper = userMapper;
-    }
+    @Autowired
+    private AdminDao aDao;
+
+    @Autowired
+    private AdminService aSer;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userMapper.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+        // 관리자 계정 확인
+        AdminDto admin = aDao.findByUsername(username);
+        if (admin != null) {
+            return User.builder()
+                    .username(admin.getUsername())
+                    .password(admin.getPassword())
+                    .roles("ADMIN")
+                    .build();
         }
 
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getUsername())
-                .password(user.getPassword()) // 암호화된 비밀번호 사용
-                .roles(user.getRole()) // ROLE_USER, ROLE_ADMIN 등 역할 부여
-                .build();
+        // 일반 사용자 계정 확인
+        UserDto user = userMapper.getUser(username);
+        if (user != null) {
+            if (aSer.isSuspended(username)) { // 계정이 정지되었는지 확인
+                throw new DisabledException("정지된 계정입니다."); // 예외 발생하여 로그인 차단
+            }
+            return User.builder()
+                    .username(user.getUsername())
+                    .password(user.getPassword())
+                    .roles("USER")
+                    .build();
+        }
+
+        throw new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + username);
     }
 }

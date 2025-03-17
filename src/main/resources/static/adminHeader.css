@@ -1,0 +1,114 @@
+/** {*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    box-sizing: border-box;*/
+/*    font-family: 'Noto Sans KR', sans-serif;*/
+/*}*/
+
+/*nav {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*    padding: 15px 30px;*/
+/*    background-color: #333;*/
+/*    color: white;*/
+/*}*/
+
+/*.logo a {*/
+/*    font-size: 20px;*/
+/*    font-weight: bold;*/
+/*    color: white;*/
+/*    text-decoration: none;*/
+/*}*/
+
+/*.nav-links {*/
+/*    list-style: none;*/
+/*    display: flex;*/
+/*    gap: 20px;*/
+/*}*/
+
+/*.nav-links li {*/
+/*    display: inline;*/
+/*}*/
+
+/*.nav-links a {*/
+/*    color: white;*/
+/*    text-decoration: none;*/
+/*    font-size: 16px;*/
+/*    padding: 8px 12px;*/
+/*    transition: background 0.3s, border-radius 0.3s;*/
+/*}*/
+
+/*.nav-links a:hover {*/
+/*    background: rgba(255, 255, 255, 0.2);*/
+/*    border-radius: 5px;*/
+/*}*/
+
+/*.logout-btn {*/
+/*    background-color: #ff4d4d;*/
+/*    color: white;*/
+/*    border: none;*/
+/*    padding: 8px 12px;*/
+/*    border-radius: 5px;*/
+/*    font-size: 14px;*/
+/*    cursor: pointer;*/
+/*    transition: background 0.3s, transform 0.2s;*/
+/*}*/
+
+/*.logout-btn:hover {*/
+/*    background-color: #cc0000;*/
+/*    transform: scale(1.05);*/
+/*}*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    display: flex;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+aside {
+    width: 200px;
+    background: #222;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    justify-content: space-between;
+    position: fixed;
+    height: 100vh;
+}
+aside a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 0;
+    display: block;
+}
+aside a:hover {
+    background: #444;
+}
+.submenu {
+    display: none;
+    padding-left: 20px;
+}
+.menu-item:hover .submenu {
+    display: block;
+}
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    margin-left: 220px;
+}
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 200px;
+    width: calc(100% - 200px);
+    background: black;
+    color: white;
+    text-align: right;
+    padding: 10px;
+    font-size: 14px;
+}

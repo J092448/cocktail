@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<aside th:fragment="adminHeader">
+    <a href="/admin/main">홈으로</a>
+    <div class="menu-group">
+        <a href="/admin/main">대시보드</a>
+        <a href="/admin/sellerList">업체목록</a>
+        <a href="/admin/noticeList">공지사항</a>
+    </div>
+    <a href="/admin/info" style="margin-top: 500px;">관리자 정보</a>
+    <form action="/logout" method="post" style="display:inline;">
+        <button type="submit" style="background:none; border:none; color:white; cursor:pointer;">로그아웃</button>
+    </form>
+
+
+</aside>
+<footer th:fragment="footer">
+    <p>문의사항: admin1@gmail.com</p>
+</footer>
+<!--<header th:fragment="adminHeader">-->
+<!--    <nav>-->
+<!--        <div class="logo">-->
+<!--            <a href="/admin/main">메인</a>-->
+<!--        </div>-->
+<!--        <ul class="nav-links">-->
+<!--            <li><a href="/admin/info">관리자 정보</a></li>-->
+<!--            <li><a href="/admin/sellerList">업체 목록</a></li>-->
+<!--            <li><a href="/admin/noticeList">공지사항</a></li>-->
+<!--            <li>-->
+<!--                <form action="/logout" method="post">-->
+<!--                    <button type="submit" class="logout-btn">로그아웃</button>-->
+<!--                </form>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </nav>-->
+<!--</header>-->
+</body>
+</html>
