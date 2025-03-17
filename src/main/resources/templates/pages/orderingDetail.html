@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>발주 상세 내역서</title>
+  <link rel="stylesheet" th:href="@{/css/orderingDetail.css}" />
+</head>
+<body>
+<aside>
+  <div>
+    <div class="menu-item"><a href="/dashboard">홈으로</a></div>
+    <div class="menu-item">
+      <a href="/sales">판매</a>
+      <div class="submenu"><a href="#">메뉴 목록</a><a href="#">재고 목록</a></div>
+    </div>
+    <div class="menu-item">
+      <a href="/tradeCompanyList">거래 업체</a>
+      <div class="submenu">
+        <a href="/tradeCompanyList">거래 업체 목록</a>
+        <a href="/newTradeCompany">거래 업체 등록</a>
+      </div>
+    </div>
+    <div class="menu-item">
+      <a href="/purchase/list">발주</a>
+      <div class="submenu">
+        <a href="/purchase/list">발주 목록</a>
+        <a href="/purchase/orderingFrm">발주 신청</a> <!-- 경로 변경 -->
+      </div>
+    </div>
+  </div>
+  <a href="/confirmPw" style="margin-top: 500px;">정보 수정</a>
+  <form action="/logout" method="post" style="display:inline;">
+    <button type="submit" style="background:none; border:none; color:white; cursor:pointer;">로그아웃</button>
+  </form>
+  <footer><div>문의사항: admin1@gmail.com</div></footer>
+</aside>
+<div class="wrapper">
+  <div class="container">
+    <div class="header">
+      <h1>발주 상세 내역서</h1>
+      <hr class="title-underline" />
+    </div>
+    <div class="document-number-container">
+      <span class="document-number" id="document-number" placeholder=""></span>
+      <hr class="document-number-underline" />
+    </div>
+    <div id="order-container"></div>
+    <!-- JavaScript에서 동적으로 테이블을 생성할 요소 -->
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const pathSegments = window.location.pathname.split('/');
+    const requestId = pathSegments[pathSegments.length - 1]; // URL에서 requestId 가져오기
+
+    if (!requestId) {
+      console.error("발주 ID가 없습니다.");
+      return;
+    }
+
+    const orderContainer = document.getElementById("order-container");
+
+    // "N/A" 텍스트에 빨간색 적용
+    function applyRedColorToNA(text) {
+      return text === "N/A" ? `<span style="color: red;">${text}</span>` : text;
+    }
+
+    // 테이블 생성
+    const table = document.createElement("table");
+
+    // 테이블 헤더 생성
+    const headerHTML = `
+        <thead>
+            <tr>
+                <th class="medium-grey-background">발주신청일자</th>
+                <td id="order-date">${applyRedColorToNA("N/A")}</td>
+                <th class="medium-grey-background">예상수령일자</th>
+                <td id="expected-date" colspan="3">${applyRedColorToNA("N/A")}</td>
+            </tr>
+            <tr>
+                <th class="medium-grey-background">발주물품종류</th>
+                <td id="order-type">${applyRedColorToNA("N/A")}</td>
+                <th class="medium-grey-background">상세품목</th>
+                <td id="order-item" colspan="3">${applyRedColorToNA("N/A")}</td>
+            </tr>
+            <tr>
+                <th class="medium-grey-background" rowspan="4">거래업체 정보</th>
+                <th class="medium-grey-background">거래업체 상호명</th>
+                <td id="company-name" colspan="3">${applyRedColorToNA("N/A")}</td>
+            </tr>
+            <tr>
+                <th class="medium-grey-background">사업자 번호</th>
+                <td id="business-number" colspan="3">${applyRedColorToNA("N/A")}</td>
+            </tr>
+            <tr>
+                <th class="medium-grey-background">대표자 이름</th>
+                <td id="representative-name" colspan="3">${applyRedColorToNA("N/A")}</td>
+            </tr>
+            <tr>
+                <th class="medium-grey-background">휴대전화</th>
+                <td id="phone" colspan="3">${applyRedColorToNA("N/A")}</td>
+            </tr>
+            <tr>
+                <th class="medium-grey-background" colspan="5">발주 품목</th>
+            </tr>
+            <tr>
+                <th class="medium-grey-background">NO.</th>
+                <th class="medium-grey-background">품목명</th>
+                <th class="medium-grey-background">수량</th>
+                <th class="medium-grey-background">단가</th>
+                <th class="medium-grey-background">금액</th>
+            </tr>
+        </thead>
+    `;
+    table.innerHTML = headerHTML;
+
+    // 테이블 본문 생성
+    const tableBody = document.createElement("tbody");
+    table.appendChild(tableBody);
+
+    // 테이블 푸터 생성
+    const footerHTML = `
+        <tfoot>
+            <tr>
+                <th class="medium-grey-background" colspan="4">합계</th>
+                <th>${applyRedColorToNA("N/A")}</th>
+            </tr>
+        </tfoot>
+    `;
+    table.innerHTML += footerHTML; // 푸터를 한 번만 추가
+
+    // 테이블을 컨테이너에 추가
+    orderContainer.appendChild(table);
+
+    // 서버에서 데이터 가져오기
+    fetch(`/api/purchase/request/${requestId}`) // 발주 ID 포함
+            .then((response) => response.json())
+            .then((orderDetails) => {
+              console.log(orderDetails);  // 응답 데이터 확인
+              // 문서 번호 삽입
+              document.getElementById("document-number").innerHTML = applyRedColorToNA(orderDetails.documentNumber || "no.000000");
+
+              // 데이터가 있을 경우 테이블 값 업데이트
+              document.getElementById("order-date").innerHTML = applyRedColorToNA(orderDetails.orderDate || "N/A");
+              document.getElementById("expected-date").innerHTML = applyRedColorToNA(orderDetails.expectedDate || "N/A");
+              document.getElementById("order-type").innerHTML = applyRedColorToNA(orderDetails.orderType || "N/A");
+              document.getElementById("order-item").innerHTML = applyRedColorToNA(orderDetails.orderItem || "N/A");
+
+              // supplier가 null인 경우 처리
+              const supplier = orderDetails.supplier || {};
+              document.getElementById("company-name").innerHTML = applyRedColorToNA(supplier.companyName || "N/A");
+              document.getElementById("business-number").innerHTML = applyRedColorToNA(supplier.businessNumber || "N/A");
+              document.getElementById("representative-name").innerHTML = applyRedColorToNA(supplier.representativeName || "N/A");
+              document.getElementById("phone").innerHTML = applyRedColorToNA(supplier.phone || "N/A");
+
+              // 기존 테이블 본문 지우기
+              tableBody.innerHTML = "";
+
+              // 새로운 데이터로 테이블 본문 생성
+              if (Array.isArray(orderDetails.orderItems) && orderDetails.orderItems.length > 0) {
+                orderDetails.orderItems.forEach((item, index) => {
+                  const row = tableBody.insertRow();
+                  row.insertCell().textContent = index + 1; // NO.
+                  row.insertCell().textContent = item.name || "N/A"; // 품목명
+                  row.insertCell().textContent = item.quantity.toLocaleString() || "N/A"; // 수량
+                  row.insertCell().textContent = item.price.toLocaleString() || "N/A"; // 단가
+                  row.insertCell().textContent = (item.quantity * item.price).toLocaleString() || "N/A"; // 금액
+                });
+              } else {
+                const row = tableBody.insertRow();
+                for (let i = 0; i < 5; i++) {
+                  const emptyCell = row.insertCell();
+                  emptyCell.innerHTML = applyRedColorToNA("N/A");
+                }
+              }
+
+              // 테이블 푸터 업데이트
+              const totalAmount = Array.isArray(orderDetails.orderItems)
+                      ? orderDetails.orderItems.reduce((sum, item) => sum + (item.quantity * item.price || 0), 0)
+                      : 0; // orderItems가 배열이 아닌 경우 0으로 초기화
+              const footerRow = table.querySelector('tfoot tr');
+              footerRow.querySelector('th:nth-child(5)').innerHTML = applyRedColorToNA(totalAmount.toLocaleString() || "N/A");
+            })
+            .catch((error) => {
+              console.error("Error fetching order details:", error);
+              // 데이터베이스에서 값을 받아오지 못한 경우 기본 값 설정
+              document.getElementById("document-number").innerHTML = applyRedColorToNA("no.000000");
+            });
+  });
+
+
+</script>
+</body>
+</html>
+

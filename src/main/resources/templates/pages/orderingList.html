@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>발주 리스트</title>
+  <link rel="stylesheet" th:href="@{/css/orderingList.css}" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<aside>
+  <div>
+    <div class="menu-item"><a href="/dashboard">홈으로</a></div>
+    <div class="menu-item">
+      <a href="/sales">판매</a>
+      <div class="submenu"><a href="#">메뉴 목록</a><a href="#">재고 목록</a></div>
+    </div>
+    <div class="menu-item">
+      <a href="/tradeCompanyList">거래 업체</a>
+      <div class="submenu">
+        <a href="/tradeCompanyList">거래 업체 목록</a>
+        <a href="/newTradeCompany">거래 업체 등록</a>
+      </div>
+    </div>
+    <div class="menu-item">
+      <a href="/purchase/list">발주</a>
+      <div class="submenu">
+        <a href="/purchase/list">발주 목록</a>
+        <a href="/purchase/orderingFrm">발주 신청</a>
+      </div>
+    </div>
+  </div>
+  <a href="/confirmPw" style="margin-top: 500px;">정보 수정</a>
+  <form action="/logout" method="post" style="display:inline;">
+    <button type="submit" style="background:none; border:none; color:white; cursor:pointer;">로그아웃</button>
+  </form>
+  <footer><div>문의사항: admin1@gmail.com</div></footer>
+</aside>
+<div class="main-content">
+  <h1 class="centered-title">발주 목록</h1>
+  <table id="orderTable">
+    <thead>
+    <tr>
+      <th>발주번호</th>
+      <th>품목명</th>
+      <th>신청일자</th>
+      <th>수량</th>
+      <th>발주상태</th>
+      <th>수령</th> <!-- 수령 버튼을 위한 열 추가 -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="request : ${requests}"> <!-- requests 리스트를 반복하여 발주 신청을 표시 -->
+      <td>
+      <a th:href="@{/purchase/detail/{id}(id=${request.requestId})}" th:text="${request.requestId}"></a>
+      </td>
+<!--      <td th:text="${request.requestId}"></td> &lt;!&ndash; 발주 ID &ndash;&gt;-->
+      <td th:text="${request.productName}"></td> <!-- 품목 이름 -->
+      <td th:text="${request.requestDate}"></td> <!-- 신청일자 -->
+      <td th:text="${request.quantity}"></td> <!-- 수량 -->
+      <td th:text="${request.status}"></td> <!-- 상태 -->
+      <td>
+        <button th:if="${request.status == '수령대기'}"
+                th:data-request-id="${request.requestId}"
+                class="receive-button"
+                onclick="receiveOrder(this)">수령</button> <!-- 수령 버튼 클릭 시 receiveOrder 함수 호출 -->
+      </td>
+    </tr>
+
+    <tr class="empty-message" th:if="${#lists.isEmpty(requests)}">
+      <td colspan="6" style="text-align: center; color: gray;">발주 내역이 없습니다.</td> <!-- 발주 내역이 없을 때 메시지 표시 -->
+    </tr>
+    </tbody>
+  </table>
+
+  <div id="pagination"></div> <!-- 페이지네이션 버튼 -->
+
+</div>
+
+<script>
+  function receiveOrder(button) {
+    const requestId = button.getAttribute("data-request-id");
+
+    // AJAX 요청을 통해 서버에 상태 변경 요청
+    $.ajax({
+      url: `/api/purchase/receive/${requestId}`, // 상태 변경을 위한 올바른 URL
+      type: 'POST',
+      success: function(response) {
+        // 상태 변경 성공 시 페이지를 새로 고침하여 변경된 내용을 반영
+        window.location.reload();
+      },
+      error: function(xhr, status, error) {
+        console.error("수령 처리 중 오류 발생:", error);
+        alert("수령 처리에 실패했습니다.");
+      }
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    let currentPage = 1;
+    const rowsPerPage = 10;
+
+    function displayTablePage(page) {
+      const tableBody = document.querySelector("#orderTable tbody");
+      const requests = Array.from(tableBody.querySelectorAll("tr:not(.empty-message)"));
+
+      // 페이지에 맞는 발주 목록 필터링
+      const start = (page - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+
+      requests.forEach((row, index) => {
+        if (index >= start && index < end) {
+          row.style.display = ""; // 표시
+        } else {
+          row.style.display = "none"; // 숨김
+        }
+      });
+
+      displayPagination(requests.length);
+    }
+
+    function displayPagination(totalRequests) {
+      const pagination = document.getElementById("pagination");
+      pagination.innerHTML = "";
+
+      const totalPages = Math.ceil(totalRequests / rowsPerPage);
+
+      // 이전 버튼
+      const prevButton = document.createElement("button");
+      prevButton.textContent = "이전";
+      prevButton.disabled = currentPage === 1;
+      prevButton.addEventListener("click", () => {
+        if (currentPage > 1) {
+          currentPage--;
+          displayTablePage(currentPage);
+        }
+      });
+      pagination.appendChild(prevButton);
+
+      // 페이지 번호 버튼
+      for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement("button");
+        button.textContent = i;
+        button.disabled = i === currentPage;
+        button.addEventListener("click", () => {
+          currentPage = i;
+          displayTablePage(currentPage);
+        });
+        pagination.appendChild(button);
+      }
+
+      // 다음 버튼
+      const nextButton = document.createElement("button");
+      nextButton.textContent = "다음";
+      nextButton.disabled = currentPage === totalPages;
+      nextButton.addEventListener("click", () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          displayTablePage(currentPage);
+        }
+      });
+      pagination.appendChild(nextButton);
+    }
+
+    // 페이지 로드 시 초기 상태 표시
+    displayTablePage(currentPage);
+  });
+</script>
+</body>
+</html>

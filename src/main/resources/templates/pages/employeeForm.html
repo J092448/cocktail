@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>직원 등록</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    <style>
+        /* 기존 CSS 스타일을 여기에 포함할 수 있습니다. */
+        .content {
+            display: flex; /* Flexbox 사용 */
+            justify-content: center; /* 가로 중앙 정렬 */
+            align-items: center; /* 세로 중앙 정렬 */
+            min-height: 100vh; /* 최소 높이를 100vh로 설정 */
+        }
+        .employeeForm {
+            max-width: 400px;
+            width: 100%; /* 너비 100%로 설정하여 중앙 정렬 */
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .employeeForm label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .employeeForm input[type="text"], .employeeForm input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .button-group {
+            display: flex; /* Flexbox 사용 */
+            justify-content: space-between; /* 버튼 간격 조정 */
+            margin-top: 20px; /* 위쪽 여백 */
+        }
+        .button {
+            flex: 1; /* 버튼이 동일한 너비를 가지도록 설정 */
+            padding: 10px; /* 패딩 */
+            background-color: #f2f2f2;
+            color: black; /* 글자 색상 */
+            text-align: center; /* 텍스트 중앙 정렬 */
+            border: none; /* 테두리 제거 */
+            border-radius: 4px; /* 모서리 둥글게 */
+            font-size: 16px; /* 글자 크기 */
+            cursor: pointer; /* 커서 포인터로 변경 */
+            text-decoration: none; /* 밑줄 제거 */
+            margin-right: 10px; /* 버튼 간의 간격 */
+        }
+        .button:last-child {
+            margin-right: 0; /* 마지막 버튼의 오른쪽 간격 제거 */
+        }
+        .button:hover {
+            background-color: #e07b00; /* hover 시 색상 변경 */
+        }
+        .employeeForm h1 {
+            margin-bottom: 20px;
+            text-align: center; /* 중앙 정렬 */
+        }
+    </style>
+</head>
+<body>
+<aside>
+    <a href="/dashboard">홈으로</a>
+    <div class="menu-group">
+        <a href="/dashboard">대시보드</a>
+        <a href="/employees">인사관리</a>
+        <a href="/sales">판매</a>
+        <a href="/accounting">회계</a>
+    </div>
+    <a href="/confirmPw" style="margin-top: 500px;">정보수정</a>
+    <form action="/logout" method="post" style="display:inline;">
+        <button type="submit" style="background:none; border:none; color:white; cursor:pointer;">로그아웃</button>
+    </form>
+</aside>
+<div class="content">
+    <div class="employeeForm">
+        <h1>직원 등록</h1>
+        <form th:action="@{/employees}" method="post">
+            <input type="hidden" name="userId" th:value="${ownerId}" /> <!-- 사장 ID를 숨겨진 필드로 추가 -->
+
+            <label for="employeeName">직원 이름:</label>
+            <input type="text" id="employeeName" name="employeeName" required/>
+
+            <label for="hourlyWage">시급:</label>
+            <input type="number" id="hourlyWage" name="hourlyWage" step="0.01" required oninput="this.value = this.value.replace(/[^0-9.]/g, '');"/>
+
+            <div class="button-group"> <!-- 버튼 그룹 추가 -->
+                <input type="submit" value="등록" class="button"/> <!-- 등록 버튼 -->
+                <a href="/employees" class="button">직원 목록으로</a> <!-- 직원 목록으로 돌아가는 버튼 -->
+            </div>
+        </form>
+    </div>
+</div>
+<footer>
+    <p>문의사항: admin1@gmail.com</p>
+</footer>
+</body>
+</html>

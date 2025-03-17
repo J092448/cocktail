@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>급여 지급</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <style>
+        .button-container {
+            display: flex; /* 플렉스 박스 사용 */
+            justify-content: center; /* 중앙 정렬 */
+            margin-top: 20px; /* 위쪽 여백 */
+        }
+
+        .button {
+            padding: 10px 15px; /* 버튼의 패딩 */
+            background-color: #f2f2f2; /* 버튼 색상 */
+            color: black; /* 글자 색상 */
+            border: 1px solid #ddd; /* 테두리 추가 */
+            border-radius: 4px; /* 모서리 둥글게 */
+            cursor: pointer; /* 포인터 커서 */
+            text-decoration: none; /* 밑줄 제거 */
+            margin-left: 10px; /* 버튼 간격 */
+            display: inline-block; /* 버튼과 링크가 같은 크기를 가지도록 설정 */
+            width: auto; /* 너비 자동 조정 */
+        }
+
+        .button:hover {
+            background-color: #e07b00; /* hover 시 색상 */
+        }
+
+
+        table {
+            width: 50%; /* 테이블 너비를 50%로 설정 */
+            border-collapse: collapse; /* 테두리 겹치기 방지 */
+            margin: 20px auto; /* 중앙 정렬 */
+        }
+
+        th, td {
+            border: 1px solid #ddd; /* 테두리 */
+            padding: 10px; /* 패딩 */
+            text-align: center; /* 중앙 정렬 */
+        }
+
+        th {
+            background-color: #f2f2f2; /* 헤더 배경색 */
+        }
+
+    </style>
+</head>
+<body>
+<aside>
+    <a href="/dashboard">홈으로</a>
+    <div class="menu-group">
+        <a href="/dashboard">대시보드</a>
+        <div class="menu-item">
+            <a href="/employees">인사관리</a>
+            <div class="submenu">
+                <a href="/employees/new">직원 등록하기</a> <!-- 직원 등록 페이지로 가는 링크 -->
+            </div>
+        </div>
+        <a href="/sales">판매</a>
+        <a href="/accounting">회계</a>
+    </div>
+    <a href="/confirmPw" style="margin-top: 500px;">정보수정</a>
+    <form action="/logout" method="post" style="display:inline;">
+        <button type="submit" style="background:none; border:none; color:white; cursor:pointer;">로그아웃</button>
+    </form>
+</aside>
+
+<div class="content">
+    <h1>급여 지급</h1>
+
+    <table>
+        <tr>
+            <th>직원 이름</th>
+            <td><span th:text="${employee.employeeName}"></span></td>
+        </tr>
+        <tr>
+            <th>계산된 급여</th>
+            <td><span th:text="${calculatedSalary}"></span> 원</td>
+        </tr>
+
+    </table>
+
+    <div class="button-container">
+        <form action="/employees/pay-salary" method="post" style="display:inline;">
+            <input type="hidden" name="employeeName" th:value="${employee.employeeName}" />
+            <button type="submit" class="button">지급하기</button>
+        </form>
+    </div>
+
+</div>
+
+<footer>
+    <p>문의사항: admin1@gmail.com</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ontherocks.cocktail.mapper.EmployeeMapper">
+
+    <!-- 직원 등록 쿼리 -->
+    <insert id="insertEmployee" parameterType="EmployeeDto">
+        INSERT INTO employee_management (user_id, employee_name, hourly_wage, total_hours_worked, last_reset_date)
+        VALUES (#{userId}, #{employeeName}, #{hourlyWage}, #{totalHoursWorked}, #{lastResetDate})
+    </insert>
+    <!-- 총 일한 시간 업데이트 쿼리 -->
+    <update id="updateEmployeeTotalHours" parameterType="EmployeeDto">
+        UPDATE employee_management
+        SET total_hours_worked = #{totalHoursWorked}, last_reset_date = #{lastResetDate}
+        WHERE employee_id = #{employeeId}
+    </update>
+
+    <!-- 직원 목록 조회 쿼리 -->
+    <select id="selectAllEmployees" resultType="EmployeeDto">
+        SELECT employee_id AS employeeId, user_id AS userId, employee_name AS employeeName,
+               hourly_wage AS hourlyWage, total_hours_worked AS totalHoursWorked, last_reset_date AS lastResetDate
+        FROM employee_management
+    </select>
+
+    <!-- 급여 계산 쿼리 -->
+    <select id="calculateSalary" parameterType="Integer" resultType="BigDecimal">
+        SELECT hourly_wage * total_hours_worked AS salary
+        FROM employee_management
+        WHERE employee_id = #{employeeId}
+    </select>
+
+    <!--직원 이름을 사용하여 직원 정보 조회 쿼리-->
+    <select id="selectEmployeeByName" parameterType="String" resultType="EmployeeDto">
+        SELECT employee_id AS employeeId, user_id AS userId, employee_name AS employeeName,
+               hourly_wage AS hourlyWage, total_hours_worked AS totalHoursWorked, last_reset_date AS lastResetDate
+        FROM employee_management
+        WHERE employee_name = #{employeeName}
+    </select>
+
+    <!-- 급여 기록 저장 쿼리 -->
+    <insert id="insertSalaryRecord" parameterType="SalaryRecordDto">
+        INSERT INTO salary_records (employee_id, amount, payment_date)
+        VALUES (#{employeeId}, #{amount}, #{paymentDate})
+    </insert>
+
+
+</mapper>

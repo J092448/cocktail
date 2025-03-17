@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>직원 목록</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <style>
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center; /* 가운데 정렬 */
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .button {
+            padding: 10px 15px;
+            background-color: #f2f2f2; /* 버튼 색상 */
+            color: black; /* 글자 색상 */
+            border: none; /* 테두리 제거 */
+            border-radius: 4px; /* 모서리 둥글게 */
+            cursor: pointer; /* 포인터 커서 */
+            text-decoration: none; /* 밑줄 제거 */
+            margin: 5px; /* 버튼 간격 */
+        }
+        .button:hover {
+            background-color: #e07b00; /* hover 시 색상 */
+        }
+    </style>
+</head>
+<body>
+<aside>
+    <a href="/dashboard">홈으로</a>
+    <div class="menu-group">
+        <a href="/dashboard">대시보드</a>
+        <div class="menu-item">
+            <a href="/employees">인사관리</a>
+            <div class="submenu">
+                <a href="/employees/new">직원 등록하기</a> <!-- 직원 등록 페이지로 가는 링크 -->
+            </div>
+        </div>
+        <a href="/sales">판매</a>
+        <a href="/accounting">회계</a>
+    </div>
+    <a href="/confirmPw" style="margin-top: 500px;">정보수정</a>
+    <form action="/logout" method="post" style="display:inline;">
+        <button type="submit" style="background:none; border:none; color:white; cursor:pointer;">로그아웃</button>
+    </form>
+</aside>
+
+<div class="content">
+    <h1>직원 목록</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>순번</th>
+            <th>이름</th>
+            <th>시급</th>
+            <th>총 일한 시간</th>
+            <th>마지막 월급 지급 날짜</th>
+            <th>작업</th> <!-- 작업 열 추가 -->
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="employee : ${employees}">
+            <td th:text="${employee.employeeId}"></td>
+            <td th:text="${employee.employeeName}"></td>
+            <td th:text="${employee.hourlyWage}"></td>
+            <td th:text="${employee.totalHoursWorked}"></td>
+            <td th:text="${employee.lastResetDate}"></td>
+            <td>
+                <a th:href="@{/employees/work-hours(employeeName=${employee.employeeName})}" class="button">근무 시간 입력</a>
+                <a th:href="@{/employees/pay-salary(employeeName=${employee.employeeName})}" class="button">급여 지급</a>
+                <!-- 급여 지급 페이지로 이동하는 버튼 -->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer>
+    <p>문의사항: admin1@gmail.com</p>
+</footer>
+</body>
+</html>

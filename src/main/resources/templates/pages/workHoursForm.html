@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>근무 시간 입력</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    <style>
+        /* 기존 CSS 스타일을 여기에 포함할 수 있습니다. */
+        .content {
+            display: flex; /* Flexbox 사용 */
+            justify-content: center; /* 가로 중앙 정렬 */
+            align-items: center; /* 세로 중앙 정렬 */
+            min-height: 100vh; /* 최소 높이를 100vh로 설정 */
+        }
+        .workHoursForm {
+            max-width: 400px; /* 최대 너비 설정 */
+            width: 100%; /* 너비 100%로 설정하여 중앙 정렬 */
+            background: white; /* 배경색 */
+            border-radius: 8px; /* 모서리 둥글게 */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 그림자 */
+            padding: 20px; /* 내부 여백 */
+        }
+        .workHoursForm h1 {
+            margin-bottom: 20px; /* 제목과 폼 사이의 여백 */
+            text-align: center; /* 중앙 정렬 */
+        }
+        .workHoursForm label {
+            display: block; /* 라벨을 블록 요소로 설정 */
+            margin-bottom: 5px; /* 라벨과 입력 필드 사이의 여백 */
+            font-weight: bold; /* 라벨을 굵게 설정 */
+        }
+        .workHoursForm input[type="text"],
+        .workHoursForm input[type="number"] {
+            width: 100%; /* 입력 필드를 100% 폭으로 설정 */
+            padding: 10px; /* 입력 필드 패딩 */
+            margin-bottom: 20px; /* 입력 필드와 다음 요소 사이의 여백 */
+            border: 1px solid #ccc; /* 입력 필드 테두리 */
+            border-radius: 4px; /* 입력 필드 모서리 둥글게 */
+        }
+        .button-group {
+            display: flex; /* Flexbox 사용 */
+            justify-content: space-between; /* 버튼 간격 조정 */
+            margin-top: 20px; /* 위쪽 여백 */
+        }
+        .button {
+            flex: 1; /* 버튼이 동일한 너비를 가지도록 설정 */
+            padding: 10px; /* 패딩 */
+            background-color: #f2f2f2; /* 버튼 색상 */
+            color: black; /* 버튼 글자 색상 */
+            text-align: center; /* 텍스트 중앙 정렬 */
+            border: none; /* 테두리 제거 */
+            border-radius: 4px; /* 모서리 둥글게 */
+            font-size: 16px; /* 글자 크기 */
+            cursor: pointer; /* 커서 포인터로 변경 */
+            text-decoration: none; /* 밑줄 제거 */
+            margin-right: 10px; /* 버튼 간의 간격 */
+        }
+        .button:last-child {
+            margin-right: 0; /* 마지막 버튼의 오른쪽 간격 제거 */
+        }
+        .button:hover {
+            background-color: #e07b00; /* hover 시 색상 변경 */
+        }
+    </style>
+</head>
+<body>
+<aside>
+    <a href="/dashboard">홈으로</a>
+    <div class="menu-group">
+        <a href="/dashboard">대시보드</a>
+        <div class="menu-item">
+            <a href="/employees">인사관리</a>
+            <div class="submenu">
+                <a href="/employees/new">직원 등록하기</a> <!-- 직원 등록 페이지로 가는 링크 -->
+            </div>
+        </div>
+        <a href="/sales">판매</a>
+        <a href="/accounting">회계</a>
+    </div>
+    <a href="/confirmPw" style="margin-top: 500px;">정보수정</a>
+    <form action="/logout" method="post" style="display:inline;">
+        <button type="submit" style="background:none; border:none; color:white; cursor:pointer;">로그아웃</button>
+    </form>
+</aside>
+
+<div class="content">
+    <div class="workHoursForm"> <!-- 클래스 이름 수정 -->
+        <h1>근무 시간 입력</h1>
+        <form action="#" th:action="@{/employees/work-hours}" method="post" th:object="${workHoursDto}">
+            <label for="employeeName">직원 이름:</label>
+            <input type="text" id="employeeName" th:field="*{employeeName}" required/>
+
+            <label for="hoursWorked">일한 시간:</label>
+            <input type="number" step="0.01" id="hoursWorked" th:field="*{hoursWorked}" required/>
+
+            <div class="button-group"> <!-- 버튼 그룹 추가 -->
+                <button type="submit" class="button">시간 입력</button>
+                <a href="/employees" class="button">직원 목록으로</a> <!-- 직원 목록으로 돌아가는 버튼 -->
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <p>문의사항: admin1@gmail.com</p>
+</footer>
+</body>
+</html>
