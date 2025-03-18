@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>새 재고 등록</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/common.css">
+    <style>
+        /* ✅ 사이드바 스타일 (InvenList와 동일하게 적용) */
+        aside {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 220px;
+            background-color: #212529; /* ✅ InvenList와 동일한 색상 */
+            padding-top: 20px;
+            color: white;
+        }
+        aside a {
+            color: white;
+            padding: 10px;
+            display: block;
+            text-decoration: none;
+        }
+        aside a:hover {
+            background-color: #343a40; /* ✅ Hover 효과 동일 적용 */
+        }
+        .submenu {
+            display: none;
+            padding-left: 20px;
+        }
+
+        /* ✅ 메인 컨텐츠 중앙 정렬 */
+        .main-content {
+            margin-left: 220px;
+            padding: 20px;
+            width: calc(100% - 220px);
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+        .table {
+            width: 100%;
+        }
+
+        /* ✅ 푸터 (InvenList와 동일하게 고정 & 색상 적용) */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 220px;
+            width: calc(100% - 220px);
+            background-color: #212529; /* ✅ InvenList와 동일한 색상 */
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ✅ 사이드바 (`aside` 사용, InvenList와 동일한 색상 적용) -->
+<aside>
+    <a href="/dashboard">홈으로</a>
+    <div class="menu-group">
+        <a href="/dashboard">대시보드</a>
+        <a href="/hrm">인사관리</a>
+        <div class="menu-item" onclick="toggleSubmenu()">판매</div>
+        <div class="submenu" id="sales-submenu">
+            <a href="/SalesMenuList">메뉴관리</a>
+            <a href="/InvenList">재고관리</a>
+            <a href="/orders">발주</a>
+            <a href="/suppliers">거래업체</a>
+        </div>
+        <a href="/accounting">회계</a>
+    </div>
+    <div class="info-update">
+        <a href="/confirmPw">정보수정</a>
+    </div>
+    <form action="/logout" method="post" class="logout-form">
+        <button type="submit">로그아웃</button>
+    </form>
+</aside>
+
+<!-- ✅ 메인 컨텐츠 -->
+<div class="main-content">
+    <h2 class="fw-bold text-center">새 재고 등록</h2>
+
+    <form th:action="@{/inventory/add}" method="post">
+        <div class="container">
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th>재료명</th>
+                    <td><input type="text" class="form-control" name="name" required></td>
+                </tr>
+                <tr>
+                    <th>카테고리</th>
+                    <td>
+                        <select class="form-select" id="category" name="categoryId" required>
+                            <option value="1" th:selected="${invenDto?.categoryId == 1 or invenDto?.categoryId == null}">주류</option>
+                            <option value="2" th:selected="${invenDto?.categoryId == 2}">과일</option>
+                            <option value="3" th:selected="${invenDto?.categoryId == 3}">음료</option>
+                            <option value="4" th:selected="${invenDto?.categoryId == 4}">믹서</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>단위</th>
+                    <td>
+                        <input type="text" class="form-control" id="unit" name="unitDisplay" th:value="${invenDto?.unit ?: 'ml'}" required disabled>
+                        <input type="hidden" id="unitHidden" name="unit" th:value="${invenDto?.unit ?: 'ml'}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>초기 수량</th>
+                    <td>
+                        <input type="number" class="form-control" name="quantity" th:attr="value=${invenDto?.quantity ?: 1000}" required>
+                    </td>
+                </tr>
+                <tr>
+                    <th>재주문 기준량</th>
+                    <td>
+                        <input type="number" class="form-control" name="reorderLevel" th:attr="value=${invenDto?.reorderLevel ?: 100}" required>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-success">등록</button>
+                <a href="/InvenList" class="btn btn-secondary">취소</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- ✅ 푸터 (색상 동일하게 적용) -->
+<footer>
+    <p>문의사항: admin1@gmail.com</p>
+</footer>
+
+<script>
+    document.getElementById("category").addEventListener("change", function() {
+        let selectedCategory = this.value;
+        let unitInput = document.getElementById("unit");
+        let unitHidden = document.getElementById("unitHidden");
+
+        let unitValue = "";
+        switch (selectedCategory) {
+            case "1": unitValue = "병"; break;
+            case "2": unitValue = "개"; break;
+            case "3": unitValue = "병"; break;
+            case "4": unitValue = "ml"; break;
+            default: unitValue = "";
+        }
+        unitInput.value = unitValue;
+        unitHidden.value = unitValue;
+    });
+</script>
+
+
+</body>
+</html>

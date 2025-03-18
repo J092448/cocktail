@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>재고 목록</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/common.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<!-- ✅ 사이드바 -->
+<aside>
+    <a href="/dashboard">홈으로</a>
+    <div class="menu-group">
+        <a href="/dashboard">대시보드</a>
+        <a href="/hrm">인사관리</a>
+        <div class="menu-item" onclick="toggleSubmenu()">판매</div>
+        <div class="submenu" id="sales-submenu">
+            <a href="/SalesMenuList">메뉴관리</a>
+            <a href="/InvenList">재고관리</a>
+            <a href="/orders">발주</a>
+            <a href="/suppliers">거래업체</a>
+        </div>
+        <a href="/accounting">회계</a>
+    </div>
+    <div class="info-update">
+        <a href="/confirmPw">정보수정</a>
+    </div>
+    <form action="/logout" method="post" class="logout-form">
+        <button type="submit">로그아웃</button>
+    </form>
+</aside>
+
+<!-- ✅ 메인 콘텐츠 -->
+<div class="content">
+    <h2 class="text-center">재고 목록</h2>
+
+    <div class="d-flex justify-content-between mb-3">
+        <!-- ✅ 카테고리 필터 -->
+        <div>
+            <label for="category">카테고리 선택:</label>
+            <select id="category" name="category" onchange="changeCategory()">
+                <option value="1">주류</option>
+                <option value="2">과일</option>
+                <option value="3">음료</option>
+                <option value="4">믹서</option>
+            </select>
+        </div>
+        <button onclick="location.href='/inventory/new'" class="btn btn-primary">새 재고 등록</button>
+    </div>
+
+    <!-- ✅ 재고 목록 테이블 -->
+    <table class="table table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>번호</th>
+            <th>재고명</th>
+            <th>등록/수정일자</th>
+            <th>기본수량</th>
+            <th>상태</th>
+        </tr>
+        </thead>
+        <tbody id="inventoryTable">
+        <tr th:if="${#lists.isEmpty(invenList)}">
+            <td colspan="5" class="text-center">재고 없음</td>
+        </tr>
+        <th:block th:with="selectedCategory=${selectedCategory ?: '1'}">
+            <tr th:each="inven, iterStat : ${invenList}">
+                <td th:text="${(currentPage - 1) * pageSize + iterStat.count}"></td>
+                <td>
+                    <!-- ✅ 재고명 클릭 시 해당 재고의 상세 페이지로 이동 -->
+                    <a th:href="@{/inventory/InvenDetail(ingredientId=${inven.ingredientId}, category=${selectedCategory})}"
+                       th:text="${inven.name}" class="fw-bold text-primary">
+                    </a>
+                </td>
+                <td th:text="${#dates.format(inven.lastUpdated, 'yyyy/MM/dd')}"></td>
+                <td th:text="${inven.quantity + ' ' + inven.unit}"></td>
+                <td>
+                <span th:text="${inven.status}"
+                      th:classappend="${inven.status == '정상' ? 'text-primary' :
+                                       (inven.status == '재고 부족' ? 'text-warning fw-bold' : 'text-danger fw-bold')}">
+                </span>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+
+    <!-- ✅ 페이징 버튼 -->
+    <div class="d-flex justify-content-center mt-4">
+        <ul class="pagination">
+            <li th:if="${currentPage > 1}" class="page-item">
+                <a class="page-link" th:href="@{/InvenList(category=${selectedCategory}, page=${currentPage - 1}, pageSize=${pageSize})}">이전</a>
+            </li>
+            <li th:each="pageNum : ${#numbers.sequence(1, totalPages)}"
+                class="page-item"
+                th:classappend="${pageNum == currentPage} ? 'active' : ''">
+                <a class="page-link" th:href="@{/InvenList(category=${selectedCategory}, page=${pageNum}, pageSize=${pageSize})}">
+                    [[${pageNum}]]
+                </a>
+            </li>
+            <li th:if="${currentPage < totalPages}" class="page-item">
+                <a class="page-link" th:href="@{/InvenList(category=${selectedCategory}, page=${currentPage + 1}, pageSize=${pageSize})}">다음</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- ✅ 푸터 -->
+    <footer>
+        <p>문의사항: admin1@gmail.com</p>
+    </footer>
+
+    <script>
+        function toggleSubmenu() {
+            var submenu = document.getElementById("sales-submenu");
+            submenu.style.display = submenu.style.display === "none" ? "block" : "none";
+        }
+
+        function changeCategory() {
+            const category = document.getElementById("category").value;
+            window.location.href = `/InvenList?category=${category}&page=1&pageSize=10`;
+        }
+
+        $(document).ready(function () {
+            let urlParams = new URLSearchParams(window.location.search);
+            let selectedCategory = urlParams.get("category") || "1"; // ✅ 기본값을 '1'(주류)로 설정
+            $("#category").val(selectedCategory);
+        });
+    </script>
+</body>
+</html>

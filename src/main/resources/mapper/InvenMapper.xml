@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ontherocks.cocktail.mapper.InvenMapper">
+
+    <select id="getInvenList" resultType="com.ontherocks.cocktail.dto.InvenDto">
+        SELECT
+        i.ingredient_id,
+        COALESCE(MAX(s.name), MAX(f.name), MAX(b.name), MAX(m.name)) AS name,
+        MAX(c.category_name) AS category,
+        MAX(i.unit) AS unit,
+        SUM(i.quantity) AS quantity,
+        MIN(i.reorder_level) AS reorder_level,
+        MAX(i.last_updated) AS last_updated,
+        CASE
+        WHEN SUM(i.quantity) &lt;= 0 THEN '품절'
+        WHEN SUM(i.quantity) &lt; MIN(i.reorder_level) THEN '재고 부족'
+        ELSE '정상'
+        END AS status
+        FROM inventory i
+        LEFT JOIN categories c ON i.category_id = c.category_id
+        LEFT JOIN spirits s ON i.ingredient_id = s.spirit_id AND i.category_id = 1
+        LEFT JOIN fruits f ON i.ingredient_id = f.fruit_id AND i.category_id = 2
+        LEFT JOIN beverages b ON i.ingredient_id = b.beverage_id AND i.category_id = 3
+        LEFT JOIN mixers m ON i.ingredient_id = m.mixer_id AND i.category_id = 4
+        <where>
+            <if test="category != null and category != 'all'">
+                i.category_id = #{category}
+            </if>
+        </where>
+        GROUP BY i.ingredient_id
+        ORDER BY last_updated DESC
+        LIMIT #{pageSize} OFFSET #{offset};
+    </select>
+
+    <select id="getTotalInventoriesCount" resultType="int">
+        SELECT COUNT(DISTINCT ingredient_id)
+        FROM inventory
+        WHERE category_id = #{category};
+    </select>
+
+    <select id="getInvenDetail" parameterType="java.lang.Integer" resultType="com.ontherocks.cocktail.dto.InvenDto">
+        SELECT
+        COALESCE(MAX(s.name), MAX(f.name), MAX(b.name), MAX(m.name), '이름 없음') AS name,
+        COALESCE(MAX(c.category_name), '미분류') AS category,
+        (CASE
+        WHEN MAX(i.unit) = 'ml' THEN '병'
+        WHEN MAX(i.unit) = 'g' THEN 'g'
+        WHEN MAX(i.unit) = 'spring' THEN 'spring'
+        ELSE '개'
+        END) AS unit,
+        SUM(i.quantity) AS quantity,
+        MIN(i.reorder_level) AS reorder_level,
+        MAX(i.last_updated) AS lastUpdated,
+        CASE
+        WHEN SUM(i.quantity) &lt;= 0 THEN '품절'
+        WHEN SUM(i.quantity) &lt; MIN(i.reorder_level) THEN '재고 부족'
+        ELSE '정상'
+        END AS status
+        FROM inventory i
+        LEFT JOIN categories c ON i.category_id = c.category_id
+        LEFT JOIN spirits s ON i.ingredient_id = s.spirit_id AND i.category_id = 1
+        LEFT JOIN fruits f ON i.ingredient_id = f.fruit_id AND i.category_id = 2
+        LEFT JOIN beverages b ON i.ingredient_id = b.beverage_id AND i.category_id = 3
+        LEFT JOIN mixers m ON i.ingredient_id = m.mixer_id AND i.category_id = 4
+        WHERE i.ingredient_id = #{ingredientId}
+        GROUP BY i.ingredient_id;
+    </select>
+
+    <insert id="insertInven" parameterType="com.ontherocks.cocktail.dto.InvenDto">
+        INSERT INTO inventory (ingredient_id, unit, quantity, reorder_level, last_updated)
+        VALUES (#{ingredientId}, #{unit}, #{quantity}, #{reorderLevel}, CURRENT_TIMESTAMP);
+    </insert>
+
+    <update id="updateInven" parameterType="com.ontherocks.cocktail.dto.InvenDto">
+        UPDATE inventory
+        SET unit = #{unit},
+            quantity = #{quantity},
+            reorder_level = #{reorderLevel},
+            last_updated = CURRENT_TIMESTAMP
+        WHERE ingredient_id = #{ingredientId};
+    </update>
+
+    <delete id="deleteInven" parameterType="int">
+        DELETE FROM inventory WHERE ingredient_id = #{ingredientId};
+    </delete>
+
+</mapper>

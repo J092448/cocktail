@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>신규 메뉴 등록</title>
+
+    <!-- ✅ Bootstrap & Custom CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/sidebar-footer.css">
+
+    <!-- ✅ jQuery 및 Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+<!-- ✅ 사이드바 -->
+<aside class="sidebar">
+    <a href="/dashboard">홈으로</a>
+    <div class="menu-group">
+        <a href="/dashboard">대시보드</a>
+        <a href="/hrm">인사관리</a>
+        <div class="menu-item" onclick="toggleSubmenu()">판매</div>
+        <div class="submenu" id="sales-submenu">
+            <a href="/SalesMenuList">메뉴 목록</a>
+            <a href="/InvenList">재고 목록</a>
+        </div>
+        <a href="/accounting">회계</a>
+    </div>
+
+    <!-- ✅ 정보 수정 & 로그아웃 -->
+    <div class="info-update">
+        <a href="/confirmPw">정보 수정</a>
+    </div>
+    <form action="/logout" method="post" class="logout-form">
+        <button type="submit">로그아웃</button>
+    </form>
+</aside>
+
+<!-- ✅ 본문 -->
+<div class="content">
+    <h2 class="text-center">새 메뉴 등록</h2>
+
+    <form id="newMenuForm" action="/menu/add" method="post" enctype="multipart/form-data" class="mt-4">
+        <!-- ✅ menuId가 존재하면 cocktailId도 동일하게 설정 -->
+        <input type="hidden" id="cocktailId" name="cocktailId" th:value="${menu != null ? menu.menuId : ''}">
+
+        <!-- ✅ 이미지 업로드 -->
+        <div class="mb-3">
+            <label class="form-label">이미지:</label>
+            <input type="file" id="photoInput" name="photo" accept="image/*" class="form-control" onchange="previewImage(event)">
+            <img id="photoPreview"
+                 th:src="${menu != null and menu.photoPath != null ? menu.photoPath : '/images/default.jpg'}"
+                 alt="Menu Image" class="mt-2 img-thumbnail" style="max-width: 200px;">
+        </div>
+
+        <!-- ✅ 메뉴 이름 -->
+        <div class="mb-3">
+            <label class="form-label">메뉴 이름:</label>
+            <input type="text" id="name" name="name" required class="form-control">
+        </div>
+
+        <!-- ✅ 가격 -->
+        <div class="mb-3">
+            <label class="form-label">가격:</label>
+            <input type="number" id="price" name="price" required class="form-control">
+        </div>
+
+        <!-- ✅ 설명 -->
+        <div class="mb-3">
+            <label class="form-label">설명:</label>
+            <textarea id="description" name="description" required class="form-control"></textarea>
+        </div>
+
+        <!-- ✅ 알러지 정보 -->
+        <div class="mb-3">
+            <label class="form-label">알러지 정보:</label>
+            <input type="text" id="allergyIngredients" name="allergyIngredients" class="form-control">
+        </div>
+
+        <!-- ✅ 상태 선택 -->
+        <div class="mb-3">
+            <label class="form-label">상태:</label>
+            <div>
+                <input type="radio" id="status1" name="status" value="판매중" checked>
+                <label for="status1" class="status-available">판매중</label>
+
+                <input type="radio" id="status2" name="status" value="품절">
+                <label for="status2" class="status-soldout">품절</label>
+            </div>
+        </div>
+
+        <!-- ✅ 등록 버튼 -->
+        <button type="submit" class="btn btn-primary w-100">등록</button>
+    </form>
+</div>
+
+<!-- ✅ 푸터 -->
+<footer>
+    <p>문의사항: admin1@gmail.com</p>
+</footer>
+
+<!-- ✅ 서브메뉴 토글 JavaScript -->
+<script>
+    function toggleSubmenu() {
+        var submenu = document.getElementById("sales-submenu");
+        submenu.classList.toggle("active"); // 활성화/비활성화 토글
+    }
+</script>
+
+<!-- ✅ 이미지 미리보기 기능 -->
+<script>
+    function previewImage(event) {
+        const input = event.target;
+        const preview = document.getElementById('photoPreview');
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = "/images/default.jpg";  // 기본 이미지 유지
+        }
+    }
+
+    // ✅ AJAX를 활용한 메뉴 등록
+    document.getElementById("newMenuForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // 기본 form 제출 방지
+
+        let formData = new FormData(this);
+
+        fetch("/menu/add", {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.json()) // JSON 응답 처리
+            .then(data => {
+                if (data.message) {
+                    alert(data.message); // ✅ 성공 메시지 팝업
+                    window.location.href = "/SalesMenuList"; // ✅ 확인 후 이동
+                } else {
+                    alert("메뉴 등록 실패: " + (data.error || "알 수 없는 오류 발생."));
+                }
+            })
+            .catch(error => {
+                console.error("❌ [ERROR] 메뉴 등록 요청 실패:", error);
+                alert("서버와의 연결 중 오류가 발생했습니다.");
+            });
+    });
+</script>
+
+</body>
+</html>

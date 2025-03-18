@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ontherocks.cocktail.mapper.MenuMapper">
+
+    <insert id="insertMenu" useGeneratedKeys="true" keyProperty="menuId">
+        INSERT INTO menu (name, price, description, allergy_ingredients, photo_path, created_at)
+        VALUES (#{name}, #{price}, #{description}, #{allergyIngredients}, #{photoPath}, NOW());
+    </insert>
+
+
+    <!-- ✅ menu_list에 추가 (cocktailId를 Java에서 결정 후 전달) -->
+    <insert id="insertMenuList">
+        INSERT INTO menu_list (menu_id, cocktail_id, status, registration_date)
+        VALUES (#{menuId}, #{cocktailId}, #{status}, NOW());
+    </insert>
+
+    <insert id="insertCocktail">
+        INSERT INTO cocktails (cocktail_id, name, price, alcohol_content, recipe)
+        VALUES (#{cocktailId}, #{name}, #{price}, #{alcoholContent}, #{recipe});
+    </insert>
+
+
+
+    <!-- ✅ 가장 큰 cocktail_id 조회 -->
+    <select id="getMaxCocktailId" resultType="int">
+        SELECT COALESCE(MAX(cocktail_id), 0) FROM cocktails;
+    </select>
+
+    <!-- ✅ 전체 메뉴 개수 조회 -->
+    <select id="getTotalMenusCount" resultType="int">
+        SELECT COUNT(*) FROM cocktail_bar_erp.menu
+    </select>
+
+    <!-- ✅ 특정 메뉴 상세 조회 (menu_list와 조인) -->
+    <select id="getMenuById" parameterType="int" resultType="com.ontherocks.cocktail.dto.MenuDto">
+        SELECT
+            m.menu_id, m.name, m.price, m.description, m.allergy_ingredients,
+            m.photo_path, m.created_at, ml.registration_date,
+            COALESCE(ml.status, '판매중') AS status,
+            COALESCE(ml.cocktail_id, 0) AS cocktail_id
+        FROM cocktail_bar_erp.menu m
+                 LEFT JOIN cocktail_bar_erp.menu_list ml ON m.menu_id = ml.menu_id
+        WHERE m.menu_id = #{menuId}
+    </select>
+
+    <!-- ✅ 메뉴 데이터 매핑 -->
+    <resultMap id="menuResultMap" type="com.ontherocks.cocktail.dto.MenuDto">
+        <id property="menuId" column="menu_id"/>
+        <result property="name" column="name"/>
+        <result property="price" column="price"/>
+        <result property="description" column="description"/>
+        <result property="allergyIngredients" column="allergy_ingredients"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="photoPath" column="photo_path"/>
+        <result property="registrationDate" column="registration_date"/>
+        <result property="status" column="status" javaType="com.ontherocks.cocktail.enums.MenuStatus" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result property="cocktailId" column="cocktail_id"/>
+    </resultMap>
+
+    <!-- ✅ 모든 메뉴 조회 -->
+    <select id="getAllMenus" resultType="com.ontherocks.cocktail.dto.MenuDto">
+        SELECT
+            m.menu_id,
+            m.name,
+            m.price,
+            m.description,
+            m.allergy_ingredients,
+            m.created_at,
+            m.photo_path,
+            COALESCE(ml.registration_date, m.created_at) AS registration_date,
+            COALESCE(ml.status, '판매중') AS status,
+            COALESCE(ml.cocktail_id, 0) AS cocktail_id
+        FROM cocktail_bar_erp.menu m
+                 LEFT JOIN cocktail_bar_erp.menu_list ml ON m.menu_id = ml.menu_id
+        ORDER BY m.menu_id DESC
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <!-- ✅ 특정 메뉴가 menu_list에 존재하는지 확인 -->
+    <select id="getMenuListCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM menu_list WHERE menu_id = #{menuId}
+    </select>
+
+    <!-- ✅ menu_list에서 cocktail_id 조회 -->
+    <select id="findCocktailIdByMenuID" resultType="java.lang.Integer">
+        SELECT COALESCE(cocktail_id, 0)
+        FROM menu_list
+        WHERE menu_id = #{menuId}
+        LIMIT 1
+    </select>
+
+    <!-- ✅ 메뉴 수정 -->
+    <update id="updateMenu">
+        UPDATE menu
+        SET
+            name = #{name},
+            price = #{price},
+            description = #{description},
+            allergy_ingredients = #{allergyIngredients},
+            photo_path = #{photoPath}
+        WHERE menu_id = #{menuId};
+    </update>
+
+    <!-- ✅ 메뉴 상태 수정 -->
+    <update id="updateMenuStatus">
+        UPDATE menu_list
+        SET status = #{status}, registration_date = NOW()
+        WHERE menu_id = #{menuId};
+    </update>
+
+    <!-- ✅ menu_list에서 cocktail_id 가져오기 -->
+    <select id="getCocktailIdByMenuId" resultType="int">
+        SELECT COALESCE(cocktail_id, 0) FROM menu_list WHERE menu_id = #{menuId}
+    </select>
+
+    <!-- menu_list 테이블에서 menu_id를 먼저 삭제 -->
+    <delete id="deleteMenuFromMenuList">
+        DELETE FROM menu_list WHERE menu_id = #{menuId}
+    </delete>
+
+    <!-- cocktails 테이블에서 cocktail 삭제 -->
+    <delete id="deleteCocktail">
+        DELETE FROM cocktails WHERE cocktail_id = #{cocktailId}
+    </delete>
+
+    <!-- menu 테이블에서 menu 삭제 -->
+    <delete id="deleteMenu">
+        DELETE FROM menu WHERE menu_id = #{menuId}
+    </delete>
+
+</mapper>

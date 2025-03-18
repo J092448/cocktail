@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메뉴 상세 정보</title>
+
+    <!-- ✅ 공통 CSS 및 JS 적용 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/sidebar-footer.css">
+    <script src="/js/status.js"></script> <!-- ✅ 상태 색상 적용 -->
+</head>
+<body>
+
+<!-- ✅ 사이드바 -->
+<aside class="sidebar">
+    <a href="/dashboard">홈으로</a>
+    <div class="menu-group">
+        <a href="/dashboard">대시보드</a>
+        <a href="/hrm">인사관리</a>
+        <div class="menu-item" onclick="toggleSubmenu()">판매</div>
+        <div class="submenu" id="sales-submenu">
+            <a href="/SalesMenuList">메뉴 목록</a>
+            <a href="/InvenList">재고 목록</a>
+        </div>
+        <a href="/accounting">회계</a>
+    </div>
+
+    <!-- ✅ 정보 수정 & 로그아웃 -->
+    <div class="info-update">
+        <a href="/confirmPw">정보 수정</a>
+    </div>
+    <form action="/logout" method="post" class="logout-form">
+        <button type="submit">로그아웃</button>
+    </form>
+</aside>
+
+<!-- ✅ 메인 콘텐츠 -->
+<div class="content d-flex flex-column align-items-center">
+    <h2 class="text-center mb-4 fw-bold">메뉴 상세 정보</h2>
+
+    <div th:if="${menu != null}" class="card p-5 shadow-sm d-flex flex-column align-items-center" style="max-width: 1200px; width: 100%;">
+        <!-- ✅ 이미지 & 상세 정보 레이아웃 (가로 정렬) -->
+        <div class="d-flex w-100 align-items-center">
+            <!-- ✅ 왼쪽: 이미지 -->
+            <div class="me-5">
+                <label class="form-label fw-bold fs-4 d-block text-center">이미지:</label>
+                <img id="photoPreview" th:src="${menu.photoPath != null ? menu.photoPath : '/images/default.jpg'}"
+                     alt="Menu Image" class="img-fluid rounded shadow" style="max-width: 400px;"/>
+            </div>
+
+            <!-- ✅ 오른쪽: 상세 정보 -->
+            <div class="flex-grow-1 p-5 border rounded bg-light" style="min-width: 500px;">
+                <div class="mb-3 fs-4"><strong>메뉴 이름:</strong> <span th:text="${menu.name}"></span></div>
+                <div class="mb-3 fs-4"><strong>가격:</strong> <span th:text="${menu.price + ' 원'}"></span></div>
+                <div class="mb-3 fs-4"><strong>설명:</strong> <span th:text="${menu.description}"></span></div>
+                <div class="mb-3 fs-4"><strong>알러지 정보:</strong> <span th:text="${menu.allergyIngredients}"></span></div>
+
+                <!-- ✅ 상태 정보 -->
+                <div class="mb-3 fs-4">
+                    <strong>상태:</strong>
+                    <span class="menu-status"
+                          th:classappend="${menu.status == '판매중'} ? 'status-available' : (${menu.status == '품절'} ? 'status-soldout' : 'status-unknown')"
+                          th:text="${menu.status != null ? menu.status : '알 수 없음'}">
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ✅ 수정 및 삭제 버튼 (오른쪽 정렬) -->
+        <div class="d-flex justify-content-end mt-4 w-100">
+            <button id="editButton" th:if="${menu != null}" th:data-menu-id="${menu.menuId}"
+                    class="btn btn-primary btn-lg px-5 me-3">수정</button>
+            <form id="deleteForm"
+                  th:action="@{/menu/delete/{menuId}/{cocktailId}(menuId=${menu.menuId}, cocktailId=${menu.cocktailId})}"
+                  method="post">
+                <button type="button" id="deleteButton" class="btn btn-danger btn-lg px-5">삭제</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ✅ 메뉴 정보가 없을 경우 -->
+    <div th:if="${menu == null}" class="alert alert-danger text-center">
+        <p>❌ 메뉴 정보를 불러올 수 없습니다.</p>
+    </div>
+</div>
+
+<!-- ✅ 푸터 -->
+<footer>
+    <p>문의사항: admin1@gmail.com</p>
+</footer>
+
+<!-- ✅ 서브메뉴 토글 JavaScript -->
+<script>
+    function toggleSubmenu() {
+        var submenu = document.getElementById("sales-submenu");
+        submenu.classList.toggle("active"); // 활성화/비활성화 토글
+    }
+</script>
+
+<!-- ✅ 수정 기능 -->
+<script>
+    document.getElementById("editButton").addEventListener("click", function() {
+        let menuId = this.getAttribute("data-menu-id");
+        window.location.href = "/menu/update/" + menuId;
+    });
+
+    // ✅ 삭제 버튼 기능 (삭제 전에 확인 팝업)
+    document.getElementById("deleteButton").addEventListener("click", function() {
+        if (confirm("정말로 이 메뉴를 삭제하시겠습니까?")) {
+            document.getElementById("deleteForm").submit();
+        }
+    });
+</script>
+
+</body>
+</html>

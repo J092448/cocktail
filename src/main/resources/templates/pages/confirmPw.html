@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <script>
+        // 서버에서 전달된 username을 JavaScript 변수로 설정
+        const username = '${user.username}'; // JSP 표현식을 사용하여 실제 값으로 설정
+        console.log("Username from server:", username); // 로그 추가
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('usernameField').value = username;
+        });
+    </script>
+
+    <style>
+        .menu-group {
+            position: relative; /* 상대 위치 설정 */
+            top: -10px; /* 원하는 만큼 위로 이동 */
+        }
+
+        .menu-group a {
+            padding: 10px 15px; /* 패딩 조정 */
+            display: block;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 5px; /* 항목 간의 간격 조정 */
+            border: 1px solid transparent; /* 테두리 추가 */
+            /*border-radius: 5px; !* 모서리 둥글게 *!*/
+        }
+
+        .menu-group a:hover {
+            background: #555; /* hover 시 배경색 변경 */
+            border: 1px solid #fff; /* hover 시 테두리 색상 변경 */
+        }
+
+
+        .confirmPw-form {
+            max-width: 400px;
+            width: 100%; /* 너비 100%로 설정하여 중앙 정렬 */
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .confirmPw-form input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .confirmPw-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff8c00; /* 버튼 색상 */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .confirmPw-form button:hover {
+            background-color: #e07b00; /* 버튼 hover 색상 */
+        }
+        .confirmPw-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        h1 {
+            margin-bottom: 20px;
+            text-align: center; /* 중앙 정렬 */
+        }
+        .content{
+            display: flex; /* Flexbox 사용 */
+            justify-content: center; /* 가로 중앙 정렬 */
+            align-items: center; /* 세로 중앙 정렬 */
+        }
+    </style>
+</head>
+<body>
+    <aside>
+        <a href="/dashboard">홈으로</a>
+        <div class="menu-group">
+            <a href="/dashboard">대시보드</a>
+            <a href="/hrm">인사관리</a>
+            <a href="/sales">판매</a>
+            <a href="/accounting">회계</a>
+        </div>
+        <a href="/confirmPw" style="margin-top: 500px;">정보수정</a>
+        <form action="/logout" method="post" style="display:inline;">
+<!--            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+            <button type="submit" style="background:none; border:none; color:white; cursor:pointer;">로그아웃</button>
+        </form>
+    </aside>
+
+<div class="content">
+    <div class="confirmPw-form">
+        <h1>비밀번호 확인</h1>
+    <form th:action="@{/confirmPw}" method="post">
+        <input type="hidden" name="username" id="usernameField" />
+        <label for="password">비밀번호 입력:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">비밀번호 확인</button>
+    </form>
+    <div th:if="${msg}" th:text="${msg}" style="color:red;"></div>
+    </div>
+</div>
+
+<footer>
+    <p>문의사항: admin1@gmail.com</p>
+</footer>
+</body>
+</html>

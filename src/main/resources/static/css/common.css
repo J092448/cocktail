@@ -1,0 +1,110 @@
+:root {
+    --sidebar-width: 200px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+/* 사이드바 */
+aside {
+    width: var(--sidebar-width);
+    background: #222;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    position: fixed;
+    height: 100vh;
+    text-align: center;
+}
+
+aside a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 0;
+    display: block;
+}
+
+aside a:hover {
+    background: #444;
+}
+
+/* 메뉴 그룹 */
+.menu-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 50px;
+}
+
+.menu-item {
+    cursor: pointer;
+}
+
+/* 서브메뉴 */
+.submenu {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding-left: 15px;
+}
+
+.submenu a {
+    font-size: 14px;
+    background: #333;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+/* 정보 수정 & 로그아웃 */
+.info-update {
+    margin-top: auto;
+    margin-bottom: 40px;
+}
+
+.logout-form {
+    text-align: center;
+    padding: 15px 0;
+    margin-bottom: 40px;
+}
+
+.logout-form button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.logout-form button:hover {
+    text-decoration: underline;
+}
+
+/* 메인 컨텐츠 */
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    margin-left: calc(var(--sidebar-width) + 20px);
+}
+
+/* 푸터 */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    background: black;
+    color: white;
+    text-align: right;
+    padding: 10px;
+    font-size: 14px;
+}

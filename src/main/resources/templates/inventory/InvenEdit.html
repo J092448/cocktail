@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>재고 수정</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/common.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="text-center">재고 수정</h2>
+
+    <!-- ✅ 재고 수정 폼 -->
+    <form th:action="@{/inventory/update}" method="post" th:object="${invenDto}">
+        <input type="hidden" name="ingredientId" th:if="${invenDto?.ingredientId != null}" th:value="${invenDto.ingredientId}">
+
+        <div class="mb-3">
+            <label class="form-label">재고명:</label>
+            <input type="text" class="form-control" name="name" th:field="*{name}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">단위:</label>
+            <input type="text" class="form-control" name="unit" th:field="*{unit}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">재고 수량:</label>
+            <input type="number" class="form-control" name="quantity" th:field="*{quantity}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">최소 재고보유량:</label>
+            <input type="number" class="form-control" name="reorderLevel" th:field="*{reorderLevel}" required>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-success">저장</button>
+            <a th:href="@{/inventory/InvenDetail(ingredientId=*{ingredientId})}" class="btn btn-secondary">취소</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

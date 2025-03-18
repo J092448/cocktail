@@ -1,0 +1,148 @@
+/* ✅ CSS 변수 설정 */
+:root {
+    --sidebar-width: 200px;
+    --sidebar-bg: #222;
+    --sidebar-hover-bg: #444;
+    --text-color: white;
+    --footer-bg: black;
+}
+
+/* ✅ 기본 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+/* ✅ 사이드바 스타일 */
+.sidebar {
+    width: var(--sidebar-width);
+    background: var(--sidebar-bg);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    position: fixed;
+    height: 100vh;
+}
+
+.sidebar a {
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 10px 0;
+    display: block;
+    text-align: center;
+}
+
+.sidebar a:hover {
+    background: var(--sidebar-hover-bg);
+}
+
+/* ✅ 메뉴 스타일 */
+.menu-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 50px;
+}
+
+.menu-item {
+    cursor: pointer;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* ✅ 서브메뉴 (기본적으로 숨김) */
+.submenu {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    padding-left: 15px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* ✅ 서브메뉴 클릭 시 표시 */
+.submenu.active {
+    display: flex;
+}
+
+/* ✅ 서브메뉴 내부 링크 스타일 */
+.submenu a {
+    font-size: 14px;
+    background: #333;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.submenu a:hover {
+    background: var(--sidebar-hover-bg);
+}
+
+/* ✅ 정보 수정 & 로그아웃 */
+.info-update {
+    margin-top: auto;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.logout-form {
+    text-align: center;
+    padding: 15px 0;
+    margin-bottom: 40px;
+}
+
+.logout-form button {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.logout-form button:hover {
+    text-decoration: underline;
+}
+
+/* ✅ 메인 컨텐츠 */
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    margin-left: calc(var(--sidebar-width) + 20px);
+}
+
+/* ✅ 푸터 */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    background: var(--footer-bg);
+    color: var(--text-color);
+    text-align: right;
+    padding: 10px;
+    font-size: 14px;
+}
+
+/* ✅ 상태별 색상 적용 */
+.status {
+    font-weight: bold;
+}
+
+.status-available {
+    color: blue;
+}
+
+.status-soldout {
+    color: red;
+}
+
+.status-unknown {
+    color: gray;
+    font-style: italic;
+}
