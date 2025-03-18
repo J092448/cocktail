@@ -1,0 +1,149 @@
+/* ✅ 기본 스타일 설정 */
+* {
+  margin: 0; /* 모든 요소의 기본 여백 제거 */
+  padding: 0; /* 모든 요소의 기본 패딩 제거 */
+  box-sizing: border-box; /* 요소 크기를 패딩과 테두리를 포함하도록 설정 */
+}
+
+/* ✅ body 태그 스타일 설정 */
+body {
+  display: flex; /* 플렉스 박스 레이아웃 사용 */
+  min-height: 100vh; /* 최소 높이를 화면 전체 높이로 설정 */
+  font-family: Arial, sans-serif; /* Arial 폰트 사용, 없을 경우 기본 sans-serif 폰트 적용 */
+  margin: 0; /* 기본 여백 제거 */
+  background-color: #fff; /* 배경색을 흰색으로 설정 */
+}
+
+/* ✅ aside 태그 스타일 설정 */
+aside {
+  width: 200px; /* 사이드바 너비 200px로 설정 */
+  background: #222; /* 배경색을 짙은 회색(검정에 가까운)으로 설정 */
+  color: white; /* 글자색을 흰색으로 설정 */
+  display: flex; /* 플렉스 박스 레이아웃 사용 */
+  flex-direction: column; /* 플렉스 방향을 세로 정렬로 설정 */
+  padding: 20px; /* 내부 여백 20px 설정 */
+  justify-content: space-between; /* 콘텐츠 간의 간격을 균등 배치 */
+  position: fixed; /* 화면 고정 위치 설정 */
+  height: 100vh; /* 높이를 화면 전체 높이로 설정 */
+}
+
+/* ✅ aside 태그 안의 a 태그 스타일 */
+aside a {
+  color: white; /* 링크 글자색을 흰색으로 설정 */
+  text-decoration: none; /* 밑줄 제거 */
+  padding: 10px 0; /* 위아래 패딩 10px 추가 */
+  display: block; /* 블록 요소로 설정하여 전체 영역 클릭 가능 */
+}
+
+/* ✅ a 태그 호버 효과 */
+aside a:hover {
+  background: #444; /* 호버 시 배경색을 더 밝은 회색으로 설정 */
+}
+
+/* ✅ 서브 메뉴 스타일 */
+.submenu {
+  display: none; /* 기본적으로 숨김 */
+  padding-left: 20px; /* 왼쪽으로 추가 패딩 */
+}
+
+/* ✅ 메뉴 항목 호버 시 서브 메뉴 표시 */
+.menu-item:hover .submenu {
+  display: block; /* 서브 메뉴를 표시 */
+}
+
+/* ✅ 로그아웃 버튼 순서 설정 */
+.logout {
+  order: 1; /* 플렉스 순서를 1로 설정해 아래쪽에 배치 */
+}
+
+/* ✅ 정보 수정 버튼 스타일 */
+.info-edit {
+  order: 0; /* 플렉스 순서를 0으로 설정해 위쪽에 배치 */
+  margin-top: auto; /* 자동으로 위쪽 공간 확보 */
+  margin-bottom: 20px; /* 아래쪽에 20px 간격 추가 */
+}
+
+/* ✅ footer 태그 스타일 */
+footer {
+  position: fixed; /* 고정 위치 설정 */
+  bottom: 0; /* 화면 하단에 배치 */
+  left: 200px; /* 왼쪽에서 200px 떨어짐 (aside의 너비 고려) */
+  width: calc(100% - 200px); /* 너비를 화면 전체에서 aside의 너비를 뺀 값으로 계산 */
+  background: black; /* 배경색을 검정으로 설정 */
+  color: white; /* 글자색을 흰색으로 설정 */
+  text-align: right; /* 텍스트 오른쪽 정렬 */
+  padding: 10px; /* 내부 여백 10px 추가 */
+  font-size: 14px; /* 글자 크기 설정 */
+}
+
+/* ✅ 메인 콘텐츠 스타일 */
+.content {
+  flex-grow: 1; /* 플렉스 요소가 가능한 공간을 모두 차지하도록 설정 */
+  padding: 20px; /* 내부 여백 20px 설정 */
+  margin-left: 220px; /* 왼쪽 여백 220px 추가 (aside와 여백) */
+}
+
+/* ✅ 화면이 768px 이하일 때 스타일 */
+@media screen and (max-width: 768px) {
+  .wrapper {
+    justify-content: flex-start; /* 콘텐츠를 시작점 정렬 */
+  }
+  .container {
+    width: calc(100% - 240px); /* aside를 고려한 너비 설정 */
+    margin-left: 300px; /* 왼쪽 여백 300px 추가 */
+  }
+  table {
+    width: 100%; /* 표를 화면 너비에 맞게 조정 */
+    table-layout: fixed; /* 열 너비를 균등하게 설정 */
+    word-wrap: break-word; /* 단어가 넘치지 않도록 처리 */
+  }
+  th,
+  td {
+    padding: 5px; /* 셀 간격을 줄임 */
+  }
+}
+
+/* ✅ 테이블 스타일 */
+table {
+  width: 50%; /* 테이블 너비를 부모 요소의 절반으로 설정 */
+  border-collapse: collapse; /* 테두리 겹침 방지 */
+  table-layout: fixed; /* 모든 열의 너비를 동일하게 설정 */
+  margin: 0 auto; /* 테이블 중앙 정렬 */
+}
+th,
+td {
+  border: 1px solid black; /* 셀 테두리를 검은색 실선으로 설정 */
+  padding: 8px; /* 셀 내부 여백 설정 */
+  text-align: right; /* 모든 셀의 텍스트를 오른쪽 정렬 */
+}
+th {
+  background-color: #f2f2f2; /* 헤더 셀 배경색 설정 */
+  text-align: center; /* 헤더 텍스트 중앙 정렬 */
+}
+td:first-child {
+  text-align: center; /* 첫 번째 열 텍스트를 중앙 정렬 */
+}
+
+/* ✅ 카테고리 및 금액 스타일 */
+.category {
+  font-weight: bold; /* 굵은 글씨로 설정 */
+}
+.amount {
+  color: red; /* 텍스트 색상을 빨간색으로 설정 */
+  text-align: right; /* 텍스트를 오른쪽 정렬 */
+}
+.amount input {
+  border: none; /* 테두리 제거 */
+  width: 100%; /* 입력 필드가 셀 전체를 차지하도록 설정 */
+  text-align: right; /* 텍스트를 오른쪽 정렬 */
+  color: red; /* 텍스트 색상을 빨간색으로 설정 */
+}
+.amount-auto {
+  color: lightgray; /* 자동 계산된 금액의 색상을 회색으로 설정 */
+  text-align: right; /* 텍스트를 오른쪽 정렬 */
+}
+.previous-data {
+  color: black; /* 이전 데이터 텍스트 색상을 검은색으로 설정 */
+}
+
+

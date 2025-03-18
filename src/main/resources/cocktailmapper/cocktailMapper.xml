@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- MyBatis 매퍼 파일: UserMapper 인터페이스와 매핑 -->
+<mapper namespace="com.ontherocks.cocktail.mapper.UserMapper">
+
+    <!-- ✅ 사용자 이름(username)으로 사용자를 조회하는 SQL 쿼리 -->
+    <select id="findByUsername" parameterType="String" resultType="com.ontherocks.cocktail.model.User">
+        SELECT *
+        FROM users
+        WHERE username = #{username}
+        <!--
+        SQL 쿼리 설명:
+        - `SELECT *`: users 테이블의 모든 컬럼을 선택.
+        - `FROM users`: users 테이블에서 데이터 조회.
+        - `WHERE username = #{username}`: username 값이 입력된 파라미터와 일치하는 행만 조회.
+        -->
+    </select>
+</mapper>

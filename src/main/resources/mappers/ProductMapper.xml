@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ontherocks.cocktail.mapper.ProductMapper">
+
+    <!-- 카테고리 ID에 따른 품목 이름 조회 -->
+    <select id="getProductsByCategoryId" parameterType="Integer" resultType="com.ontherocks.cocktail.dto.ProductDTO">
+        SELECT spirit_id AS id, name, price, category_id AS categoryId, 'spirit' AS productType, spirit_id AS spiritId
+        FROM spirits WHERE category_id = #{categoryId}
+        UNION ALL
+        SELECT mixer_id AS id, name, price, category_id AS categoryId, 'mixer' AS productType, mixer_id AS mixerId
+        FROM mixers WHERE category_id = #{categoryId}
+        UNION ALL
+        SELECT fruit_id AS id, name, price, category_id AS categoryId, 'fruit' AS productType, fruit_id AS fruitId
+        FROM fruits WHERE category_id = #{categoryId}
+        UNION ALL
+        SELECT beverage_id AS id, name, price, category_id AS categoryId, 'beverage' AS productType, beverage_id AS beverageId
+        FROM beverages WHERE category_id = #{categoryId}
+    </select>
+
+
+
+    <!-- 품목 추가 -->
+    <insert id="addProduct" parameterType="com.ontherocks.cocktail.dto.ProductDTO">
+        INSERT INTO products (name, volume, price, category_id, supplier_id)
+        VALUES (#{name}, #{volume}, #{price}, #{categoryId}, #{supplierId})
+    </insert>
+
+    <!-- 품목 수정 -->
+    <update id="updateProduct" parameterType="com.ontherocks.cocktail.dto.ProductDTO">
+        UPDATE products
+        SET name = #{name}, volume = #{volume}, price = #{price}, category_id = #{categoryId}, supplier_id = #{supplierId}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 품목 삭제 -->
+    <delete id="deleteProduct" parameterType="Integer">
+        DELETE FROM products WHERE id = #{id}
+    </delete>
+
+    <select id="getProductsBySupplierId" resultType="com.ontherocks.cocktail.dto.ProductDTO">
+        SELECT * FROM products WHERE supplier_id = #{supplierId}
+    </select>
+
+    <select id="getProductsBySupplierIdAndCategoryId" resultType="com.ontherocks.cocktail.dto.ProductDTO">
+        SELECT * FROM products WHERE supplier_id = #{supplierId} AND category_id = #{categoryId}
+    </select>
+
+
+        <select id="getProductById" parameterType="Integer" resultType="com.ontherocks.cocktail.dto.ProductDTO">
+            SELECT spirit_id AS id, name, price, category_id AS categoryId, 'spirit' AS productType
+            FROM spirits WHERE spirit_id = #{id}
+        </select>
+
+
+
+    <select id="getProductByIdFromMixers" parameterType="Integer" resultType="com.ontherocks.cocktail.dto.ProductDTO">
+        SELECT mixer_id AS id, name, price, category_id AS categoryId, 'mixer' AS productType, mixer_id AS mixerId
+        FROM mixers WHERE mixer_id = #{id}
+    </select>
+
+    <select id="getProductByIdFromFruits" parameterType="Integer" resultType="com.ontherocks.cocktail.dto.ProductDTO">
+        SELECT fruit_id AS id, name, price, category_id AS categoryId, 'fruit' AS productType, fruit_id AS fruitId
+        FROM fruits WHERE fruit_id = #{id}
+    </select>
+
+    <select id="getProductByIdFromBeverages" parameterType="Integer" resultType="com.ontherocks.cocktail.dto.ProductDTO">
+        SELECT beverage_id AS id, name, price, category_id AS categoryId, 'beverage' AS productType, beverage_id AS beverageId
+        FROM beverages WHERE beverage_id = #{id}
+    </select>
+
+
+</mapper>

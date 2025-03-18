@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ontherocks.cocktail.mapper.IngredientMapper">
+
+<insert id="insertIngredient" parameterType="com.ontherocks.cocktail.dto.IngredientDTO">
+    INSERT INTO ingredients (name, category_id, product_id)
+    VALUES (#{name}, #{categoryId}, #{productId})
+</insert>
+
+<select id="selectAllIngredients" resultType="com.ontherocks.cocktail.dto.IngredientDTO">
+    SELECT * FROM ingredients
+</select>
+
+<select id="selectIngredientById" parameterType="Integer" resultType="com.ontherocks.cocktail.dto.IngredientDTO">
+    SELECT * FROM ingredients WHERE id = #{id}
+</select>
+</mapper>

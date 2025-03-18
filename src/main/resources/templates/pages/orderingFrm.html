@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>발주 신청서</title>
+  <link rel="stylesheet" th:href="@{/css/orderingFrm.css}" />
+</head>
+<body>
+<aside>
+  <div>
+    <div class="menu-item"><a href="/dashboard">홈으로</a></div>
+    <div class="menu-item"><a href="/sales">판매</a>
+      <div class="submenu"><a href="#">메뉴 목록</a><a href="#">재고 목록</a></div>
+    </div>
+    <div class="menu-item"><a href="/tradeCompanyList">거래 업체</a>
+      <div class="submenu"><a href="/tradeCompanyList">거래 업체 목록</a><a href="/newTradeCompany">거래 업체 등록</a></div>
+    </div>
+    <div class="menu-item"><a href="/purchase/list">발주</a>
+      <div class="submenu">
+        <a href="/purchase/list">발주 목록</a>
+        <a href="/purchase/orderingFrm" onclick="window.location.reload();">발주 신청</a> <!-- 경로 변경 -->
+      </div>
+    </div>
+  </div>
+  <div class="menu-item info-edit"><a href="#">정보 수정</a></div>
+  <div class="menu-item logout"><a href="#">로그아웃</a></div>
+  <footer><div>문의사항: admin1@gmail.com</div></footer>
+</aside>
+
+<div class="container">
+  <div class="header">
+    <p id="orderDate" th:text="'발주 신청 일자: ' + ${currentDate}"></p>
+    <p id="expectedDate" th:text="'예상 수령 일자: ' + ${expectedDate}"></p>
+  </div>
+  <form id="orderForm" th:action="@{/purchase/request}" method="post"> <!-- 경로 변경 -->
+    <h1>
+      발주 신청서
+      <span class="small-gray-text" id="orderNumber" th:text="'no.' + ${orderNumber}"></span>
+      <hr class="small-gray-line" />
+    </h1>
+    <div class="form-content">
+      <div class="separator"></div>
+
+      <!-- 카테고리 선택 드롭다운 -->
+      <div class="form-group">
+        <label for="category">발주 물품 카테고리:</label>
+        <select id="category" name="categoryId" onchange="fetchItemsByCategory(this.value)" required>
+          <option value="">선택</option>
+          <option th:each="category : ${categories}" th:value="${category.categoryId}" th:text="${category.categoryName}"></option>
+        </select>
+      </div>
+
+      <div class="separator"></div>
+
+      <!-- 품목명 선택 드롭다운 -->
+      <div class="form-group">
+        <label for="itemName">품목명:</label>
+        <select id="itemName" name="ingredientId" required>
+          <option value="">선택</option>
+        </select>
+        <input type="hidden" name="ingredientId" id="ingredientId" /> <!-- 숨겨진 필드 추가 -->
+      </div>
+
+      <div class="separator"></div>
+      <div class="form-group">
+        <label for="supplier">거래업체:</label>
+        <select id="supplier" name="supplierId" required>
+          <option value="">선택</option>
+          <option th:each="supplier : ${suppliers}" th:value="${supplier.supplierId}" th:text="${supplier.companyName}"></option>
+        </select>
+      </div>
+      <div class="separator"></div>
+      <div class="form-group">
+        <label for="quantity">발주신청수량:</label>
+        <input type="number" id="quantity" name="quantity" value="0" required />
+      </div>
+      <div class="separator"></div>
+      <div class="form-group">
+        <label for="unitPrice">단가:</label>
+        <input type="text" id="unitPrice" name="unitPrice" readonly />
+      </div>
+      <div class="separator"></div>
+      <div class="form-group">
+        <label for="totalAmount">총 발주 금액:</label>
+        <input type="text" id="totalAmount" name="totalAmount" readonly />
+      </div>
+      <div class="form-buttons">
+        <button type="button" id="submitOrder">발주 신청</button>
+        <button type="button" id="cancelOrder">발주 취소</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+  function setTodayDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ("0" + (today.getMonth() + 1)).slice(-2);
+    const day = ("0" + today.getDate()).slice(-2);
+    const formattedDate = year + "년 " + month + "월 " + day + "일";
+    document.getElementById("orderDate").innerText = "발주 신청 일자: " + formattedDate;
+
+    const expectedDate = new Date(today);
+    expectedDate.setDate(today.getDate() + 3);
+    const expectedYear = expectedDate.getFullYear();
+    const expectedMonth = ("0" + (expectedDate.getMonth() + 1)).slice(-2);
+    const expectedDay = ("0" + expectedDate.getDate()).slice(-2);
+    const formattedExpectedDate = expectedYear + "년 " + expectedMonth + "월 " + expectedDay + "일";
+    document.getElementById("expectedDate").innerText = "예상 수령 일자: " + formattedExpectedDate;
+  }
+
+  function fetchItemsByCategory(categoryId) {
+    if (categoryId) {
+      fetch(`/api/purchase/items?categoryId=${categoryId}`) // API 경로 수정
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error("Network response was not ok");
+                }
+                return response.json(); // JSON 응답을 받기
+              })
+              .then(data => {
+                const itemSelect = document.getElementById("itemName");
+                itemSelect.innerHTML = '<option value="">선택</option>'; // 기본 선택 옵션 추가
+
+                data.forEach(item => {
+                  const option = document.createElement("option");
+                  option.value = item.id; // 품목 ID (필요 시)
+                  option.text = item.name; // 품목 이름
+                  itemSelect.appendChild(option);
+                });
+              })
+              .catch(error => console.error("Error fetching items:", error));
+    } else {
+      // 카테고리가 선택되지 않았을 경우 품목 드롭다운 초기화
+      document.getElementById("itemName").innerHTML = '<option value="">선택</option>';
+    }
+  }
+
+  function fetchUnitPrice(itemId) {
+    fetch(`/api/products/${itemId}`) // API 경로 수정
+            .then(response => {
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+              return response.json();
+            })
+            .then(data => {
+              document.getElementById("unitPrice").value = data.price.toLocaleString("ko-KR") + " 원"; // price로 변경
+              updateTotalAmount();
+            })
+            .catch(error => console.error("Error fetching price:", error));
+  }
+
+  function updateTotalAmount() {
+    const quantity = parseInt(document.getElementById("quantity").value) || 0;
+    const unitPrice = parseInt(document.getElementById("unitPrice").value.replace(/[^0-9]/g, "")) || 0;
+    const totalAmount = quantity * unitPrice;
+    document.getElementById("totalAmount").value = totalAmount.toLocaleString("ko-KR") + " 원";
+  }
+
+  document.getElementById("itemName").addEventListener("change", function () {
+    const selectedItemId = this.value;
+    document.getElementById("ingredientId").value = selectedItemId; // 선택된 품목 ID를 숨겨진 필드에 설정
+    if (selectedItemId) {
+      fetchUnitPrice(selectedItemId);
+    } else {
+      document.getElementById("unitPrice").value = "0 원";
+      updateTotalAmount();
+    }
+  });
+
+  document.getElementById("submitOrder").addEventListener("click", function () {
+    const orderForm = document.getElementById("orderForm");
+    if (orderForm.checkValidity()) {
+      if (confirm("발주를 완료하시겠습니까?")) {
+        orderForm.submit(); // 폼 제출
+      }
+    } else {
+      alert("모든 필드를 올바르게 입력해 주세요.");
+    }
+  });
+
+  document.getElementById("cancelOrder").addEventListener("click", function () {
+    alert("발주가 취소되었습니다. 페이지를 새로고침합니다.");
+    location.reload();
+  });
+
+  window.onload = function () {
+    setTodayDate();
+    document.getElementById("unitPrice").value = "0 원";
+    document.getElementById("totalAmount").value = "0 원";
+  };
+</script>
+</body>
+</html>
+

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.ontherocks.cocktail.mapper.CocktailIngredientMapper">
+
+    <select id="getCocktailIngredients" resultType="com.ontherocks.cocktail.dto.CocktailIngredientDTO">
+        SELECT
+            ci.ingredient_id AS ingredientId,
+            ci.cocktail_id AS cocktailId,
+            p.id AS productId,
+            p.name AS productName,
+            c.category_id AS categoryId,
+            c.category_name AS categoryName
+        FROM
+            cocktail_ingredients ci
+                LEFT JOIN
+            products p ON ci.product_id = p.id  -- 품목 테이블과 조인
+                LEFT JOIN
+            categories c ON ci.category_id = c.category_id;  -- 카테고리 테이블과 조인
+    </select>
+    <select id="selectAllCocktailIngredients" resultType="com.ontherocks.cocktail.dto.CocktailIngredientDTO">
+        SELECT ci.*, p.name AS productName
+        FROM cocktail_ingredients ci
+                 JOIN products p ON ci.product_id = p.id
+    </select>
+
+    <select id="getIngredientById" resultType="com.ontherocks.cocktail.dto.CocktailIngredientDTO">
+        SELECT
+            ci.ingredient_id AS ingredientId,
+            p.id AS productId,
+            p.name AS productName,
+            c.category_id AS categoryId,
+            c.category_name AS categoryName
+        FROM
+            cocktail_ingredients ci
+                LEFT JOIN
+            products p ON ci.product_id = p.id  -- 품목 테이블과 조인
+                LEFT JOIN
+            categories c ON ci.category_id = c.category_id  -- 카테고리 테이블과 조인
+        WHERE
+            ci.ingredient_id = #{ingredientId};
+    </select>
+
+
+</mapper>
