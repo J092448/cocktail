@@ -40,8 +40,10 @@ public class SecurityConfig {
                                     "/api/phoneNumber/generateOTP", "/api/phoneNumber/verifyOTP", "/changePassword")
                             .permitAll();  // 로그인 및 회원가입 페이지 허용
 
-                    auth.requestMatchers("/images/**", "/cocktail/templates/**", "/menuOrder.html", "/csPages/**")
-                            .permitAll(); // 공용 리소스 허용
+                    // 메뉴 관련 페이지도 허용
+                    auth.requestMatchers("/images/**", "/cocktail/templates/**",
+                                    "/menuOrder.html", "/menuDetail.html", "/menuList.html", "/cart.html", "/csPages/**")
+                            .permitAll();  // 메뉴 관련 페이지 허용
 
                     // 나머지 요청은 인증 필요
                     auth.anyRequest().authenticated();

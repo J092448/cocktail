@@ -7,28 +7,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class OrderController {
-    @GetMapping("/")
-    public String index() {
-        return "index";
-    }
+//    @GetMapping("/")
+//    public String index() {
+//        return "index";
+//    }
 
-    @GetMapping("/csPages/menuOrder")
+    @GetMapping("csPages/menuOrder")
     public String menuOrderPage() {
         return "/csPages/menuOrder";
     }
 
-    @GetMapping("/csPages/menuDetail")
+    @GetMapping("csPages/menuDetail")
     public String menuDetailPage(@RequestParam("cocktail") String cocktail, Model model) {
         model.addAttribute("cocktail", cocktail);  // 파라미터를 모델에 추가
         return "/csPages/menuDetail";  // 메뉴 상세 페이지 뷰 반환
     }
 
-    @GetMapping("/csPages/cart")
+    @GetMapping("csPages/cart")
     public String cartPage() {
         return "/csPages/cart";
     }
 
-    @GetMapping("/csPages/orderList")
+    @GetMapping("csPages/orderList")
     public String orderListPage() {
         return "/csPages/orderList";
     }
