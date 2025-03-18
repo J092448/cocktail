@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>업체 등록</title>
+  <link rel="stylesheet" th:href="@{/css/newTradeCompany.css}" />
+</head>
+<body>
+<aside>
+  <div>
+    <div class="menu-item"><a href="/dashboard">홈으로</a></div>
+    <div class="menu-item"><a href="#"></a></div>
+    <div class="menu-item">
+      <a href="/sales">판매</a>
+      <div class="submenu">
+        <a href="#">메뉴 목록</a>
+        <a href="#">재고 목록</a>
+      </div>
+    </div>
+    <div class="menu-item">
+      <a href="/tradeCompanyList">거래 업체</a>
+      <div class="submenu">
+        <a href="/tradeCompanyList">거래 업체 목록</a>
+        <a href="/newTradeCompany" onclick="window.location.reload();">거래 업체 등록</a>
+      </div>
+    </div>
+    <div class="menu-item">
+      <a href="/purchase/list">발주</a>
+      <div class="submenu">
+        <a href="/purchase/list">발주 목록</a>
+        <a href="/purchase/orderingFrm">발주 신청</a> <!-- 경로 변경 -->
+      </div>
+    </div>
+  </div>
+  <a href="/confirmPw" style="margin-top: 500px;">정보 수정</a>
+  <form action="/logout" method="post" style="display:inline;">
+    <button type="submit" style="background:none; border:none; color:white; cursor:pointer;">로그아웃</button>
+  </form>
+  <footer>
+    <div>문의사항: admin1@gmail.com</div>
+  </footer>
+</aside>
+
+<div class="container">
+  <form id="companyForm" th:action="@{/api/suppliers}" method="post" autocomplete="off">
+    <div class="form-content">
+      <div class="input-group">
+        <label for="companyName">업체명</label>
+        <input type="text" id="companyName" name="companyName" placeholder="업체명" required />
+      </div>
+      <div class="separator"></div>
+      <div class="input-group">
+        <label for="companyEName">업체 영문명</label>
+        <input type="text" id="companyEName" name="companyEName" placeholder="업체의 영문명을 입력해주세요." />
+      </div>
+      <div class="separator"></div>
+      <div class="input-group">
+        <label for="businessNumber">사업자 번호</label>
+        <input type="text" id="businessNumber" name="businessNumber" placeholder="000-00-00000" oninput="formatBusinessNumber(this)" required />
+      </div>
+      <div class="separator"></div>
+      <div class="input-group">
+        <label for="representativeName">대표자 이름</label>
+        <input type="text" id="representativeName" name="representativeName" placeholder="대표자 이름" required />
+      </div>
+      <div class="separator"></div>
+      <div class="input-group">
+        <label for="phone">휴대전화</label>
+        <input type="text" id="phone" name="phone" placeholder="휴대전화번호" oninput="formatPhoneNumber(this)" maxlength="13" required />
+      </div>
+      <div class="separator"></div>
+      <div class="input-group">
+        <label for="comPhone">전화번호</label>
+        <input type="text" id="comPhone" name="comPhone" placeholder="전화번호" oninput="formatPhoneNumber(this)" maxlength="13" />
+      </div>
+      <div class="separator"></div>
+      <div class="form-group">
+        <label for="category">거래 품목:</label>
+        <select id="category" name="category" required>
+          <option value="">선택</option>
+          <th:block th:each="category : ${categories}">
+            <option th:value="${category.categoryId}" th:text="${category.categoryName}"></option>
+          </th:block>
+        </select>
+        <select id="product" name="product">
+          <option value="">선택</option>
+          <!-- 하위 품목들을 동적으로 추가할 수 있습니다 -->
+        </select>
+      </div>
+    </div>
+    <div class="form-buttons">
+      <button type="submit" id="submitCompany">저장</button>
+      <button type="button" id="cancelCompany" onclick="window.history.back();">취소</button>
+    </div>
+  </form>
+</div>
+<script>
+  document.getElementById("category").addEventListener("change", function() {
+    const categoryId = this.value;
+    const productSelect = document.getElementById("product");
+
+    // 품목 선택 초기화
+    productSelect.innerHTML = '<option value="">선택</option>';
+
+    if (categoryId) {
+      fetch(`/api/products?categoryId=${categoryId}`)
+              .then(response => response.json())
+              .then(data => {
+                data.forEach(function(product) {
+                  const option = document.createElement("option");
+                  option.value = product.id; // ID를 value로 설정
+                  option.textContent = product.name; // 제품 이름을 텍스트로 설정
+                  productSelect.appendChild(option);
+                });
+              })
+              .catch(error => console.error('Error fetching products:', error));
+    }
+  });
+
+  // 사업자 번호 부분
+  function formatBusinessNumber(input) {
+    // 숫자만 남기기
+    let value = input.value.replace(/[^0-9]/g, "");
+    // 최대 10자리까지만 입력 가능
+    if (value.length > 10) {
+      value = value.slice(0, 10);
+    }
+    // 3자리, 5자리 뒤에 하이픈 추가
+    if (value.length > 3) {
+      value = value.slice(0, 3) + "-" + value.slice(3);
+    }
+    if (value.length > 6) {
+      value = value.slice(0, 6) + "-" + value.slice(6);
+    }
+    input.value = value;
+  }
+
+  // 전화번호, 휴대전화 부분
+  function formatPhoneNumber(input) {
+    // 숫자만 남기기
+    let value = input.value.replace(/[^0-9]/g, "");
+    // 최대 11자리까지만 입력 가능
+    if (value.length > 11) {
+      value = value.slice(0, 11);
+    }
+    // 하이픈 추가
+    if (value.length > 3) {
+      value = value.slice(0, 3) + "-" + value.slice(3);
+    }
+    if (value.length > 7 && value.length <= 10) {
+      value = value.slice(0, 7) + "-" + value.slice(7);
+    } else if (value.length > 10) {
+      value = value.slice(0, 8) + "-" + value.slice(8);
+    }
+    input.value = value;
+  }
+
+  document.getElementById("submitCompany").addEventListener("click", function (event) {
+    event.preventDefault(); // 기본 제출 방지
+
+    // 알림창에서 확인과 취소 버튼 처리
+    if (confirm(`업체 등록을 완료하시겠습니까? \n[확인]을 누르면 등록이 완료되며, [취소]를 누르면 작성 중인 업체 등록 페이지로 돌아갑니다.\n감사합니다.`)) {
+      // 확인을 누른 경우, 폼 데이터를 수집하여 POST 요청
+      const formData = {
+        companyName: document.getElementById("companyName").value,
+        companyEName: document.getElementById("companyEName").value,
+        businessNumber: document.getElementById("businessNumber").value,
+        representativeName: document.getElementById("representativeName").value,
+        phone: document.getElementById("phone").value,
+        comPhone: document.getElementById("comPhone").value,
+        category: document.getElementById("category").value,
+        product: document.getElementById("product").value
+      };
+
+      fetch('/api/suppliers', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData) // JSON 형식으로 변환하여 전송
+      })
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error('서버 오류: ' + response.statusText);
+                }
+                return response.json(); // JSON 응답 처리
+              })
+              .then(data => {
+                // 성공적으로 저장 후 리스트 페이지로 리다이렉션
+                window.location.href = "/tradeCompanyList"; // 리다이렉션
+              })
+              .catch(error => {
+                console.error('Error:', error);
+                alert('업체 등록에 실패했습니다.');
+              })
+              .catch(error => {
+                console.error('Error:', error);
+                alert('업체 등록에 실패했습니다.');
+              });
+    } else {
+      // 취소를 누른 경우
+      alert("업체 등록이 취소되었습니다. 작성 중인 업체 등록 페이지로 돌아갑니다.");
+    }
+  });
+
+  document.getElementById("cancelCompany").addEventListener("click", function () {
+    alert("업체 등록이 취소되었습니다. 페이지를 새로고침합니다.");
+    location.reload(); // 페이지 새로고침
+  });
+</script>
+</body>
+</html>
+

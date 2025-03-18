@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- CalendarMapper 매퍼 인터페이스와 연결 -->
+<mapper namespace="com.ontherocks.cocktail.repository.CalendarMapper">
+
+    <!-- ✅ 특정 연도와 월의 매출 데이터를 날짜별로 그룹화하여 조회 -->
+    <select id="getSalesDataGrouped" resultType="com.ontherocks.cocktail.model.CalendarDTO">
+        SELECT
+            sale_date AS date, -- 매출 날짜를 date로 매핑
+            SUM(total_amount) AS salesAmount -- 특정 날짜의 총 매출 금액 합계 계산
+        FROM sales -- 매출 데이터가 저장된 테이블
+        WHERE
+            YEAR(sale_date) = #{year} -- 파라미터로 전달받은 연도 조건
+          AND MONTH(sale_date) = #{month} -- 파라미터로 전달받은 월 조건
+          AND user_id = 11 -- 특정 사용자 ID에 해당하는 데이터만 조회
+        GROUP BY sale_date -- 날짜별로 데이터를 그룹화
+    </select>
+
+</mapper>

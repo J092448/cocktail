@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>업체 정보 수정</title>
+  <link rel="stylesheet" th:href="@{/css/tradeCompanyDetailEdit.css}" />
+</head>
+<body>
+<aside>
+  <div>
+    <div class="menu-item"><a href="/dashboard">홈으로</a></div>
+    <div class="menu-item"><a href="/sales">판매</a>
+      <div class="submenu"><a href="#">메뉴 목록</a><a href="#">재고 목록</a></div>
+    </div>
+    <div class="menu-item">
+      <a href="/tradeCompanyList">거래 업체</a>
+      <div class="submenu">
+        <a href="/tradeCompanyList">거래 업체 목록</a>
+        <a href="/newTradeCompany">거래 업체 등록</a>
+      </div>
+    </div>
+    <div class="menu-item">
+      <a href="/purchase/list">발주</a>
+      <div class="submenu">
+        <a href="/purchase/list">발주 목록</a>
+        <a href="/purchase/orderingFrm">발주 신청</a> <!-- 경로 변경 -->
+      </div>
+    </div>
+  </div>
+  <a href="/confirmPw" style="margin-top: 500px;">정보 수정</a>
+  <form action="/logout" method="post" style="display:inline;">
+    <button type="submit" style="background:none; border:none; color:white; cursor:pointer;">로그아웃</button>
+  </form>
+  <footer><div>문의사항: admin1@gmail.com</div></footer>
+</aside>
+<div class="wrapper">
+  <div class="container">
+    <form id="supplier-form">
+      <input type="hidden" name="supplierId" th:value="${supplier.supplierId}" />
+    <div class="header">
+      <h1>업체 정보 수정</h1>
+      <hr class="title-underline" />
+        <table>
+          <thead>
+          <tr>
+            <th class="medium-grey-background">업체 번호</th>
+            <td colspan="3" th:text="${supplier.supplierId}">N/A</td>
+            <th class="medium-grey-background">업체 등록일자</th>
+            <td colspan="3" th:text="${supplier.registrationDate}">N/A</td>
+          </tr>
+          <tr>
+            <th class="medium-grey-background">거래 품목</th>
+            <td colspan="3"><label>
+              <input type="text" name="categoryName" th:value="${supplier.categoryName}" />
+            </label></td>
+            <th class="medium-grey-background">업체정보 수정일자</th>
+            <td colspan="3" th:text="${supplier.updatedDate}">N/A</td>
+          </tr>
+          <tr>
+            <th class="medium-grey-background" rowspan="6">거래업체정보</th>
+            <th class="medium-grey-background">업체명</th>
+            <td colspan="4"><label>
+              <input type="text" name="companyName" th:value="${supplier.companyName}" />
+            </label></td>
+          </tr>
+          <tr>
+            <th class="medium-grey-background">업체명(영문)</th>
+            <td colspan="4"><label>
+              <input type="text" name="companyEName" th:value="${supplier.companyEName}" />
+            </label></td>
+          </tr>
+          <tr>
+            <th class="medium-grey-background">사업자 번호</th>
+            <td colspan="4"><label>
+              <input type="text" name="businessNumber" th:value="${supplier.businessNumber}" />
+            </label></td>
+          </tr>
+          <tr>
+            <th class="medium-grey-background">대표자 이름</th>
+            <td colspan="4"><label>
+              <input type="text" name="representativeName" th:value="${supplier.representativeName}" />
+            </label></td>
+          </tr>
+          <tr>
+            <th class="medium-grey-background">휴대전화</th>
+            <td colspan="4"><label>
+              <input type="text" name="phone" th:value="${supplier.phone}" />
+            </label></td>
+          </tr>
+          <tr>
+            <th class="medium-grey-background">전화번호</th>
+            <td colspan="4"><label>
+              <input type="text" name="comPhone" th:value="${supplier.comPhone}" />
+            </label></td>
+          </tr>
+          <tr>
+          <th class="medium-grey-background" colspan="6">거래 품목</th>
+          </tr>
+          <tr>
+            <th class="medium-grey-background" colspan="2">NO.</th>
+            <th class="medium-grey-background" colspan="2">품목명</th>
+            <th class="medium-grey-background" colspan="2">단가</th>
+          </tr>
+          <tr th:each="product, iterStat : ${supplier.products}">
+            <td colspan="2"><label>
+              <input type="text" name="items[${iterStat.index}].no" th:value="${iterStat.index + 1}" readonly />
+            </label></td>
+            <td colspan="2"><label>
+              <input type="text" name="items[${iterStat.index}].name" th:value="${product.name}" />
+            </label></td>
+            <td colspan="2"><label>
+              <input type="text" name="items[${iterStat.index}].price" th:value="${product.price}" />
+            </label></td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(supplier.products)}">
+            <td colspan="3">등록된 품목이 없습니다.</td>
+          </tr>
+          </thead>
+        </table>
+    </div>
+      <div class="button-container">
+        <button type="button" id="cancel-button">수정 취소</button>
+        <button type="submit" id="save-button">저장</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.getElementById("cancel-button").addEventListener("click", function () {
+    if (confirm(`업체 정보 수정을 취소하시겠습니까?\n[확인]을 누르면 업체상세페이지로 돌아가며, [취소]를 누르면 계속 수정하실 수 있습니다.\n`)) {
+      window.history.back(); // 이전 페이지로 돌아가기
+    }
+  });
+  document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("supplier-form").addEventListener("submit", function (event) {
+      event.preventDefault(); // 기본 폼 제출 방지
+
+      // 현재 날짜 가져오기
+      const currentDate = new Date().toISOString().split("T")[0];
+
+      // 입력 필드에서 값 가져오기
+      const supplierIdElement = document.getElementsByName("supplierId")[0];
+      const supplierId = supplierIdElement ? supplierIdElement.value : null; // null 체크 추가
+
+      const updatedDetails = {
+        supplierId: supplierId,
+        // registrationDate: document.getElementsByName("registrationDate")[0].value, // 등록 날짜
+        updatedDate: currentDate, // 정보 수정일자를 오늘 날짜로 설정
+        categoryName: document.getElementsByName("categoryName")[0].value, // 거래 품목
+        companyName: document.getElementsByName("companyName")[0].value, // 업체명
+        companyEName: document.getElementsByName("companyEName")[0].value, // 업체 영문명
+        businessNumber: document.getElementsByName("businessNumber")[0].value, // 사업자 번호
+        representativeName: document.getElementsByName("representativeName")[0].value, // 대표자 이름
+        phone: document.getElementsByName("phone")[0].value, // 휴대전화
+        comPhone: document.getElementsByName("comPhone")[0].value, // 전화번호
+        products: Array.from(document.querySelectorAll("tbody tr")).map((row) => ({
+          no: row.querySelector("input[name^='items']").value,
+          name: row.querySelector("input[name*='name']").value,
+          price: parseFloat(row.querySelector("input[name*='price']").value.replace(/,/g, "")),
+        })),
+      };
+
+      // 업데이트된 정보를 서버에 전송
+      fetch(`/api/suppliers/${supplierId}`, {
+        method: "PUT", // PUT 요청
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedDetails),
+      })
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error('Network response was not ok');
+                }
+                return response.json();
+              })
+              .then((data) => {
+                console.log("Success:", data);
+                alert("✅ 저장되었습니다 ✅"); // 저장 완료 알림창
+                window.location.href = "/tradeCompanyList"; // 저장 후 페이지 이동
+              })
+              .catch((error) => {
+                alert("❌ 저장되지 않았습니다 ❌"); // 저장 실패 알림창
+                console.error("Error:", error);
+              });
+    });
+  });
+
+
+
+</script>
+
+</body>
+</html>

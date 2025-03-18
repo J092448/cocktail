@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ontherocks.cocktail.mapper.PurchaseRequestMapper">
+
+    <insert id="insertPurchaseRequest" parameterType="com.ontherocks.cocktail.dto.PurchaseRequestDTO">
+        INSERT INTO purchase_requests (ingredient_id, supplier_id, category_id, quantity, request_date, due_date, status)
+        VALUES (#{ingredientId}, #{supplierId}, #{categoryId}, #{quantity}, #{requestDate}, #{dueDate}, #{status});
+    </insert>
+
+    <select id="selectPurchaseRequestById" parameterType="int" resultType="com.ontherocks.cocktail.dto.PurchaseRequestDTO">
+        SELECT * FROM purchase_requests WHERE request_id = #{requestId}; <!-- ID로 발주 신청 조회 -->
+    </select>
+
+    <select id="selectAllPurchaseRequests" resultType="com.ontherocks.cocktail.dto.PurchaseRequestDTO">
+        SELECT pr.request_id AS requestId,
+               pr.supplier_id AS supplierId,
+               pr.category_id AS categoryId,
+               pr.quantity AS quantity,
+               pr.request_date AS requestDate,
+               pr.due_date AS dueDate,
+               pr.status AS status,
+               i.id AS ingredientId,
+               i.name AS ingredientName,
+               c.category_name AS categoryName
+        FROM purchase_requests pr
+                 LEFT JOIN ingredients i ON pr.ingredient_id = i.id
+                 LEFT JOIN categories c ON i.category_id = c.category_id
+        ORDER BY pr.request_id DESC
+
+    </select>
+
+
+
+    <!-- 카테고리 이름 조회 -->
+    <select id="getCategoryNameById" parameterType="Integer" resultType="String">
+        SELECT category_name FROM categories WHERE category_id = #{categoryId}
+    </select>
+
+
+
+    <update id="updatePurchaseRequestStatus" parameterType="map">
+        UPDATE purchase_requests
+        SET status = #{status} <!-- 발주 신청 상태 업데이트 -->
+        WHERE request_id = #{requestId};
+    </update>
+
+    <!-- 최대 발주 번호 조회 -->
+    <select id="selectMaxOrderNumber" resultType="Integer">
+        SELECT COALESCE(MAX(CAST(SUBSTRING(request_id FROM 7 FOR 6) AS UNSIGNED)), 0)
+        FROM purchase_requests;
+    </select>
+</mapper>

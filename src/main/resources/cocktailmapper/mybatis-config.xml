@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- XML 문서의 버전과 인코딩 방식을 지정 -->
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- MyBatis 설정 파일의 형식을 정의하는 DTD 문서를 참조 -->
+<configuration>
+    <!-- MyBatis 설정 요소 -->
+    <settings>
+        <!-- 특정 설정 값 정의 -->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <!--
+        설정 설명:
+        - `logImpl`: MyBatis의 로그 구현 방식을 지정.
+        - `STDOUT_LOGGING`: 로그 출력을 표준 출력(stdout)으로 설정. 이는 MyBatis의 SQL 실행 정보를 콘솔에 출력하는 데 유용.
+        -->
+    </settings>
+</configuration>

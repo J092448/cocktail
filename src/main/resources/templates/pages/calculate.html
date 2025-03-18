@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- ✅ 문서 인코딩 및 반응형 웹 설정 -->
+  <meta charset="UTF-8"> <!-- 문서의 문자 인코딩을 UTF-8로 설정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 모바일 대응을 위한 반응형 웹 설정 -->
+  <title>손익계산서</title> <!-- 페이지 제목 -->
+
+  <!-- ✅ 외부 CSS 스타일 링크 -->
+  <link rel="stylesheet" th:href="@{/css/calculate.css}" /> <!-- CSS 파일 경로를 Thymeleaf로 처리 -->
+
+  <!-- ✅ 외부 JavaScript 라이브러리 로드 -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+          integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+          crossorigin="anonymous"></script> <!-- jQuery 라이브러리 로드 -->
+  <style>
+    .button-group {
+      margin-top: 20px; /* 위쪽 여백 */
+      margin-right: 400px;
+      display: flex; /* 플렉스 레이아웃 사용 */
+      justify-content: flex-end; /* 저장 버튼을 오른쪽으로 정렬 */
+    }
+    .button {
+      /*flex: 1; !* 버튼이 동일한 너비를 가지도록 설정 *!*/
+      padding: 10px 20px; /* 패딩 */
+      background-color: #f2f2f2;
+      color: black; /* 글자 색상 */
+      text-align: center; /* 텍스트 중앙 정렬 */
+      border: none; /* 테두리 제거 */
+      border-radius: 5px; /* 모서리 둥글게 */
+      font-size: 16px; /* 글자 크기 */
+      cursor: pointer; /* 커서 포인터로 변경 */
+      text-decoration: none; /* 밑줄 제거 */
+      margin-right: 10px; /* 버튼 간의 간격 */
+
+    }
+  </style>
+</head>
+<body>
+<!-- ✅ 사이드바 (내비게이션 메뉴) -->
+<aside>
+  <div>
+    <div class="menu-item"><a href="/dashboard">홈으로</a></div> <!-- 홈 메뉴 -->
+    <div class="menu-item">
+      <a href="#"></a>
+    </div>
+    <div class="menu-item">
+      <a href="/dashboard">대시보드</a> <!-- 대시보드 메뉴 -->
+    </div>
+    <div class="menu-item">
+      <a href="/employees">인사관리</a> <!-- 인사관리 메뉴 -->
+    </div>
+    <div class="menu-item">
+      <a href="/sales">판매</a> <!-- 판매 메뉴 -->
+    </div>
+    <div class="menu-item">
+      <a href="/calendar">회계</a> <!-- 회계 메뉴 -->
+      <div class="submenu">
+        <a th:href="@{calendar}">매출</a> <!-- 매출 서브메뉴 -->
+        <a href="#" onclick="window.location.reload();">정산</a> <!-- 정산 서브메뉴 -->
+      </div>
+    </div>
+  </div>
+  <a href="/confirmPw" style="margin-top: 500px;">정보수정</a>
+  <form action="/logout" method="post" style="display:inline;">
+    <button type="submit" style="background:none; border:none; color:white; cursor:pointer;">로그아웃</button>
+  </form>
+  <footer><div>문의사항: admin1@gmail.com</div></footer> <!-- 푸터 -->
+</aside>
+
+<!-- ✅ 손익계산서 폼 -->
+<form th:action="@{/api/accounting/save}" method="post">
+  <div class="content">
+    <!-- ✅ 손익계산서 헤더 -->
+    <div id="tableheader" style="text-align: center; font-weight: bold; font-size: 2em; margin-bottom: 20px">
+      월 손익계산서 <!-- 헤더 제목 -->
+    </div>
+    <!-- ✅ 재무 테이블 -->
+    <table id="financialTable">
+      <thead>
+      <tr>
+        <th>항목</th> <!-- 열 제목: 항목 -->
+        <th>금액 (당월)</th> <!-- 열 제목: 당월 금액 -->
+        <th>금액 (전월)</th> <!-- 열 제목: 전월 금액 -->
+      </tr>
+      </thead>
+      <tbody>
+      <!-- ✅ 매출액 -->
+      <tr class="category">
+        <td>I. 매출액</td>
+        <td id="salesCurrent" textContent="0"></td> <!-- 당월 매출액 -->
+        <td id="salesPrevious" class="previous-data" textContent="0"></td> <!-- 전월 매출액 -->
+      </tr>
+      <!-- ✅ 매출원가 -->
+      <tr class="category">
+        <td>II. 매출원가</td>
+        <td id="costOfSalesCurrent" textContent="0"></td> <!-- 당월 매출원가 -->
+        <td id="costOfSalesPrevious" class="previous-data" textContent="0"></td> <!-- 전월 매출원가 -->
+      </tr>
+      <!-- ✅ 상품매출원가 (자동) -->
+      <tr>
+        <td>상품매출원가 (자동)</td>
+        <td id="productCostAutoCurrent" class="amount-auto" textContent="0"></td> <!-- 당월 자동 상품매출원가 -->
+        <td id="productCostAutoPrevious" class="previous-data" textContent="0"></td> <!-- 전월 자동 상품매출원가 -->
+      </tr>
+      <!-- ✅ 상품매출원가 (수동 입력 가능) -->
+      <tr>
+        <td>상품매출원가</td>
+        <td class="amount"><input type="text" id="productCostManualCurrent" autocomplete="off" th:value="${currentData.productCostManual}" /></td> <!-- 당월 상품매출원가 -->
+        <td id="productCostManualPrevious" class="previous-data" textContent="0"></td> <!-- 전월 상품매출원가 -->
+      </tr>
+      <!-- ✅ 기초상품재고액 -->
+      <tr>
+        <td>기초상품재고액</td>
+        <td class="amount"><input type="text" id="beginningInventoryCurrent" autocomplete="off" th:value="${currentData.beginningInventory}" /></td> <!-- 당월 기초재고 -->
+        <td id="beginningInventoryPrevious" class="previous-data" textContent="0"></td> <!-- 전월 기초재고 -->
+      </tr>
+      <!-- ✅ 월말상품재고액 -->
+      <tr>
+        <td>월말상품재고액</td>
+        <td class="amount"><input type="text" id="endingInventoryCurrent" autocomplete="off" th:value="${currentData.endingInventory}" /></td> <!-- 당월 월말재고 -->
+        <td id="endingInventoryPrevious" class="previous-data" textContent="0"></td> <!-- 전월 월말재고 -->
+      </tr>
+
+      <!-- ✅ 매출총이익 -->
+      <tr class="category">
+        <td>III. 매출총이익</td>
+        <td id="grossProfitCurrent" textContent="0"></td> <!-- 당월 매출총이익 -->
+        <td id="grossProfitPrevious" class="previous-data" textContent="0"></td> <!-- 전월 매출총이익 -->
+      </tr>
+      <!-- ✅ 판매비와 관리비 -->
+      <tr class="category">
+        <td>IV. 판매비와 관리비</td>
+        <td id="sgAndACurrent" textContent="0"></td> <!-- 당월 판매비와 관리비 -->
+        <td id="sgAndAPrevious" class="previous-data" textContent="0"></td> <!-- 전월 판매비와 관리비 -->
+      </tr>
+      <!-- ✅ 급여 -->
+      <tr>
+        <td>급여</td>
+        <td class="amount"><input type="text" id="salaryCurrent" th:value="${currentData.salary}" autocomplete="off" /></td> <!-- 당월 급여 -->
+        <td id="salaryPrevious" class="previous-data" textContent="0"></td> <!-- 전월 급여 -->
+      </tr>
+      <!-- ✅ 운반비 -->
+      <tr>
+        <td>운반비</td>
+        <td class="amount"><input type="text" id="transportationCostCurrent" th:value="${currentData.transportationCost}" autocomplete="off" /></td> <!-- 당월 운반비 -->
+        <td id="transportationCostPrevious" class="previous-data" textContent="0"></td> <!-- 전월 운반비 -->
+      </tr>
+      <!-- ✅ 사무용품비 -->
+      <tr>
+        <td>사무용품비</td>
+        <td class="amount"><input type="text" id="officeSuppliesCostCurrent" th:value="${currentData.officeSuppliesCost}" autocomplete="off" /></td> <!-- 당월 사무용품비 -->
+        <td id="officeSuppliesCostPrevious" class="previous-data" textContent="0"></td> <!-- 전월 사무용품비 -->
+      </tr>
+      <!-- ✅ 지급임차료 -->
+      <tr>
+        <td>지급임차료</td>
+        <td class="amount"><input type="text" id="rentExpenseCurrent" th:value="${currentData.rentExpense}" autocomplete="off" /></td> <!-- 당월 지급임차료 -->
+        <td id="rentExpensePrevious" class="previous-data" textContent="0"></td> <!-- 전월 지급임차료 -->
+      </tr>
+
+      <!-- ✅ 영업이익 -->
+      <tr class="category">
+        <td>V. 영업이익</td>
+        <td id="operatingIncomeCurrent" textContent="0">0</td> <!-- 당월 영업이익 -->
+        <td id="operatingIncomePrevious" class="previous-data" textContent="0"></td> <!-- 전월 영업이익 -->
+      </tr>
+      <!-- ✅ 영업외수익 -->
+      <tr class="category">
+        <td>VI. 영업외수익</td>
+        <td id="nonOperatingIncomeCurrent" textContent="0">0</td> <!-- 당월 영업외수익 -->
+        <td id="nonOperatingIncomePrevious" class="previous-data" textContent="0"></td> <!-- 전월 영업외수익 -->
+      </tr>
+      <!-- ✅ 영업외비용 -->
+      <tr class="category">
+        <td>VII. 영업외비용</td>
+        <td id="nonOperatingExpenseCurrent" textContent="0">0</td> <!-- 당월 영업외비용 -->
+        <td id="nonOperatingExpensePrevious" class="previous-data" textContent="0"></td> <!-- 전월 영업외비용 -->
+      </tr>
+      <!-- ✅ 법인세비용차감전순이익 -->
+      <tr class="category">
+        <td>VIII. 법인세비용차감전순이익</td>
+        <td id="preTaxIncomeCurrent" textContent="0">0</td> <!-- 당월 법인세비용차감전순이익 -->
+        <td id="preTaxIncomePrevious" class="previous-data" textContent="0"></td> <!-- 전월 법인세비용차감전순이익 -->
+      </tr>
+      <!-- ✅ 법인세비용 -->
+      <tr class="category">
+        <td>IX. 법인세비용</td>
+        <td id="taxExpenseCurrent" textContent="0">0</td> <!-- 당월 법인세비용 -->
+        <td id="taxExpensePrevious" class="previous-data" textContent="0"></td> <!-- 전월 법인세비용 -->
+      </tr>
+      <!-- ✅ 당기순이익 -->
+      <tr class="category">
+        <td>X. 당기순이익</td>
+        <td id="netIncomeCurrent" textContent="0">0</td> <!-- 당월 당기순이익 -->
+        <td id="netIncomePrevious" class="previous-data" textContent="0"></td> <!-- 전월 당기순이익 -->
+      </tr>
+      </tbody>
+    </table>
+    <div class="button-group"> <!-- 버튼 그룹 추가 -->
+      <input type="submit" value="저장" id="saveButton" class="button"/> <!-- 등록 버튼 -->
+      </div>
+  </div>
+
+  <!-- ✅ 계산 관련 JavaScript 파일 포함 -->
+  <script th:src="@{/js/calculate.js}"></script>
+</form>
+</body>
+</html>

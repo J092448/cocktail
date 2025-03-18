@@ -1,0 +1,209 @@
+/* ✅ 기본 스타일 설정 */
+* {
+  margin: 0; /* 모든 요소의 기본 여백 제거 */
+  padding: 0; /* 모든 요소의 기본 패딩 제거 */
+  box-sizing: border-box; /* 요소 크기 계산에 패딩과 테두리를 포함 */
+}
+
+/* ✅ body 태그 스타일 */
+body {
+  display: flex; /* 플렉스 박스 레이아웃을 사용 */
+  min-height: 100vh; /* 화면 높이를 최소 100%로 설정 */
+  font-family: Arial, sans-serif; /* 글꼴 설정 */
+  margin: 0; /* 기본 여백 제거 */
+  background-color: #fff; /* 배경색을 흰색으로 설정 */
+}
+
+/* ✅ aside 태그 스타일 */
+aside {
+  width: 200px; /* 사이드바 너비를 200px로 설정 */
+  background: #222; /* 배경색을 진한 회색으로 설정 */
+  color: white; /* 텍스트 색상을 흰색으로 설정 */
+  display: flex; /* 플렉스 박스를 사용하여 정렬 */
+  flex-direction: column; /* 세로 정렬 설정 */
+  padding: 20px; /* 내부 여백 설정 */
+  justify-content: space-between; /* 콘텐츠 간 간격을 균등 분배 */
+  position: fixed; /* 화면에서 고정된 위치 */
+  height: 100vh; /* 높이를 화면 전체 높이로 설정 */
+}
+
+/* ✅ aside 내부 링크 스타일 */
+aside a {
+  color: white; /* 링크 텍스트를 흰색으로 설정 */
+  text-decoration: none; /* 밑줄 제거 */
+  padding: 10px 0; /* 위아래 패딩 추가 */
+  display: block; /* 전체 링크 영역 클릭 가능 */
+}
+
+/* ✅ 링크 호버 효과 */
+aside a:hover {
+  background: #444; /* 링크에 마우스를 올리면 배경색 변경 */
+}
+
+/* ✅ 서브메뉴 스타일 */
+.submenu {
+  display: none; /* 기본적으로 숨김 */
+  padding-left: 20px; /* 왼쪽 여백 추가 */
+}
+
+/* ✅ 메뉴 항목에 마우스를 올리면 서브메뉴 표시 */
+.menu-item:hover .submenu {
+  display: block; /* 서브메뉴를 표시 */
+}
+
+/* ✅ 로그아웃 버튼 스타일 */
+.logout {
+  order: 1; /* 플렉스 순서를 1로 설정하여 아래에 배치 */
+}
+
+/* ✅ 정보 수정 버튼 스타일 */
+.info-edit {
+  order: 0; /* 플렉스 순서를 0으로 설정하여 위에 배치 */
+  margin-top: auto; /* 위쪽 공간 자동 확보 */
+  margin-bottom: 20px; /* 아래 여백 설정 */
+}
+
+/* ✅ footer 태그 스타일 */
+footer {
+  position: fixed; /* 화면 하단에 고정 */
+  bottom: 0; /* 하단에 위치 */
+  left: 200px; /* 사이드바 너비만큼 왼쪽 여백 추가 */
+  width: calc(100% - 200px); /* 사이드바를 제외한 화면 너비 */
+  background: black; /* 배경색 검정으로 설정 */
+  color: white; /* 글자색을 흰색으로 설정 */
+  text-align: right; /* 텍스트 오른쪽 정렬 */
+  padding: 10px; /* 내부 여백 설정 */
+  font-size: 14px; /* 글자 크기 설정 */
+}
+
+/* ✅ 캘린더 헤더 스타일 */
+#calendar-header {
+  display: flex; /* 플렉스 레이아웃 */
+  justify-content: center; /* 가운데 정렬 */
+  align-items: center; /* 세로축 가운데 정렬 */
+  margin-bottom: 20px; /* 아래 여백 추가 */
+}
+
+/* ✅ 월/연도 스타일 */
+.month-year {
+  font-size: 24px; /* 글자 크기 설정 */
+  margin: 0 10px; /* 양쪽 여백 추가 */
+}
+
+/* ✅ 콘텐츠 영역 스타일 */
+.content {
+  flex-grow: 1; /* 가용 공간을 채움 */
+  display: flex; /* 플렉스 박스 사용 */
+  flex-direction: column; /* 세로 정렬 */
+  align-items: center; /* 가운데 정렬 */
+  padding: 20px; /* 내부 여백 */
+  margin-left: 220px; /* 사이드바 여백 추가 */
+  background-color: white; /* 배경색 설정 */
+}
+
+/* ✅ 화면 크기가 768px 이하일 때 반응형 스타일 */
+@media screen and (max-width: 768px) {
+  .wrapper {
+    justify-content: flex-start; /* 시작점 정렬 */
+  }
+  .container {
+    width: calc(100% - 240px); /* 컨테이너 너비를 조정 */
+    margin-left: 300px; /* 좌측 여백 설정 */
+  }
+  table {
+    width: 100%; /* 테이블 너비를 화면 너비에 맞춤 */
+    table-layout: fixed; /* 셀 너비 균등 설정 */
+    word-wrap: break-word; /* 텍스트 넘침 방지 */
+  }
+  th,
+  td {
+    padding: 5px; /* 테이블 셀 내부 여백 조정 */
+  }
+}
+
+/* ✅ 캘린더 스타일 */
+.day {
+  border: 1px solid #ccc; /* 셀 테두리 색상 */
+  padding: 10px; /* 내부 여백 */
+  text-align: center; /* 텍스트 중앙 정렬 */
+  background-color: #fff; /* 기본 배경색 설정 */
+  box-sizing: border-box; /* 테두리와 패딩 포함 크기 계산 */
+}
+
+/* ✅ 요일 헤더 스타일 */
+.header {
+  font-weight: bold; /* 굵은 글씨 */
+  text-align: center; /* 가운데 정렬 */
+  background-color: #fff; /* 배경색 설정 */
+  height: 50px; /* 셀 높이 설정 */
+}
+
+/* ✅ 요약 행 스타일 */
+.summary-row {
+  display: grid; /* 그리드 레이아웃 사용 */
+  grid-template-columns: repeat(8, 1fr); /* 8개의 열로 균등 배치 */
+  width: 100%; /* 전체 너비 사용 */
+}
+
+/* ✅ 테이블 스타일 */
+table {
+  width: 100%; /* 테이블 전체 너비 */
+  border-collapse: collapse; /* 테두리 겹침 제거 */
+}
+
+th,
+td {
+  border: 1px solid #ccc; /* 셀 테두리 */
+  padding: 10px; /* 내부 여백 */
+  text-align: center; /* 가운데 정렬 */
+  width: 150px; /* 셀 너비 설정 */
+  height: 100px; /* 셀 높이 설정 */
+  box-sizing: border-box; /* 크기 계산 포함 */
+  position: relative; /* 상대 위치 */
+}
+
+/* ✅ 특정 요일 색상 설정 */
+.sunday {
+  color: red; /* 일요일 글자색 빨강 */
+}
+
+.saturday {
+  color: blue; /* 토요일 글자색 파랑 */
+}
+
+/* ✅ 셀 내부 텍스트 위치 */
+.date,
+.week-label {
+  position: absolute;
+  top: 5px; /* 상단 여백 */
+  left: 5px; /* 좌측 여백 */
+}
+
+/* ✅ 매출 데이터 표시 */
+.sales {
+  position: absolute;
+  bottom: 5px; /* 하단 여백 */
+  right: 5px; /* 우측 여백 */
+  color: black; /* 글자색 검정 */
+}
+
+/* ✅ 요약 라벨 중앙 표시 */
+.summary-label {
+  position: absolute;
+  top: 5px; /* 상단 여백 */
+  left: 50%; /* 가운데 정렬 */
+  transform: translateX(-50%); /* 정렬 조정 */
+}
+
+/* ✅ 월 매출 합계 스타일 */
+.monthly-total {
+  font-weight: normal; /* 기본 두께 */
+}
+
+/* ✅ 테이블 헤더 스타일 */
+#tableheader {
+  text-align: center; /* 중앙 정렬 */
+  font-weight: bold; /* 굵게 설정 */
+  font-size: 2em; /* 글자 크기 크게 설정 */
+  margin-bottom: 20px; /* 아래 여백 추가 */
+}

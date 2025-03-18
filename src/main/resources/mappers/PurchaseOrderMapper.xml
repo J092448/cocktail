@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ontherocks.cocktail.mapper.PurchaseOrderMapper">
+
+    <select id="getOrderDetailById" parameterType="Integer" resultType="com.ontherocks.cocktail.dto.PurchaseRequestDTO">
+        SELECT
+            pr.request_id AS requestId,
+            pr.request_date AS requestDate,
+            pr.due_date AS dueDate,
+            i.name AS ingredientName,
+            co.supplier_id AS supplierId,  -- 공급업체 ID
+            co.company_name AS companyName,  -- 업체명
+            co.business_number AS businessNumber,
+            co.representative_name AS representativeName,
+            co.phone AS phone
+        FROM
+            purchase_requests pr
+                LEFT JOIN
+            ingredients i ON pr.ingredient_id = i.id
+                LEFT JOIN
+            suppliers co ON pr.supplier_id = co.supplier_id
+        WHERE
+            pr.request_id = #{requestId}
+    </select>
+
+    </mapper>

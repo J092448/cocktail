@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ontherocks.cocktail.mapper.UserDao">
+    <resultMap id="UserResultMap" type="com.ontherocks.cocktail.dto.UserDto">
+        <result column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="name" property="name"/>
+        <result column="company_name" property="companyName"/>
+        <result column="password" property="password"/>
+        <result column="phone_number" property="phoneNumber"/>
+        <result column="secondary_phone_number" property="secondaryPhoneNumber"/>
+        <result column="business_number" property="businessNumber"/>
+        <result column="email" property="email"/>
+        <result column="account_non_locked" property="accountNonLocked"/>
+        <result column="registration_date" property="registrationDate" javaType="java.time.LocalDateTime"/>
+    </resultMap>
+
+    <select id="findByUsername" resultMap="UserResultMap">
+        select * from users where username = #{username}
+    </select>
+</mapper>
